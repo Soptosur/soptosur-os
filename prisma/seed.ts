@@ -24,12 +24,12 @@ async function main() {
       tier2MaxAmount: 20000.00,  // Base Tier 2: 2,001 to 20,000 BDT
     },
   });
-  console.log(`   ✅ OrganizationConfig initialized. Charter Version: ${config.charterVersion}`);
+  console.log(`   [OK] OrganizationConfig initialized. Charter Version: ${config.charterVersion}`);
 
   // ==========================================================================
   // 2. ACTIVE ACADEMIC SEMESTER
   // ==========================================================================
-  console.log('📅 Initializing active academic semester...');
+  console.log('[SEMESTER] Initializing active academic semester...');
   const semester = await prisma.semester.upsert({
     where: { semesterCode: 'FALL2026' },
     update: {},
@@ -45,13 +45,13 @@ async function main() {
       isCompleted: false,
     },
   });
-  console.log(`   ✅ Active Semester: ${semester.termName} (${semester.semesterCode})`);
+  console.log(`   [OK] Active Semester: ${semester.termName} (${semester.semesterCode})`);
 
   // ==========================================================================
   // 3. FOUNDER COUNCIL IDENTITIES & ROLE ASSIGNMENTS
   //    Enforces 5-Tier Hierarchy & Single-Supervisor Invariant
   // ==========================================================================
-  console.log('👥 Bootstrapping Founder Council & Single-Supervisor Hierarchy...');
+  console.log('[ROSTER] Bootstrapping Founder Council & Single-Supervisor Hierarchy...');
 
   // --- Tier 1: Faculty Advisor ---
   const advisorUser = await prisma.user.upsert({
@@ -463,7 +463,7 @@ async function main() {
   // 4. TWO NEUTRAL ACTIVE MEMBERS AS INTERIM AUDIT TEAM
   //    (Advisor consent, barred from GS & Treasurer)
   // ==========================================================================
-  console.log('⚖️  Seeding Two Neutral Independent Auditors...');
+  console.log('[AUDIT] Seeding Two Neutral Independent Auditors...');
 
   const auditor1User = await prisma.user.upsert({
     where: { studentId: '2132123042' },

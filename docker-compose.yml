@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # 1. Production PostgreSQL Database Container
+  postgres:
+    image: postgres:16-alpine
+    container_name: soptosur_db
+    restart: always
+    environment:
+      POSTGRES_USER: soptosur_admin
+      POSTGRES_PASSWORD: soptosur_secure_2026
+      POSTGRES_DB: soptosur_governance
+    ports:
+      - "5432:5432"
+    volumes:
+      - soptosur_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U soptosur_admin -d soptosur_governance"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Soptosur Next.js Fullstack Web Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: soptosur_app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "postgresql://soptosur_admin:soptosur_secure_2026@postgres:5432/soptosur_governance?schema=public"
+      NODE_ENV: production
+      PORT: 3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      sh -c "npx prisma migrate deploy &&
+             npm run seed &&
+             npm start"
+
+volumes:
+  soptosur_pgdata:
+    driver: local
