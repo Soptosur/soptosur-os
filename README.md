@@ -82,6 +82,30 @@ npm run test:security
 # Run All 17 Constitutional Tests
 npm run test:all
 
-# Seed Database
-npm run seed
+# Next.js 14 Development Server (Port 3000)
+npm run dev
+
+# Strict TypeScript Compilation Check
+npm run type-check
+
+# Compile Next.js Production Build for Vercel
+npm run build
 ```
+
+---
+
+### Phase 3: Next.js 14+ Role-Based Dashboards & Vercel Deployment
+
+Phase 3 introduces an enterprise-grade responsive web frontend built with **Next.js 14+ (App Router)**, **Tailwind CSS**, and **Lucide Icons**:
+
+#### Core Pages & Routes:
+- `/` - Institutional Landing & Governance Gateway
+- `/login` - NSU Domain Login Portal (`@northsouth.edu` validation) & 1-Click Persona Simulator
+- `/dashboard` - Institutional Overview & 5-Tier Single-Supervisor Architectural Blueprint
+- `/dashboard/advisor` - Tier 1: Whistleblower Tribunal Desk, Major Expenditure Approval Gate, Semester Audit Certification
+- `/dashboard/president` - Tier 2: Dual-Signature Banking Desk, Executive Meeting Dispatcher (3/4 Quorum), 15-Day Vacancy Monitor
+- `/dashboard/executive` - Tier 3: Treasurer Double-Entry Ledger, 72h Cash Bar, Petty Cash Freeze, GS Dispute Desk & Resignations Queue
+- `/dashboard/departments` - Tier 4: Section 12 Creative Firewall Studio (write-protected for music lead, read-only spectator for others), 50% Attendance Cutoff Line
+- `/dashboard/member` - Tier 5: Personal Attendance Meter, Leave Submission Drawer, Parliamentary Voting Booth (conflict recusal), Digital Petitions (25% threshold)
+- `/unauthorized` - Next.js Middleware Edge deep-link route tampering interception
+
