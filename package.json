@@ -8,6 +8,8 @@
     "build": "tsc",
     "seed": "tsx prisma/seed.ts",
     "test:invariants": "tsx tests/verify_governance_invariants.ts",
+    "test:security": "tsx tests/phase2_security_guards.test.ts",
+    "test:all": "tsx tests/verify_governance_invariants.ts && tsx tests/phase2_security_guards.test.ts",
     "prisma:validate": "prisma validate",
     "prisma:format": "prisma format",
     "prisma:generate": "prisma generate"
@@ -28,12 +30,20 @@
   "dependencies": {
     "@prisma/client": "^6.19.3",
     "@types/node": "^26.6.3",
+    "bcryptjs": "^3.0.3",
     "dotenv": "^18.0.4",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "prisma": "^6.19.3",
     "tsx": "^4.23.15",
     "typescript": "^6.0.3"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "^0.3.15"
+    "@electric-sql/pglite": "^0.3.15",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/supertest": "^7.2.1",
+    "supertest": "^7.3.0"
   }
 }

@@ -308,6 +308,8 @@ model User {
   completedSemesters     Int                @default(0) // Min 2 semesters for executive nomination
   hasProctorialClearance Boolean            @default(true)
   standing               MembershipStanding @default(ACTIVE)
+  passwordHash           String             @default("")
+  tokenVersion           Int                @default(1)
   joinedSemesterId       String
   createdAt              DateTime           @default(now())
   updatedAt              DateTime           @updatedAt

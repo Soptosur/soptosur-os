@@ -133,6 +133,8 @@ CREATE TABLE "User" (
     "completedSemesters" INTEGER NOT NULL DEFAULT 0,
     "hasProctorialClearance" BOOLEAN NOT NULL DEFAULT true,
     "standing" "MembershipStanding" NOT NULL DEFAULT 'ACTIVE',
+    "passwordHash" TEXT NOT NULL DEFAULT '',
+    "tokenVersion" INTEGER NOT NULL DEFAULT 1,
     "joinedSemesterId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
