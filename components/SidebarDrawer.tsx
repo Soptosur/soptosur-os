@@ -15,6 +15,7 @@ import {
   ChevronRight,
   Sparkles,
   FileText,
+  ScrollText,
 } from "lucide-react";
 
 interface NavItem {
@@ -37,6 +38,13 @@ export function SidebarDrawer() {
       tierRequired: 5, // All tiers can view constitutional hierarchy
       icon: Compass,
       description: "Institutional 5-Tier Org Blueprint",
+    },
+    {
+      title: "Official Charter (গঠনতন্ত্র)",
+      href: "/charter",
+      tierRequired: 5, // All tiers can read the constitution
+      icon: ScrollText,
+      description: "Articles 1–14 Full Constitution",
     },
     {
       title: "Faculty Advisor Desk",

@@ -106,10 +106,10 @@ export default function AdvisorConsolePage() {
           <div className="p-4 rounded-2xl bg-purple-950/20 border border-purple-800/40 space-y-2">
             <div className="flex items-center space-x-2 text-purple-300 font-bold text-xs uppercase tracking-wider">
               <Eye className="w-4 h-4 text-purple-400" />
-              <span>Unblinded Whistleblower Oversight Protocol</span>
+              <span>Unblinded Whistleblower Oversight Protocol (ধারা ১০)</span>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              In accordance with Article 19 of the Club Governance Charter, the Faculty Advisor possesses complete unblinded access to all confidential dossiers. Complaints filed against the President or Executive Officers are permanently blinded from their query filters to prevent witness tampering or procedural obstruction.
+              গঠনতন্ত্রের ধারা ১০ (অভিযোগ নিষ্পত্তি ম্যাট্রিক্স) অনুযায়ী, ফ্যাকাল্টি অ্যাডভাইজর সকল গোপন ডসিয়ার ও অভিযোগের নিরপেক্ষ তদারকি করেন। সভাপতির বিরুদ্ধে অভিযোগ তদন্তের জন্য অ্যাডভাইজর ৩ সদস্যের নিরপেক্ষ প্যানেল গঠন করবেন এবং নির্বাহী কর্মকর্তাদের বিরুদ্ধে অভিযোগ তাদের কুয়েরি ফিল্টার থেকে স্বয়ংক্রিয়ভাবে ব্লাইন্ড থাকবে।
             </p>
           </div>
 
@@ -352,10 +352,10 @@ export default function AdvisorConsolePage() {
             </h4>
             <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 leading-relaxed font-mono space-y-2">
               <p>
-                "We, the undersigned neutral non-EB auditors appointed pursuant to Article 21, confirm that we do not hold any Executive Board, Secretariat, or Treasury positions. All books, bank statements, and receipt ledgers for the Fall 2026 cycle have been reconciled with zero discrepancy."
+                "ধারা ৯:৩ (স্বাধীন নিরীক্ষা দল) অনুযায়ী, সাধারণ সভায় সরাসরি নির্বাচিত আমরা ২ জন নিরপেক্ষ অডিট সদস্য প্রত্যয়ন করছি যে, আমরা নির্বাহী পরিষদ, সচিবালয় বা ট্রেজারির কোনো পদে নেই। ফল ২০২৬ সেমিস্টারের সকল হিসাব, ব্যাংক স্টেটমেন্ট ও ভাউচার সম্পূর্ণ নির্ভুলভাবে নিরীক্ষিত হয়েছে।"
               </p>
               <div className="text-[10px] text-slate-500">
-                Auditor Signatures: Tanvirul Hasan (Lead Auditor) • Sabrina Chowdhury (Deputy Auditor)
+                নিরীক্ষকদের স্বাক্ষর: তানভীরুল হাসান (প্রধান নিরীক্ষক) • সাবরিনা চৌধুরী (সহকারী নিরীক্ষক)
               </div>
             </div>
           </div>

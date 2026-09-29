@@ -142,7 +142,7 @@ export default function DepartmentWorkspacesPage() {
             )}
             <div className="text-xs leading-relaxed">
               <div className="font-bold flex items-center space-x-2">
-                <span>CONSTITUTIONAL ARTICLE 12: CREATIVE AUTONOMY FIREWALL</span>
+                <span>ধারা ১২: শৈল্পিক স্বায়ত্তশাসন (ARTICLE 12: ARTISTIC AUTONOMY)</span>
                 <span
                   className={`text-[9px] uppercase px-1.5 py-0.5 rounded font-mono ${
                     isMusicAuthority ? "bg-purple-900 text-purple-300" : "bg-amber-900 text-amber-300"
@@ -153,8 +153,8 @@ export default function DepartmentWorkspacesPage() {
               </div>
               <p className="mt-1 text-slate-300">
                 {isMusicAuthority
-                  ? `Authenticated as ${currentUser.legalName} (${currentUser.roleTitle}). You possess exclusive constitutional authority over repertoire arrangements, vocal casting, and performance setlists.`
-                  : `Authenticated as ${currentUser.legalName} (${currentUser.roleTitle}). Executive and administrative officers are strictly barred by Article 12 from altering musical arrangements, setlists, or vocal casting.`}
+                  ? `Authenticated as ${currentUser.legalName} (${currentUser.roleTitle}). গঠনতন্ত্রের ধারা ১২ অনুযায়ী: গান নির্বাচন, কম্পোজিশন, সুরের বিন্যাস ও বাদ্যযন্ত্র ব্যবহারে আপনার ও পারফর্মারদের সিদ্ধান্তই চূড়ান্ত।`
+                  : `Authenticated as ${currentUser.legalName} (${currentUser.roleTitle}). ধারা ১২ অনুযায়ী: নির্বাহী পরিষদ কেবল বাজেট, শিডিউল ও আচরণবিধি দেখবে; শিল্পীর সৃজনশীলতায় অযাচিত প্রশাসনিক হস্তক্ষেপ করতে পারবে না।`}
               </p>
             </div>
           </div>

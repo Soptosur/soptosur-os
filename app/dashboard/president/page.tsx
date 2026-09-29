@@ -69,10 +69,13 @@ export default function PresidentSuitePage() {
     (r) => r.tier === 2 || (r.amountBDT > 2000 && r.amountBDT <= 20000)
   );
 
-  // EB Quorum: 3 of 4 required (75%)
+  // EB Quorum (ধারা ৩:২): ৪ জন কর্মকর্তার মধ্যে ন্যূনতম ৩ জনের উপস্থিতি (যার মধ্যে সভাপতি অথবা সহ-সভাপতি অন্তত একজনকে থাকতে হবে)
   const totalEBMembers = 4;
+  const hasPresidentOrVP = confirmedAttendees.some(
+    (a) => a.includes("President") || a.includes("VP")
+  );
   const currentQuorumPct = (confirmedAttendees.length / totalEBMembers) * 100;
-  const isEBQuorumMet = currentQuorumPct >= 75;
+  const isEBQuorumMet = confirmedAttendees.length >= 3 && hasPresidentOrVP;
 
   const handleDispatchMeeting = (e: React.FormEvent) => {
     e.preventDefault();
@@ -350,17 +353,22 @@ export default function PresidentSuitePage() {
                 </div>
 
                 <div className="flex items-center justify-between pt-2">
-                  <div className="flex items-center space-x-2">
-                    <span
-                      className={`text-xs font-bold px-2.5 py-1 rounded-full ${
-                        isEBQuorumMet
-                          ? "bg-emerald-950 text-emerald-300 border border-emerald-800"
-                          : "bg-red-950 text-red-300 border border-red-800"
-                      }`}
-                    >
-                      {isEBQuorumMet
-                        ? `Quorum Satisfied (${currentQuorumPct}% ≥ 75%)`
-                        : `Quorum Deficient (${currentQuorumPct}% < 75%)`}
+                  <div className="flex flex-col space-y-1">
+                    <div className="flex items-center space-x-2">
+                      <span
+                        className={`text-xs font-bold px-2.5 py-1 rounded-full ${
+                          isEBQuorumMet
+                            ? "bg-emerald-950 text-emerald-300 border border-emerald-800"
+                            : "bg-red-950 text-red-300 border border-red-800"
+                        }`}
+                      >
+                        {isEBQuorumMet
+                          ? `ধারা ৩:২ কোরাম উত্তীর্ণ (${confirmedAttendees.length}/4 কর্মকর্তা উপস্থিত, সভাপতি/সহ-সভাপতি অন্তর্ভুক্ত)`
+                          : `ধারা ৩:২ কোরাম ঘাটতি (${confirmedAttendees.length}/4 কর্মকর্তা, সভাপতি অথবা সহ-সভাপতি আবশ্যক)`}
+                      </span>
+                    </div>
+                    <span className="text-[10px] text-slate-400">
+                      ধারা ৩:৩ অনুযায়ী সমতায় (২–২ বা ১–১) সভাপতির নির্ণায়ক ভোট (Casting Vote) থাকবে।
                     </span>
                   </div>
 

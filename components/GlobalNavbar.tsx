@@ -14,6 +14,7 @@ import {
   AlertTriangle,
   X,
   ExternalLink,
+  ScrollText,
 } from "lucide-react";
 
 export function GlobalNavbar() {
@@ -94,6 +95,15 @@ export function GlobalNavbar() {
                 <span className="text-slate-500">•</span>
                 <span className="text-amber-400 font-mono">Day 29 / 90</span>
               </div>
+
+              <Link
+                href="/charter"
+                className="flex items-center space-x-1.5 bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 hover:text-white px-2.5 py-1 rounded-md border border-blue-800/80 transition-colors"
+                title="View Official Charter (গঠনতন্ত্র)"
+              >
+                <ScrollText className="w-3.5 h-3.5 text-blue-400" />
+                <span className="font-semibold">গঠনতন্ত্র (Charter)</span>
+              </Link>
             </div>
           </div>
 

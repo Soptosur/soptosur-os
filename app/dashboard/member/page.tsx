@@ -323,10 +323,10 @@ export default function MemberStationPage() {
           <div className="p-4 rounded-2xl bg-blue-950/20 border border-blue-800/40 space-y-1">
             <h3 className="text-xs font-bold text-blue-300 uppercase tracking-wider flex items-center space-x-1.5">
               <Vote className="w-4 h-4 text-blue-400" />
-              <span>Parliamentary Floor Quorum (33.3% Constitutional Threshold)</span>
+              <span>ধারা ৭: সাধারণ সভা ও ফ্লোর কোরাম (ARTICLE 7: FLOOR QUORUM)</span>
             </h3>
             <p className="text-xs text-slate-300 leading-relaxed">
-              In accordance with Article 6, no parliamentary vote can be certified unless physical floor quorum exceeds 33.3% of the active general assembly. Any member possessing a conflict of interest on an agenda item is subject to mandatory recusal (voting disabled).
+              গঠনতন্ত্রের ধারা ৭:৩ অনুযায়ী, গঠনতন্ত্র সংশোধন (ধারা ১১), কর্মকর্তা অপসারণ (ধারা ৪), বা সংগঠন বিলুপ্তির (ধারা ১৩) মতো গুরুত্বপূর্ণ বিষয়ে ন্যূনতম ৩৩% সক্রিয় সদস্যের উপস্থিতি (Floor Quorum) নিশ্চিত থাকা বাধ্যতামূলক। এছাড়া ধারা ৩:৪ অনুযায়ী কোনো প্রস্তাবে স্বার্থের সংঘাত থাকলে সংশ্লিষ্ট সদস্য ভোটদানে বিরত (Recusal) থাকবেন।
             </p>
           </div>
 
