@@ -1,0 +1,1030 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ============================================================================
+// CONSTITUTIONAL & GOVERNANCE ENUMS
+// ============================================================================
+
+enum MembershipStanding {
+  ACTIVE
+  PROBATIONARY
+  SUSPENDED
+  ALUMNI
+  RESIGNED
+  TERMINATED
+}
+
+enum ClubRole {
+  // Tier 1
+  FACULTY_ADVISOR
+  // Tier 2
+  PRESIDENT
+  ACTING_PRESIDENT
+  // Tier 3
+  VICE_PRESIDENT
+  GENERAL_SECRETARY
+  TREASURER
+  ACTING_OFFICER
+  // Tier 4
+  DEPT_HEAD_MUSIC_PERFORMANCE
+  DEPT_HEAD_EVENT_LOGISTICS
+  DEPT_HEAD_MEDIA_DESIGN
+  DEPT_HEAD_MEMBER_MANAGEMENT
+  DEPT_HEAD_SPONSORSHIP_PARTNERSHIP
+  // Tier 5
+  COORDINATOR
+  GENERAL_MEMBER
+}
+
+enum DepartmentType {
+  EXECUTIVE
+  MUSIC_AND_PERFORMANCE
+  EVENT_AND_LOGISTICS
+  MEDIA_AND_DESIGN
+  MEMBER_MANAGEMENT_AND_DISCIPLINE
+  SPONSORSHIP_AND_PARTNERSHIP
+  GENERAL
+}
+
+enum EventType {
+  REHEARSAL
+  EXECUTIVE_MEETING
+  GENERAL_MEETING
+  COORDINATION_MEETING
+  OFFICIAL_EVENT
+  WORKSHOP
+}
+
+enum EventStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  ADJOURNED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT_UNEXCUSED
+  EXCUSED_LEAVE
+}
+
+enum LeaveReasonType {
+  ACADEMIC_EXAM
+  MEDICAL_EMERGENCY
+  FAMILY_EMERGENCY
+  OFFICIAL_UNIVERSITY_DUTY
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum RosterSnapshotType {
+  FOUNDER_INITIAL
+  WEEK_4_INTERIM
+  POST_DISPUTE_FINAL
+  SEMESTER_END_FINAL
+}
+
+enum DisputeStatus {
+  SUBMITTED
+  UNDER_REVIEW_GS
+  ESCALATED_TO_ADVISOR
+  RESOLVED_APPROVED
+  RESOLVED_REJECTED
+}
+
+enum DisciplinaryType {
+  SHOW_CAUSE_ABSENCE
+  SHOW_CAUSE_CONDUCT
+  EXECUTIVE_SHOW_CAUSE
+  DEPT_HEAD_REMOVAL_NOTICE
+  SUSPENSION
+  EXPULSION
+}
+
+enum DisciplinaryVerdict {
+  PENDING
+  EXONERATED
+  WARNING
+  PROBATION
+  SUSPENDED
+  OFFICE_VACATED
+  EXPELLED
+}
+
+enum DepositType {
+  SPONSORSHIP
+  TICKET_REVENUE
+  NSU_ALLOCATION
+  DONATION_GRANT
+}
+
+enum FinancialTier {
+  TIER_1 // Up to 2,000 BDT baseline (Dual approval GS & Treasurer, 72h voucher rule)
+  TIER_2 // 2,001 to 20,000 BDT baseline (Dual digital signature President & Treasurer)
+  TIER_3 // > 20,000 BDT baseline (EB resolution doc + Faculty Advisor written sign-off)
+}
+
+enum DisbursementType {
+  CASH_PETTY
+  BANK_CHECK
+  BANK_TRANSFER
+}
+
+enum RequisitionCategory {
+  PERFORMANCE_PRODUCTION
+  EVENT_LOGISTICS
+  MEDIA_PROMOTION
+  LOGISTICS_FOOD
+  ASSET_PURCHASE
+  MISCELLANEOUS
+}
+
+enum RequisitionStatus {
+  DRAFT
+  PENDING_GS_TREASURER
+  PENDING_PRESIDENT
+  PENDING_ADVISOR
+  APPROVED_PENDING_DISBURSEMENT
+  DISBURSED
+  VOUCHER_PENDING
+  COMPLETED
+  REJECTED
+  FROZEN_DEFAULT
+}
+
+enum AuditStatus {
+  IN_PROGRESS
+  SUBMITTED
+  SIGNED_AND_FINALIZED
+  REJECTED
+}
+
+enum MeetingType {
+  GBM // Regular General Meeting (40% active quorum, 7-day adjournment rule)
+  EGM // Extraordinary General Meeting
+  EB_MONTHLY // Monthly Executive Meeting (>= 3/4 officers with Pres or VP, casting vote)
+  COORDINATION_MONTHLY // Monthly Coordination Meeting
+  EMERGENCY_EB
+}
+
+enum MotionType {
+  REGULAR_RESOLUTION
+  PROCEDURAL_AMENDMENT // 3 EB officers + Faculty Advisor consent
+  PROTECTED_CONSTITUTIONAL_AMENDMENT // 3 EB proposal + Advisor written consent + 2/3 supermajority in GBM with 33% Floor Quorum
+  OFFICER_REMOVAL // 33% Floor Quorum required
+  CLUB_DISSOLUTION // 33% Floor Quorum required
+  BUDGET_APPROVAL
+}
+
+enum VoteOption {
+  IN_FAVOR
+  AGAINST
+  ABSTAIN
+}
+
+enum PetitionType {
+  CALL_EGM
+  NO_CONFIDENCE_MOTION
+  SPECIAL_INQUIRY
+}
+
+enum PetitionStatus {
+  COLLECTING_SIGNATURES
+  THRESHOLD_MET_PENDING_NOTICE // 25% active member threshold met
+  NOTICE_ISSUED_BY_LEADERSHIP // within 7-day window
+  ESCALATED_TO_ADVISOR // leadership failed 7-day window, auto-escalated
+  CONVENED
+  EXPIRED
+}
+
+enum ResignationStatus {
+  NOTICE_SUBMITTED
+  IN_NOTICE_PERIOD // 15-day formal notice period
+  HANDOVER_PENDING
+  ACCEPTED_AND_EFFECTIVE
+  WITHDRAWN
+}
+
+enum TransitionStatus {
+  HANDOVER_STATE_ACTIVE // 7 working days (168 hours) countdown
+  HANDOVER_COMPLETED
+  HANDOVER_DISPUTED
+}
+
+enum AssetCondition {
+  EXCELLENT
+  GOOD
+  NEEDS_REPAIR
+  DAMAGED
+  LOST
+}
+
+enum ComplaintRecipient {
+  SUPERVISING_EXECUTIVE
+  PRESIDENT_AND_GS
+  PRESIDENT_AND_VP
+  FACULTY_ADVISOR_TRIBUNAL
+  NSU_OSA_PROCTORIAL
+}
+
+enum ComplaintStatus {
+  SUBMITTED
+  ROUTED
+  TRIBUNAL_FORMED
+  UNDER_INVESTIGATION
+  DISPOSED_RESOLVED
+  DISMISSED
+}
+
+// ============================================================================
+// CORE ENTITY MODELS
+// ============================================================================
+
+/// Singleton organization configuration tracking governance, charter, and dynamic financial limits
+model OrganizationConfig {
+  id                    String    @id @default("singleton")
+  clubTitle             String    @default("Shaptasur - The Musical Club of NSU")
+  osaApprovalDate       DateTime?
+  charterVersion        String    @default("1.0.0")
+  isPettyCashFrozen     Boolean   @default(false)
+  pettyCashFrozenAt     DateTime?
+  pettyCashFrozenReason String?
+  bankBalance           Decimal   @default(0.00) @db.Decimal(12, 2)
+  pettyCashBalance      Decimal   @default(0.00) @db.Decimal(12, 2)
+  tier1MaxAmount        Decimal   @default(2000.00) @db.Decimal(12, 2)
+  tier2MaxAmount        Decimal   @default(20000.00) @db.Decimal(12, 2)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+/// Academic semester tracking 3-semester council tenures, week-4 lock date, and active state
+model Semester {
+  id                   String   @id @default(uuid())
+  semesterCode         String   @unique // e.g. "FALL2026", "SPRING2027"
+  academicYear         Int // e.g. 2026
+  termName             String // e.g. "Fall 2026"
+  startDate            DateTime
+  endDate              DateTime
+  week4LockDate        DateTime // Day 29 - freeze prior active roster, compute interim active roster
+  disputeWindowEndDate DateTime // Exactly 72 hours from week4LockDate
+  isActive             Boolean  @default(false)
+  isCompleted          Boolean  @default(false)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  // Relationships
+  joinedUsers           User[]                 @relation("UserJoinedSemester")
+  rosterSnapshots       ActiveRosterSnapshot[]
+  events                Event[]
+  meetings              Meeting[]
+  financialDeposits     FinancialDeposit[]
+  financialRequisitions FinancialRequisition[]
+  auditReports          AuditReport[]
+  selectionPanels       SelectionPanel[]
+  councilTransitions    CouncilTransition[]
+
+  @@index([isActive])
+}
+
+/// Central university identity entity linked to NSU OSA records
+model User {
+  id                     String             @id @default(uuid())
+  studentId              String             @unique // NSU Student ID (e.g. 2121234042)
+  nsuEmail               String             @unique // NSU official email
+  legalName              String
+  contactPhone           String
+  cgpa                   Decimal            @db.Decimal(3, 2)
+  completedSemesters     Int                @default(0) // Min 2 semesters for executive nomination
+  hasProctorialClearance Boolean            @default(true)
+  standing               MembershipStanding @default(ACTIVE)
+  joinedSemesterId       String
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+
+  // Relational mappings
+  joinedSemester                Semester                   @relation("UserJoinedSemester", fields: [joinedSemesterId], references: [id])
+  roleAssignments               RoleAssignment[]           @relation("UserRoleAssignments")
+  attendanceRecords             AttendanceRecord[]         @relation("UserAttendanceRecords")
+  leaveApplications             LeaveApplication[]         @relation("UserLeaveApplications")
+  reviewedLeaves                LeaveApplication[]         @relation("ReviewedLeaveApplications")
+  rosterSnapshots               ActiveRosterSnapshot[]     @relation("UserRosterSnapshots")
+  rosterDisputesFiled           RosterDispute[]            @relation("UserRosterDisputes")
+  rosterDisputesReviewedGS      RosterDispute[]            @relation("GSDisputeReviews")
+  rosterDisputesReviewedAdvisor RosterDispute[]            @relation("AdvisorDisputeReviews")
+  disciplinaryActionsReceived   DisciplinaryAction[]       @relation("UserDisciplinaryActions")
+  disciplinaryActionsIssued     DisciplinaryAction[]       @relation("IssuedDisciplinaryActions")
+  financialDepositsFiled        FinancialDeposit[]         @relation("FiledFinancialDeposits")
+  financialDepositsVerified     FinancialDeposit[]         @relation("VerifiedFinancialDeposits")
+  financialRequisitionsFiled    FinancialRequisition[]     @relation("FiledFinancialRequisitions")
+  requisitionsApprovedGS        FinancialRequisition[]     @relation("GSApprovedRequisitions")
+  requisitionsApprovedTreasurer FinancialRequisition[]     @relation("TreasurerApprovedRequisitions")
+  requisitionsApprovedPresident FinancialRequisition[]     @relation("PresidentApprovedRequisitions")
+  requisitionsApprovedAdvisor   FinancialRequisition[]     @relation("AdvisorApprovedRequisitions")
+  auditor1Reports               AuditReport[]              @relation("Auditor1Reports")
+  auditor2Reports               AuditReport[]              @relation("Auditor2Reports")
+  advisorSignedAudits           AuditReport[]              @relation("AdvisorSignedAudits")
+  meetingAttendances            MeetingAttendance[]        @relation("UserMeetingAttendances")
+  ballots                       Ballot[]                   @relation("UserBallots")
+  petitionsInitiated            Petition[]                 @relation("PetitionInitiator")
+  petitionSignatures            PetitionSignature[]        @relation("UserPetitionSignatures")
+  resignationsSubmitted         ResignationNotice[]        @relation("UserResignations")
+  resignationsReviewedPresident ResignationNotice[]        @relation("PresidentResignationReviews")
+  resignationsReviewedGS        ResignationNotice[]        @relation("GSResignationReviews")
+  resignationsReviewedAdvisor   ResignationNotice[]        @relation("AdvisorResignationReviews")
+  assetsInCustody               ClubAsset[]                @relation("UserAssetCustody")
+  complaintsFiled               Complaint[]                @relation("ComplainantUser")
+  complaintsAgainst             Complaint[]                @relation("ComplaintAccused")
+  investigationPanelRoles       InvestigationPanelMember[] @relation("PanelMemberUser")
+  arrangementsCreated           Arrangement[]              @relation("ArrangerUser")
+  auditLogs                     AuditLog[]                 @relation("UserAuditLogs")
+  selectionPanelsAdvisor        SelectionPanel[]           @relation("PanelAdvisor")
+  selectionPanelsOutgoingPres   SelectionPanel[]           @relation("PanelOutgoingPres")
+  selectionPanelsEbNominee      SelectionPanel[]           @relation("PanelEbNominee")
+  selectionPanelsAlternate      SelectionPanel[]           @relation("PanelAlternateNominee")
+  executiveNominationsPresident ExecutiveNomination[]      @relation("NominatedPresident")
+  executiveNominationsVP        ExecutiveNomination[]      @relation("NominatedVP")
+  executiveNominationsGS        ExecutiveNomination[]      @relation("NominatedGS")
+  executiveNominationsTreasurer ExecutiveNomination[]      @relation("NominatedTreasurer")
+
+  @@index([standing])
+  @@index([joinedSemesterId])
+}
+
+/// 5-Tier hierarchical role assignment with strict single-supervisor recursive self-relation
+model RoleAssignment {
+  id           String         @id @default(uuid())
+  userId       String
+  role         ClubRole
+  tierLevel    Int // 1 = Faculty Advisor, 2 = President, 3 = VP/GS/Treasurer, 4 = Dept Heads, 5 = Coordinators & Members
+  department   DepartmentType
+  supervisorId String? // Single-supervisor rule: zero dual reporting
+  termCount    Int            @default(1) // Checked at DB level: termCount <= 2
+  startDate    DateTime       @default(now())
+  endDate      DateTime?
+  isActing     Boolean        @default(false)
+  isActive     Boolean        @default(true)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  // Relationships
+  user         User             @relation("UserRoleAssignments", fields: [userId], references: [id], onDelete: Cascade)
+  supervisor   RoleAssignment?  @relation("RoleSupervisorHierarchy", fields: [supervisorId], references: [id])
+  subordinates RoleAssignment[] @relation("RoleSupervisorHierarchy")
+
+  @@index([userId])
+  @@index([role, isActive])
+  @@index([department, isActive])
+  @@index([tierLevel])
+  @@index([supervisorId])
+}
+
+/// Official club events (rehearsals, meetings, showcases) affecting membership standing
+model Event {
+  id              String          @id @default(uuid())
+  semesterId      String
+  title           String
+  type            EventType
+  department      DepartmentType?
+  scheduledAt     DateTime
+  durationMinutes Int             @default(60)
+  location        String
+  isOfficial      Boolean         @default(true) // Only official events count toward 50% attendance requirement
+  status          EventStatus     @default(SCHEDULED)
+  createdById     String
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  // Relationships
+  semester          Semester           @relation(fields: [semesterId], references: [id])
+  attendanceRecords AttendanceRecord[]
+  leaveApplications LeaveApplication[]
+
+  @@index([semesterId])
+  @@index([type, scheduledAt])
+  @@index([isOfficial, scheduledAt])
+}
+
+/// Individual member attendance records with links to approved leaves
+model AttendanceRecord {
+  id                 String           @id @default(uuid())
+  eventId            String
+  userId             String
+  status             AttendanceStatus @default(PRESENT)
+  checkInTime        DateTime?
+  leaveApplicationId String?          @unique
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  // Relationships
+  event            Event             @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user             User              @relation("UserAttendanceRecords", fields: [userId], references: [id], onDelete: Cascade)
+  leaveApplication LeaveApplication? @relation("AttendanceLeave", fields: [leaveApplicationId], references: [id])
+
+  @@unique([eventId, userId])
+  @@index([userId, status])
+  @@index([eventId, status])
+}
+
+/// Formal excused absence requests (Medical, Exams, Emergencies) reviewed by Member Management Head
+model LeaveApplication {
+  id                    String          @id @default(uuid())
+  userId                String
+  eventId               String
+  reason                LeaveReasonType
+  description           String
+  documentAttachmentUrl String?
+  status                LeaveStatus     @default(PENDING)
+  submittedAt           DateTime        @default(now())
+  reviewedAt            DateTime?
+  reviewerId            String? // Must be Member Management & Discipline Dept Head
+  reviewNotes           String?
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+
+  // Relationships
+  user             User              @relation("UserLeaveApplications", fields: [userId], references: [id], onDelete: Cascade)
+  event            Event             @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  reviewer         User?             @relation("ReviewedLeaveApplications", fields: [reviewerId], references: [id])
+  attendanceRecord AttendanceRecord? @relation("AttendanceLeave")
+
+  @@unique([userId, eventId])
+  @@index([userId, status])
+  @@index([status])
+}
+
+/// Semester-level attendance percentage snapshots determining voting eligibility and standing
+model ActiveRosterSnapshot {
+  id                   String             @id @default(uuid())
+  semesterId           String
+  userId               String
+  snapshotType         RosterSnapshotType
+  totalOfficialEvents  Int
+  attendedEvents       Int
+  authorizedLeaves     Int
+  effectiveDenominator Int // totalOfficialEvents - authorizedLeaves
+  attendancePercentage Decimal            @db.Decimal(5, 2)
+  isActive             Boolean // attendancePercentage >= 50.00
+  isLocked             Boolean            @default(false)
+  calculatedAt         DateTime           @default(now())
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  // Relationships
+  semester Semester        @relation(fields: [semesterId], references: [id], onDelete: Cascade)
+  user     User            @relation("UserRosterSnapshots", fields: [userId], references: [id], onDelete: Cascade)
+  disputes RosterDispute[]
+
+  @@unique([semesterId, userId, snapshotType])
+  @@index([semesterId, isActive])
+  @@index([userId, isActive])
+}
+
+/// 72-hour dispute window appeals routed to GS and resolved in consultation with Faculty Advisor
+model RosterDispute {
+  id                         String        @id @default(uuid())
+  rosterSnapshotId           String
+  userId                     String
+  claimDescription           String
+  evidenceDocumentUrls       String[]
+  filedAt                    DateTime      @default(now())
+  windowClosesAt             DateTime // Exactly 72 hours from snapshot calculation
+  status                     DisputeStatus @default(SUBMITTED)
+  generalSecretaryReviewerId String?
+  gsReviewedAt               DateTime?
+  facultyAdvisorReviewerId   String?
+  advisorReviewedAt          DateTime?
+  resolutionNotes            String?
+  createdAt                  DateTime      @default(now())
+  updatedAt                  DateTime      @updatedAt
+
+  // Relationships
+  rosterSnapshot  ActiveRosterSnapshot @relation(fields: [rosterSnapshotId], references: [id], onDelete: Cascade)
+  user            User                 @relation("UserRosterDisputes", fields: [userId], references: [id], onDelete: Cascade)
+  gsReviewer      User?                @relation("GSDisputeReviews", fields: [generalSecretaryReviewerId], references: [id])
+  advisorReviewer User?                @relation("AdvisorDisputeReviews", fields: [facultyAdvisorReviewerId], references: [id])
+
+  @@index([rosterSnapshotId])
+  @@index([status])
+}
+
+/// Automated & formal disciplinary tracking (3 absences show-cause, 7-day appeal, 10-day tribunal)
+model DisciplinaryAction {
+  id                       String              @id @default(uuid())
+  userId                   String
+  issuedById               String
+  type                     DisciplinaryType
+  reason                   String
+  consecutiveAbsencesCount Int?
+  issuedAt                 DateTime            @default(now())
+  appealDeadline           DateTime // 7 working days (168 hours)
+  tribunalDeadline         DateTime // 10 calendar days from notice
+  appealStatement          String?
+  appealSubmittedAt        DateTime?
+  tribunalHearingDate      DateTime?
+  tribunalFindings         String?
+  verdict                  DisciplinaryVerdict @default(PENDING)
+  verdictEnactedAt         DateTime?
+  createdAt                DateTime            @default(now())
+  updatedAt                DateTime            @updatedAt
+
+  // Relationships
+  user   User @relation("UserDisciplinaryActions", fields: [userId], references: [id], onDelete: Cascade)
+  issuer User @relation("IssuedDisciplinaryActions", fields: [issuedById], references: [id])
+
+  @@index([userId, verdict])
+  @@index([type, verdict])
+}
+
+/// Dual-entry ledger inflows logged under Sponsorship Dept and verified by Treasurer
+model FinancialDeposit {
+  id                 String      @id @default(uuid())
+  semesterId         String
+  depositType        DepositType
+  amount             Decimal     @db.Decimal(12, 2)
+  sourceName         String // e.g. "Grameenphone Platinum Sponsorship"
+  referenceNumber    String      @unique // Bank slip / pay order number
+  receiptDocumentUrl String
+  depositedAt        DateTime
+  filedById          String // Sponsorship & Partnership Dept filer
+  verifiedById       String? // Treasurer
+  verifiedAt         DateTime?
+  notes              String?
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+
+  // Relationships
+  semester  Semester @relation(fields: [semesterId], references: [id])
+  filer     User     @relation("FiledFinancialDeposits", fields: [filedById], references: [id])
+  treasurer User?    @relation("VerifiedFinancialDeposits", fields: [verifiedById], references: [id])
+
+  @@index([semesterId])
+  @@index([depositType])
+  @@index([filedById])
+}
+
+/// Multi-tier expenditure requisitions with multi-signatory digital approvals and 72-hour voucher freeze
+model FinancialRequisition {
+  id                         String              @id @default(uuid())
+  requisitionNumber          String              @unique
+  semesterId                 String
+  title                      String
+  category                   RequisitionCategory
+  amount                     Decimal             @db.Decimal(12, 2)
+  tier                       FinancialTier
+  disbursementType           DisbursementType
+  purpose                    String
+  beneficiaryPayee           String
+  filedById                  String
+  generalSecretarySignerId   String?
+  generalSecretaryApprovedAt DateTime?
+  treasurerSignerId          String?
+  treasurerApprovedAt        DateTime?
+  presidentSignerId          String?
+  presidentApprovedAt        DateTime?
+  facultyAdvisorSignerId     String?
+  facultyAdvisorApprovedAt   DateTime?
+  ebResolutionDocUrl         String? // Mandatory for Tier 3 requisitions
+  status                     RequisitionStatus   @default(DRAFT)
+  disbursedAt                DateTime?
+  voucherDeadline            DateTime? // Exactly 72h from disbursement for petty cash
+  voucherUrls                String[]
+  voucherUploadedAt          DateTime?
+  voucherVerifiedAt          DateTime?
+  isPettyCashFrozenTriggered Boolean             @default(false)
+  createdAt                  DateTime            @default(now())
+  updatedAt                  DateTime            @updatedAt
+
+  // Relationships
+  semester          Semester @relation(fields: [semesterId], references: [id])
+  filer             User     @relation("FiledFinancialRequisitions", fields: [filedById], references: [id])
+  gsApprover        User?    @relation("GSApprovedRequisitions", fields: [generalSecretarySignerId], references: [id])
+  treasurerApprover User?    @relation("TreasurerApprovedRequisitions", fields: [treasurerSignerId], references: [id])
+  presidentApprover User?    @relation("PresidentApprovedRequisitions", fields: [presidentSignerId], references: [id])
+  advisorApprover   User?    @relation("AdvisorApprovedRequisitions", fields: [facultyAdvisorSignerId], references: [id])
+
+  @@index([semesterId, status])
+  @@index([tier, status])
+  @@index([filedById])
+  @@index([voucherDeadline])
+}
+
+/// Term-end independent audit records compiled by 2 neutral active members (GS & Treasurer legally barred)
+model AuditReport {
+  id                      String      @id @default(uuid())
+  semesterId              String      @unique
+  auditor1Id              String // Neutral Active Member 1
+  auditor2Id              String // Neutral Active Member 2
+  advisorSignerId         String?
+  termStartDate           DateTime
+  termEndDate             DateTime
+  totalInflows            Decimal     @db.Decimal(12, 2)
+  totalOutflows           Decimal     @db.Decimal(12, 2)
+  closingBankBalance      Decimal     @db.Decimal(12, 2)
+  closingPettyCashBalance Decimal     @db.Decimal(12, 2)
+  discrepancyAmount       Decimal     @default(0.00) @db.Decimal(12, 2)
+  auditFindingsSummary    String
+  irregularitiesNotes     String?
+  reportDocumentUrl       String
+  advisorSignedAt         DateTime?
+  status                  AuditStatus @default(IN_PROGRESS)
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
+
+  // Relationships
+  semester      Semester @relation(fields: [semesterId], references: [id])
+  auditor1      User     @relation("Auditor1Reports", fields: [auditor1Id], references: [id])
+  auditor2      User     @relation("Auditor2Reports", fields: [auditor2Id], references: [id])
+  advisorSigner User?    @relation("AdvisorSignedAudits", fields: [advisorSignerId], references: [id])
+
+  @@index([auditor1Id])
+  @@index([auditor2Id])
+  @@index([status])
+}
+
+/// Parliamentary meeting records tracking quorums (40% GBM, 33% Floor Quorum), adjournments, and minutes
+model Meeting {
+  id                            String      @id @default(uuid())
+  semesterId                    String
+  title                         String
+  type                          MeetingType
+  scheduledAt                   DateTime
+  adjournedToDate               DateTime? // 7-day adjournment if regular quorum fails
+  adjournedFromMeetingId        String?
+  location                      String
+  activeMembersAtCall           Int // Active headcount at call to order
+  attendeesCount                Int         @default(0)
+  quorumPercentageRequired      Decimal     @db.Decimal(5, 2) // 40% for GBM, 75% for EB
+  floorQuorumPercentageRequired Decimal     @default(33.00) @db.Decimal(5, 2) // 33% Floor Quorum for protected motions
+  isQuorumMet                   Boolean     @default(false)
+  isFloorQuorumMet              Boolean     @default(false)
+  isAdjournedDueToQuorum        Boolean     @default(false)
+  chairpersonId                 String?
+  minutesDocUrl                 String?
+  minutesApprovedAt             DateTime?
+  createdAt                     DateTime    @default(now())
+  updatedAt                     DateTime    @updatedAt
+
+  // Relationships
+  semester             Semester            @relation(fields: [semesterId], references: [id])
+  adjournedFromMeeting Meeting?            @relation("AdjournedMeetingHistory", fields: [adjournedFromMeetingId], references: [id])
+  adjournedSessions    Meeting[]           @relation("AdjournedMeetingHistory")
+  attendances          MeetingAttendance[]
+  motions              Motion[]
+
+  @@index([semesterId, type])
+  @@index([scheduledAt])
+}
+
+/// Live attendance check-in for meetings verifying active status at time of meeting
+model MeetingAttendance {
+  id                      String   @id @default(uuid())
+  meetingId               String
+  userId                  String
+  checkInTime             DateTime @default(now())
+  isPhysicalPresence      Boolean  @default(true)
+  isActiveMemberAtMeeting Boolean  @default(true)
+  createdAt               DateTime @default(now())
+
+  // Relationships
+  meeting Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  user    User    @relation("UserMeetingAttendances", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([meetingId, userId])
+  @@index([meetingId, isActiveMemberAtMeeting])
+  @@index([userId])
+}
+
+/// Parliamentary resolutions, amendments, and motions with recusal tracking and casting vote
+model Motion {
+  id                    String     @id @default(uuid())
+  meetingId             String
+  motionNumber          Int
+  title                 String
+  description           String
+  motionType            MotionType
+  proposerId            String
+  seconderId            String?
+  requiresSupermajority Boolean    @default(false) // 2/3 for protected amendments
+  requiresFloorQuorum   Boolean    @default(false) // 33% Floor Quorum required
+  recusedUserIds        String[] // Conflict of interest / impeachment recusal
+  inFavorCount          Int        @default(0)
+  againstCount          Int        @default(0)
+  abstainCount          Int        @default(0)
+  isPassed              Boolean    @default(false)
+  chairCastingVoteUsed  Boolean    @default(false)
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+
+  // Relationships
+  meeting Meeting  @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  ballots Ballot[]
+
+  @@unique([meetingId, motionNumber])
+  @@index([meetingId, motionType])
+}
+
+/// Individual votes cast by verified active members with support for secret ballots
+model Ballot {
+  id       String     @id @default(uuid())
+  motionId String
+  userId   String
+  vote     VoteOption
+  isSecret Boolean    @default(false)
+  castAt   DateTime   @default(now())
+
+  // Relationships
+  motion Motion @relation(fields: [motionId], references: [id], onDelete: Cascade)
+  user   User   @relation("UserBallots", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([motionId, userId])
+  @@index([motionId])
+  @@index([userId])
+}
+
+/// 3-Member selection panel for annual council election/transition
+model SelectionPanel {
+  id                            String   @id @default(uuid())
+  semesterId                    String
+  facultyAdvisorId              String // Panel Member 1
+  outgoingPresidentId           String // Panel Member 2
+  ebNomineeId                   String // Panel Member 3
+  alternateNomineeId            String? // Recusal replacement if candidate runs
+  formationDate                 DateTime @default(now())
+  isAdHocCouncilTriggered       Boolean  @default(false)
+  adHocCouncilDurationSemesters Int?
+  createdAt                     DateTime @default(now())
+  updatedAt                     DateTime @updatedAt
+
+  // Relationships
+  semester          Semester              @relation(fields: [semesterId], references: [id])
+  facultyAdvisor    User                  @relation("PanelAdvisor", fields: [facultyAdvisorId], references: [id])
+  outgoingPresident User                  @relation("PanelOutgoingPres", fields: [outgoingPresidentId], references: [id])
+  ebNominee         User                  @relation("PanelEbNominee", fields: [ebNomineeId], references: [id])
+  alternateNominee  User?                 @relation("PanelAlternateNominee", fields: [alternateNomineeId], references: [id])
+  nominations       ExecutiveNomination[]
+
+  @@index([semesterId])
+}
+
+/// 4-Officer executive candidate ticket submitted by the Selection Panel for GBM confirmation
+model ExecutiveNomination {
+  id                   String    @id @default(uuid())
+  selectionPanelId     String
+  ticketName           String
+  presidentCandidateId String
+  vpCandidateId        String
+  gsCandidateId        String
+  treasurerCandidateId String
+  revisionRound        Int       @default(1)
+  revisionDeadline     DateTime? // 7-day revision window upon GBM rejection
+  isGbmApproved        Boolean   @default(false)
+  gbmApprovalDate      DateTime?
+  rejectionReason      String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  // Relationships
+  selectionPanel     SelectionPanel @relation(fields: [selectionPanelId], references: [id], onDelete: Cascade)
+  presidentCandidate User           @relation("NominatedPresident", fields: [presidentCandidateId], references: [id])
+  vpCandidate        User           @relation("NominatedVP", fields: [vpCandidateId], references: [id])
+  gsCandidate        User           @relation("NominatedGS", fields: [gsCandidateId], references: [id])
+  treasurerCandidate User           @relation("NominatedTreasurer", fields: [treasurerCandidateId], references: [id])
+
+  @@index([selectionPanelId])
+}
+
+/// Digital petitions (EGM call, No-Confidence) requiring 25% active member threshold
+model Petition {
+  id                         String         @id @default(uuid())
+  initiatorId                String
+  title                      String
+  type                       PetitionType
+  statement                  String
+  activeMembersSnapshotCount Int // Headcount of active members at launch
+  requiredSignaturesCount    Int // Exactly 25% of active members
+  currentSignaturesCount     Int            @default(0)
+  collectionDeadline         DateTime
+  leadershipNoticeDeadline   DateTime? // 7 days after reaching threshold
+  status                     PetitionStatus @default(COLLECTING_SIGNATURES)
+  escalatedToAdvisorAt       DateTime?
+  conveneMeetingDate         DateTime?
+  createdAt                  DateTime       @default(now())
+  updatedAt                  DateTime       @updatedAt
+
+  // Relationships
+  initiator  User                @relation("PetitionInitiator", fields: [initiatorId], references: [id])
+  signatures PetitionSignature[]
+
+  @@index([status])
+  @@index([initiatorId])
+}
+
+/// Verified digital signatures by active members supporting a petition
+model PetitionSignature {
+  id                      String   @id @default(uuid())
+  petitionId              String
+  userId                  String
+  isActiveMemberAtSigning Boolean  @default(true)
+  signedAt                DateTime @default(now())
+  digitalFingerprint      String
+
+  // Relationships
+  petition Petition @relation(fields: [petitionId], references: [id], onDelete: Cascade)
+  user     User     @relation("UserPetitionSignatures", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([petitionId, userId])
+  @@index([petitionId])
+  @@index([userId])
+}
+
+/// Formal officer resignation notice with mandatory 15-day notice period and multi-recipient routing
+model ResignationNotice {
+  id                   String            @id @default(uuid())
+  userId               String
+  role                 ClubRole
+  submittedAt          DateTime          @default(now())
+  noticePeriodEnd      DateTime // Exactly 15 days from submission
+  presidentRecipientId String?
+  gsRecipientId        String?
+  advisorRecipientId   String?
+  status               ResignationStatus @default(NOTICE_SUBMITTED)
+  handoverNotes        String?
+  effectiveDate        DateTime?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+
+  // Relationships
+  user               User  @relation("UserResignations", fields: [userId], references: [id], onDelete: Cascade)
+  presidentRecipient User? @relation("PresidentResignationReviews", fields: [presidentRecipientId], references: [id])
+  gsRecipient        User? @relation("GSResignationReviews", fields: [gsRecipientId], references: [id])
+  advisorRecipient   User? @relation("AdvisorResignationReviews", fields: [advisorRecipientId], references: [id])
+
+  @@index([userId, status])
+  @@index([status])
+}
+
+/// Annual council handover state machine tracking the mandatory 7-working-day (168h) sign-off
+model CouncilTransition {
+  id                      String           @id @default(uuid())
+  semesterId              String
+  outgoingCouncilYear     Int
+  incomingCouncilYear     Int
+  transitionDeadline      DateTime // Exactly 7 working days (168 hours)
+  status                  TransitionStatus @default(HANDOVER_STATE_ACTIVE)
+  bankSignatoriesVerified Boolean          @default(false)
+  bankSignatoriesDocUrl   String?
+  archivesVerified        Boolean          @default(false)
+  archivesDocUrl          String?
+  physicalAssetsVerified  Boolean          @default(false)
+  physicalAssetsDocUrl    String?
+  clubKeysHandedOver      Boolean          @default(false)
+  completedAt             DateTime?
+  createdAt               DateTime         @default(now())
+  updatedAt               DateTime         @updatedAt
+
+  // Relationships
+  semester Semester @relation(fields: [semesterId], references: [id])
+
+  @@index([semesterId, status])
+}
+
+/// Physical club asset registry (instruments, audio hardware, keys) tracking serials and custodians
+model ClubAsset {
+  id                     String         @id @default(uuid())
+  name                   String
+  serialNumber           String         @unique
+  category               String // Instrument, Sound Gear, Lighting, Cable, Furniture
+  condition              AssetCondition @default(GOOD)
+  custodianDepartment    DepartmentType
+  currentCustodianUserId String?
+  procuredAt             DateTime?
+  procuredValue          Decimal?       @db.Decimal(10, 2)
+  lastAuditedAt          DateTime?
+  notes                  String?
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
+
+  // Relationships
+  currentCustodian User? @relation("UserAssetCustody", fields: [currentCustodianUserId], references: [id])
+
+  @@index([custodianDepartment, condition])
+  @@index([currentCustodianUserId])
+}
+
+/// Whistleblowing & complaint dossiers with anonymous tracking and automated recipient routing
+model Complaint {
+  id                  String             @id @default(uuid())
+  trackingCode        String             @unique // Anonymous tracking code
+  isAnonymous         Boolean            @default(false)
+  complainantId       String? // Nullable for anonymous whistleblowers
+  accusedUserId       String
+  accusedRole         ClubRole
+  incidentDescription String
+  evidenceUrls        String[]
+  routingDestination  ComplaintRecipient // Auto-computed based on accused role
+  status              ComplaintStatus    @default(SUBMITTED)
+  tribunalFormedAt    DateTime?
+  findingsReport      String?
+  verdictSummary      String?
+  closedAt            DateTime?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+
+  // Relationships
+  complainant  User?                      @relation("ComplainantUser", fields: [complainantId], references: [id])
+  accused      User                       @relation("ComplaintAccused", fields: [accusedUserId], references: [id])
+  panelMembers InvestigationPanelMember[]
+
+  @@index([routingDestination, status])
+  @@index([accusedUserId])
+}
+
+/// Members appointed to neutral investigative tribunals for whistleblower grievances
+model InvestigationPanelMember {
+  id          String   @id @default(uuid())
+  complaintId String
+  userId      String
+  roleInPanel String // Chair, Member, Observer
+  appointedAt DateTime @default(now())
+
+  // Relationships
+  complaint Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  user      User      @relation("PanelMemberUser", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([complaintId, userId])
+  @@index([complaintId])
+  @@index([userId])
+}
+
+/// Song catalogue in club repertoire
+model TrackCatalog {
+  id             String   @id @default(uuid())
+  title          String
+  originalArtist String
+  genre          String
+  tempoBpm       Int?
+  scaleKey       String?
+  status         String   @default("IN_REPERTOIRE")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relationships
+  arrangements Arrangement[]
+
+  @@index([genre])
+  @@index([status])
+}
+
+/// Creative autonomy firewall: Exclusive write/mutate rights locked under Music Department
+model Arrangement {
+  id                           String   @id @default(uuid())
+  trackCatalogId               String
+  arrangerId                   String // Must belong to Music & Performance Dept
+  title                        String
+  vocalArrangementNotes        String
+  instrumentalArrangementNotes String
+  leadVocalistAssignment       String?
+  instrumentalistsAssignment   String?
+  sheetMusicUrl                String?
+  audioReferenceUrl            String?
+  versionNumber                Int      @default(1)
+  createdAt                    DateTime @default(now())
+  updatedAt                    DateTime @updatedAt
+
+  // Relationships
+  trackCatalog TrackCatalog @relation(fields: [trackCatalogId], references: [id], onDelete: Cascade)
+  arranger     User         @relation("ArrangerUser", fields: [arrangerId], references: [id])
+
+  @@index([trackCatalogId])
+  @@index([arrangerId])
+}
+
+/// Immutable append-only audit trail logging all state mutations and differential JSON payloads
+model AuditLog {
+  id             String   @id @default(uuid())
+  userId         String?
+  action         String
+  targetEntity   String
+  targetEntityId String
+  timestamp      DateTime @default(now())
+  ipAddress      String?
+  diffPayload    Json
+
+  // Relationships
+  user User? @relation("UserAuditLogs", fields: [userId], references: [id])
+
+  @@index([targetEntity, targetEntityId])
+  @@index([userId])
+  @@index([timestamp])
+}
