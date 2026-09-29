@@ -318,10 +318,15 @@ export default function DepartmentWorkspacesPage() {
                       <button
                         type="submit"
                         disabled={!isMusicAuthority}
-                        className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-xs shadow-lg shadow-purple-950/60 transition-all flex items-center space-x-2"
+                        className={`px-5 py-2.5 rounded-xl font-bold text-xs shadow-lg transition-all flex items-center space-x-2 ${
+                          isMusicAuthority
+                            ? "bg-purple-600 hover:bg-purple-500 text-white shadow-purple-950/60"
+                            : "bg-slate-800 border border-slate-700 text-slate-400 opacity-50 cursor-not-allowed"
+                        }`}
+                        title={isMusicAuthority ? "Save Arrangement Updates" : "Action Locked: Section 12 Creative Firewall limits Vocal Casting and Arrangement edits to Music & Performance"}
                       >
-                        <Edit3 className="w-3.5 h-3.5" />
-                        <span>Update Arrangement</span>
+                        {isMusicAuthority ? <Edit3 className="w-3.5 h-3.5" /> : <Lock className="w-3.5 h-3.5 text-amber-400" />}
+                        <span>{isMusicAuthority ? "Update Arrangement & Vocal Casting" : "Vocal Casting Locked (Music Dept Only)"}</span>
                       </button>
                     </div>
                   </form>

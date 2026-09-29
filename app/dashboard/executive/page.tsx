@@ -17,6 +17,7 @@ import {
   Send,
   Building,
   Users,
+  Lock,
 } from "lucide-react";
 
 export default function ExecutiveSuitePage() {
@@ -146,7 +147,7 @@ export default function ExecutiveSuitePage() {
       </div>
 
       {/* Access Gate Invariant Check */}
-      {currentUser.tier > 3 && (
+      {process.env.NODE_ENV !== "production" && currentUser.tier > 3 && (
         <div className="p-4 rounded-xl bg-amber-950/60 border border-amber-800/80 text-amber-200 text-xs flex items-center space-x-3">
           <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0" />
           <div>
@@ -284,14 +285,25 @@ export default function ExecutiveSuitePage() {
 
                   <div className="flex items-center space-x-2">
                     {req.status === "APPROVED" && (
-                      <button
-                        onClick={() => disburseRequisition(req.id)}
-                        disabled={pettyCashFrozen}
-                        className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 text-white font-bold transition-all shadow-md shadow-emerald-950/60 flex items-center space-x-1.5"
-                      >
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>Disburse Funds</span>
-                      </button>
+                      currentUser.tier <= 3 ? (
+                        <button
+                          onClick={() => disburseRequisition(req.id)}
+                          disabled={pettyCashFrozen}
+                          className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 text-white font-bold transition-all shadow-md shadow-emerald-950/60 flex items-center space-x-1.5"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <span>Disburse Funds</span>
+                        </button>
+                      ) : (
+                        <button
+                          disabled
+                          className="px-4 py-2 rounded-xl bg-slate-800 border border-slate-700 opacity-50 cursor-not-allowed text-slate-400 font-bold flex items-center space-x-1.5"
+                          title="Action Locked: Disburse Gate requires Tier 3 (Treasurer or Executive Officer)"
+                        >
+                          <Lock className="w-3.5 h-3.5 text-amber-400" />
+                          <span>Disburse Gate (Tier 3 Only)</span>
+                        </button>
+                      )
                     )}
                   </div>
                 </div>

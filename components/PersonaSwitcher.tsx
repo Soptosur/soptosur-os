@@ -8,6 +8,11 @@ export function PersonaSwitcher() {
   const { currentUser, allPersonas, switchPersona, toggleActingStatus } = useGovernance();
   const [isOpen, setIsOpen] = useState(false);
 
+  // Render ONLY in development mode
+  if (process.env.NODE_ENV !== "development") {
+    return null;
+  }
+
   return (
     <div className="relative">
       <button

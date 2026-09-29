@@ -91,7 +91,7 @@ export default function AdvisorConsolePage() {
       </div>
 
       {/* Access Gate Invariant Check */}
-      {currentUser.tier !== 1 && (
+      {process.env.NODE_ENV !== "production" && currentUser.tier !== 1 && (
         <div className="p-4 rounded-xl bg-amber-950/60 border border-amber-800/80 text-amber-200 text-xs flex items-center space-x-3">
           <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0" />
           <div>

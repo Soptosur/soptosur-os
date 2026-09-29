@@ -14,6 +14,7 @@ import {
   AlertCircle,
   ShieldCheck,
   Building,
+  Lock,
 } from "lucide-react";
 
 export default function PresidentSuitePage() {
@@ -161,7 +162,7 @@ export default function PresidentSuitePage() {
       </div>
 
       {/* Access Gate Invariant Check */}
-      {currentUser.tier !== 2 && (
+      {process.env.NODE_ENV !== "production" && currentUser.tier !== 2 && (
         <div className="p-4 rounded-xl bg-amber-950/60 border border-amber-800/80 text-amber-200 text-xs flex items-center space-x-3">
           <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0" />
           <div>
@@ -241,26 +242,39 @@ export default function PresidentSuitePage() {
                 <div className="flex items-center justify-end space-x-2 pt-2">
                   {!req.signatures.presidentSigned && req.status !== "REJECTED" && (
                     <>
-                      <button
-                        onClick={() =>
-                          triggerRejection({
-                            id: req.id,
-                            type: "REQUISITION",
-                            title: req.requisitionNumber,
-                          })
-                        }
-                        className="px-3.5 py-2 rounded-xl text-xs font-semibold text-red-300 bg-red-950/60 hover:bg-red-900/60 border border-red-800/80 transition-all"
-                      >
-                        Reject with Justification
-                      </button>
+                      {currentUser.tier <= 2 && (
+                        <button
+                          onClick={() =>
+                            triggerRejection({
+                              id: req.id,
+                              type: "REQUISITION",
+                              title: req.requisitionNumber,
+                            })
+                          }
+                          className="px-3.5 py-2 rounded-xl text-xs font-semibold text-red-300 bg-red-950/60 hover:bg-red-900/60 border border-red-800/80 transition-all"
+                        >
+                          Reject with Justification
+                        </button>
+                      )}
 
-                      <button
-                        onClick={() => approveRequisition(req.id)}
-                        className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 shadow-md shadow-blue-950/50 flex items-center space-x-1.5 transition-all"
-                      >
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>Digital Co-Sign (President Signature)</span>
-                      </button>
+                      {currentUser.tier <= 2 || (currentUser.isActing && currentUser.actingRole?.toLowerCase().includes("president")) ? (
+                        <button
+                          onClick={() => approveRequisition(req.id)}
+                          className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 shadow-md shadow-blue-950/50 flex items-center space-x-1.5 transition-all"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <span>Digital Co-Sign (President Signature)</span>
+                        </button>
+                      ) : (
+                        <button
+                          disabled
+                          className="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 bg-slate-800/80 border border-slate-700 opacity-60 cursor-not-allowed flex items-center space-x-1.5"
+                          title="Action Locked: Requires Tier 2 (President or Acting President)"
+                        >
+                          <Lock className="w-3.5 h-3.5 text-amber-400" />
+                          <span>Co-Sign Locked (Tier 2 Only)</span>
+                        </button>
+                      )}
                     </>
                   )}
                 </div>

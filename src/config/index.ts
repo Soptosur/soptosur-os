@@ -7,7 +7,8 @@ export const CONFIG = {
   JWT_SECRET: process.env.JWT_SECRET || 'soptosur-constitutional-secure-jwt-secret-key-2026',
   JWT_EXPIRES_IN: '24h',
   NSU_DOMAIN: '@northsouth.edu',
-  NSU_EMAIL_REGEX: /^[a-zA-Z0-9._%+-]+@northsouth\.edu$/,
+  ALLOWED_DOMAINS: ['@northsouth.edu', '@gmail.com'],
+  NSU_EMAIL_REGEX: /^[a-zA-Z0-9._%+-]+@(northsouth\.edu|gmail\.com)$/i,
   GOVERNANCE: {
     TIER_1_MAX_BDT: 2000.00,
     TIER_2_MAX_BDT: 20000.00,

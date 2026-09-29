@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import {
   GovernanceUser,
   GovernanceTier,
@@ -65,8 +66,27 @@ interface GovernanceContextType {
 const GovernanceContext = createContext<GovernanceContextType | undefined>(undefined);
 
 export function GovernanceProvider({ children }: { children: React.ReactNode }) {
+  const { data: session, status: sessionStatus } = useSession();
+
   // 1. Current User State
-  const [currentUser, setCurrentUser] = useState<GovernanceUser>(INITIAL_PERSONAS[0]); // Default: Advisor
+  // In production, do not default to mock Afrin Sultana; initialize with authenticating guest until session loads
+  const [currentUser, setCurrentUser] = useState<GovernanceUser>(() => {
+    if (process.env.NODE_ENV === "production") {
+      return {
+        id: "authenticating",
+        studentId: "--------",
+        legalName: "Authenticating Member...",
+        email: "",
+        roleTitle: "General Member",
+        tier: 5,
+        tierLabel: "Tier 5: General Member",
+        department: "General",
+        isActing: false,
+        permissions: ["CAST_BALLOT", "SIGN_PETITION", "SUBMIT_LEAVE", "ATTEND_GBM"],
+      };
+    }
+    return INITIAL_PERSONAS[0];
+  });
   const [allPersonas, setAllPersonas] = useState<GovernanceUser[]>(INITIAL_PERSONAS);
 
   // 2. Domain Data State
@@ -88,23 +108,65 @@ export function GovernanceProvider({ children }: { children: React.ReactNode }) 
     setTimeout(() => setNotification(null), 4500);
   };
 
-  // Sync cookie & storage for Next.js Middleware deep-link protection
+  // Sync session and cookies for Next.js Middleware deep-link protection
   useEffect(() => {
-    const savedUserId = localStorage.getItem("soptosur_active_persona");
-    if (savedUserId) {
-      const found = INITIAL_PERSONAS.find((p) => p.id === savedUserId);
-      if (found) {
-        setCurrentUser(found);
-        document.cookie = `soptosur_tier=${found.tier}; path=/; SameSite=Lax`;
-        document.cookie = `soptosur_user=${found.id}; path=/; SameSite=Lax`;
-        return;
-      }
+    if (session?.user) {
+      const u = session.user as any;
+      const tierNum = (typeof u.tier === "number" ? u.tier : 5) as GovernanceTier;
+      const roleTitle = u.role ? String(u.role).replace(/_/g, " ") : "General Member";
+      const dept = u.department || "General";
+      const liveUser: GovernanceUser = {
+        id: u.id || u.email || "session-user",
+        studentId: u.studentId || "2620000000",
+        legalName: u.name || (u.email ? u.email.split("@")[0] : "Member"),
+        email: u.email || "",
+        roleTitle: roleTitle,
+        tier: tierNum,
+        tierLabel: `Tier ${tierNum}: ${roleTitle}`,
+        department: dept,
+        isActing: Boolean(u.isActing),
+        actingRole: u.isActing ? "Acting Officer" : undefined,
+        isCreativeLead: dept.toLowerCase().includes("music"),
+        permissions:
+          tierNum === 1
+            ? ["TRIBUNAL_UNBLINDED", "FINAL_CLEARANCE", "CONSTITUTIONAL_INTERPRETATION"]
+            : tierNum === 2
+            ? ["EXECUTIVE_DISPATCH", "DUAL_SIGNATURE_BANKING", "COUNCIL_DIRECTION"]
+            : tierNum === 3
+            ? ["LEDGER_MANAGEMENT", "ATTENDANCE_ARBITRATION", "FINANCIAL_DISBURSEMENT"]
+            : tierNum === 4
+            ? ["CREATIVE_AUTONOMY", "DEPT_DISCIPLINE", "ROSTER_VERIFICATION"]
+            : ["CAST_BALLOT", "SIGN_PETITION", "SUBMIT_LEAVE", "ATTEND_GBM"],
+      };
+
+      setCurrentUser(liveUser);
+      document.cookie = `soptosur_tier=${liveUser.tier}; path=/; SameSite=Lax`;
+      document.cookie = `soptosur_user=${liveUser.id}; path=/; SameSite=Lax`;
+      return;
     }
-    document.cookie = `soptosur_tier=${currentUser.tier}; path=/; SameSite=Lax`;
-    document.cookie = `soptosur_user=${currentUser.id}; path=/; SameSite=Lax`;
-  }, []);
+
+    // In development mode, allow localStorage persona simulation
+    if (process.env.NODE_ENV === "development") {
+      const savedUserId = localStorage.getItem("soptosur_active_persona");
+      if (savedUserId) {
+        const found = INITIAL_PERSONAS.find((p) => p.id === savedUserId);
+        if (found) {
+          setCurrentUser(found);
+          document.cookie = `soptosur_tier=${found.tier}; path=/; SameSite=Lax`;
+          document.cookie = `soptosur_user=${found.id}; path=/; SameSite=Lax`;
+          return;
+        }
+      }
+      document.cookie = `soptosur_tier=${currentUser.tier}; path=/; SameSite=Lax`;
+      document.cookie = `soptosur_user=${currentUser.id}; path=/; SameSite=Lax`;
+    }
+  }, [session, sessionStatus]);
 
   const switchPersona = (userId: string) => {
+    // Suppress in production
+    if (process.env.NODE_ENV === "production") {
+      return;
+    }
     const selected = allPersonas.find((p) => p.id === userId);
     if (!selected) return;
     setCurrentUser(selected);
@@ -115,6 +177,9 @@ export function GovernanceProvider({ children }: { children: React.ReactNode }) 
   };
 
   const toggleActingStatus = () => {
+    if (process.env.NODE_ENV === "production") {
+      return;
+    }
     setCurrentUser((prev) => {
       const updated = {
         ...prev,

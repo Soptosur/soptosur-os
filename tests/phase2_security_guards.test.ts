@@ -24,9 +24,9 @@ async function runPhase2SecurityTests() {
     throw new Error('Valid NSU email was incorrectly rejected!');
   }
 
-  // Non-NSU emails must be rejected
+  // Non-whitelisted emails must be rejected
   const illegalEmails = [
-    'hacker@gmail.com',
+    'hacker@protonmail.com',
     'intruder@yahoo.com',
     'student@northsouth.edu.fake.com',
     'admin@outlook.com',
@@ -35,16 +35,21 @@ async function runPhase2SecurityTests() {
 
   for (const email of illegalEmails) {
     if (AuthService.validateNsuDomain(email)) {
-      throw new Error(`Non-NSU email "${email}" was illegally accepted by domain validator!`);
+      throw new Error(`Non-whitelisted email "${email}" was illegally accepted by domain validator!`);
     }
   }
 
-  // Test registration endpoint with non-NSU email
+  // Temporary production test whitelist: @gmail.com must be accepted
+  if (!AuthService.validateNsuDomain('test.member@gmail.com')) {
+    throw new Error('Temporary whitelist domain @gmail.com was incorrectly rejected!');
+  }
+
+  // Test registration endpoint with non-whitelisted email
   const regRes = await request(app)
     .post('/api/auth/register')
     .send({
       studentId: '9999999042',
-      nsuEmail: 'illegal.user@gmail.com',
+      nsuEmail: 'illegal.user@yahoo.com',
       legalName: 'Illegal User',
       password: 'Password123!',
     });

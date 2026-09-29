@@ -8,10 +8,12 @@ import { AuthenticatedUser, JwtTokenPayload } from '../types/auth.types.js';
 export class AuthService {
   /**
    * Strictly verifies that email belongs to the North South University official domain (@northsouth.edu)
+   * or temporary production test whitelist (@gmail.com).
    */
   static validateNsuDomain(email: string): boolean {
     if (!email || typeof email !== 'string') return false;
-    return CONFIG.NSU_EMAIL_REGEX.test(email.trim().toLowerCase());
+    const normalized = email.trim().toLowerCase();
+    return normalized.endsWith('@northsouth.edu') || normalized.endsWith('@gmail.com');
   }
 
   /**
