@@ -254,7 +254,7 @@ enum ComplaintStatus {
 /// Singleton organization configuration tracking governance, charter, and dynamic financial limits
 model OrganizationConfig {
   id                    String    @id @default("singleton")
-  clubTitle             String    @default("Shaptasur - The Musical Club of NSU")
+  clubTitle             String    @default("Soptosur - The Musical Club of NSU")
   osaApprovalDate       DateTime?
   charterVersion        String    @default("1.0.0")
   isPettyCashFrozen     Boolean   @default(false)

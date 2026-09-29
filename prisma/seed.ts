@@ -3,18 +3,18 @@ import { PrismaClient, MembershipStanding, ClubRole, DepartmentType, RosterSnaps
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🏛️  [Shaptasur Governance OS] Commencing Enterprise Database Bootstrap...');
+  console.log('[BOOTSTRAP] [Soptosur Governance OS] Commencing Enterprise Database Bootstrap...');
 
   // ==========================================================================
   // 1. SINGLETON ORGANIZATION CONFIGURATION
   // ==========================================================================
-  console.log('📦 Initializing singleton OrganizationConfig with constitutional ceilings...');
+  console.log('[CONFIG] Initializing singleton OrganizationConfig with constitutional ceilings...');
   const config = await prisma.organizationConfig.upsert({
     where: { id: 'singleton' },
     update: {},
     create: {
       id: 'singleton',
-      clubTitle: 'Shaptasur - The Musical Club of NSU',
+      clubTitle: 'Soptosur - The Musical Club of NSU',
       osaApprovalDate: new Date('2026-01-15T00:00:00Z'),
       charterVersion: '1.0.0',
       isPettyCashFrozen: false,
@@ -549,15 +549,15 @@ async function main() {
       discrepancyAmount: 0.00,
       auditFindingsSummary: 'Interim founder audit report initialized under Section 9. Opening balances verified with NSU OSA financial clearance.',
       status: AuditStatus.IN_PROGRESS,
-      reportDocumentUrl: 'https://docs.shaptasur.northsouth.edu/audits/fall2026_interim_audit.pdf',
+      reportDocumentUrl: 'https://docs.soptosur.northsouth.edu/audits/fall2026_interim_audit.pdf',
     },
   });
-  console.log('   ✅ Independent Audit Team & Interim Audit Report instantiated.');
+  console.log('   [OK] Independent Audit Team & Interim Audit Report instantiated.');
 
   // ==========================================================================
   // 5. INITIAL ACTIVE ROSTER SNAPSHOT (Founder / Primary Member List)
   // ==========================================================================
-  console.log('📋 Initializing Founder Council Active Roster Snapshot (100% Attendance)...');
+  console.log('[ROSTER] Initializing Founder Council Active Roster Snapshot (100% Attendance)...');
 
   const allSeedUsers = [
     advisorUser, presidentUser, vpUser, gsUser, treasurerUser,
@@ -589,12 +589,12 @@ async function main() {
       },
     });
   }
-  console.log(`   ✅ Active Roster Snapshot initialized for ${allSeedUsers.length} primary members.`);
+  console.log(`   [OK] Active Roster Snapshot initialized for ${allSeedUsers.length} primary members.`);
 
   // ==========================================================================
   // 6. IMMUTABLE AUDIT LOG BOOTSTRAP RECORD
   // ==========================================================================
-  console.log('🛡️  Appending initial bootstrap ledger entry to immutable AuditLog...');
+  console.log('[AUDIT] Appending initial bootstrap ledger entry to immutable AuditLog...');
   await prisma.auditLog.create({
     data: {
       userId: advisorUser.id,
@@ -618,14 +618,14 @@ async function main() {
       },
     },
   });
-  console.log('   ✅ Immutable AuditLog bootstrap record committed.');
+  console.log('   [OK] Immutable AuditLog bootstrap record committed.');
 
-  console.log('\n🎉 [Shaptasur Governance OS] Phase 1 Database Architecture & Seeding Complete!');
+  console.log('\n[SUCCESS] [Soptosur Governance OS] Phase 1 Database Architecture & Seeding Complete!');
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Seeding failed with error:', e);
+    console.error('[ERROR] Seeding failed with error:', e);
     process.exit(1);
   })
   .finally(async () => {

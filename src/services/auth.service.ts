@@ -44,7 +44,7 @@ export class AuthService {
       throw err;
     }
     if (standing === MembershipStanding.RESIGNED) {
-      const err = new Error('Access Denied: Member has formally RESIGNED from Shaptasur.');
+      const err = new Error('Access Denied: Member has formally RESIGNED from Soptosur.');
       (err as any).statusCode = 403;
       throw err;
     }

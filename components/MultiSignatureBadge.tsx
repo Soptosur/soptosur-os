@@ -2,7 +2,7 @@
 
 import React from "react";
 import { FinancialRequisition } from "@/types/governance";
-import { CheckCircle2, Clock, AlertCircle } from "lucide-react";
+import { CheckCircle2, Clock, AlertCircle, ChevronRight } from "lucide-react";
 
 export function MultiSignatureBadge({ requisition }: { requisition: FinancialRequisition }) {
   const { tier, signatures, status, voucherDeadlineHours } = requisition;
@@ -93,7 +93,7 @@ export function MultiSignatureBadge({ requisition }: { requisition: FinancialReq
               <span>{step.label}</span>
             </div>
             {idx < steps.length - 1 && (
-              <span className="text-slate-600 text-[10px] font-mono">→</span>
+              <ChevronRight className="w-3 h-3 text-slate-600 flex-shrink-0" />
             )}
           </div>
         );

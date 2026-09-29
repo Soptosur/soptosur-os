@@ -70,7 +70,7 @@ export default function LoginPage() {
             <Music className="w-7 h-7 text-white" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-white">
-            Shaptasur Governance OS
+            Soptosur Governance OS
           </h1>
           <p className="text-xs text-slate-400 font-medium">
             North South University • Office of Student Affairs (OSA)

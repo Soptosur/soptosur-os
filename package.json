@@ -1,7 +1,7 @@
 {
   "name": "soptosur-chain-of-command",
   "version": "1.0.0",
-  "description": "Shaptasur Governance OS - Mission-Critical University Club Management ERP under NSU OSA",
+  "description": "Soptosur Governance OS - Mission-Critical University Club Management ERP under NSU OSA",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {

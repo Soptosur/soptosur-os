@@ -50,7 +50,7 @@ authRouter.post('/register', async (req: Request, res: Response): Promise<void> 
       return;
     }
 
-    const passwordHash = await AuthService.hashPassword(password || 'Shaptasur@2026');
+    const passwordHash = await AuthService.hashPassword(password || 'Soptosur@2026');
 
     const newUser = await prisma.user.create({
       data: {

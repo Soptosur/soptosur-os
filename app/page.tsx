@@ -21,7 +21,7 @@ export default function HomePage() {
             North South University • Office of Student Affairs
           </span>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Shaptasur Governance OS
+            Soptosur Governance OS
           </h1>
           <p className="text-sm sm:text-base text-slate-400 max-w-xl mx-auto leading-relaxed">
             Enterprise University Club Management ERP enforcing strict 5-Tier single-supervisor hierarchy, Section 12 creative firewall, and anti-bypass whistleblower protocols.

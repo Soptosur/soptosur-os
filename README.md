@@ -1,5 +1,5 @@
 # Soptosur Chain of Command
-## Shaptasur Governance OS — Enterprise Database & Constitutional Engine (Phase 1)
+## Soptosur Governance OS — Enterprise Database & Constitutional Engine (Phase 1)
 
 Operating under **North South University (NSU) Office of Student Affairs (OSA)** regulations.
 

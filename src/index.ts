@@ -1,5 +1,5 @@
 /**
- * Soptosur Chain of Command (Shaptasur Governance OS)
+ * Soptosur Chain of Command (Soptosur Governance OS)
  * Enterprise Club Management ERP under NSU Office of Student Affairs (OSA) Regulations.
  */
 

@@ -14,6 +14,8 @@ import {
   Send,
   Sparkles,
   ShieldAlert,
+  AlertTriangle,
+  X,
 } from "lucide-react";
 
 export default function MemberStationPage() {
@@ -241,9 +243,10 @@ export default function MemberStationPage() {
                   </h3>
                   <button
                     onClick={() => setLeaveDrawerOpen(false)}
-                    className="text-slate-400 hover:text-white text-xs font-mono"
+                    className="text-slate-400 hover:text-white text-xs font-mono flex items-center space-x-1"
                   >
-                    ✕ Close
+                    <X className="w-3.5 h-3.5" />
+                    <span>Close</span>
                   </button>
                 </div>
 
@@ -400,8 +403,9 @@ export default function MemberStationPage() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
                     <div className="text-[11px] text-slate-400">
                       {isConflicted ? (
-                        <span className="text-red-400 font-semibold">
-                          ⚠️ You are formally recused from this vote due to departmental or financial conflict.
+                        <span className="text-red-400 font-semibold flex items-center space-x-1">
+                          <AlertTriangle className="w-3.5 h-3.5 text-red-400 inline flex-shrink-0" />
+                          <span>You are formally recused from this vote due to departmental or financial conflict.</span>
                         </span>
                       ) : (
                         <span>Authenticated member vote recorded on the immutable roll.</span>

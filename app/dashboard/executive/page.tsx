@@ -161,7 +161,7 @@ export default function ExecutiveSuitePage() {
           <AlertOctagon className="w-6 h-6 text-red-400 flex-shrink-0 mt-0.5" />
           <div className="flex-1 text-xs">
             <h4 className="font-bold text-sm text-red-200">
-              🚨 SYSTEM-WIDE PETTY CASH FREEZE IN EFFECT (ARTICLE 16.4)
+              SYSTEM-WIDE PETTY CASH FREEZE IN EFFECT (ARTICLE 16.4)
             </h4>
             <p className="mt-1 leading-relaxed text-red-300">
               An outstanding Tier 1 cash advance has surpassed the 72-hour deadline without an uploaded physical voucher and receipt reconciliation. In accordance with OSA Financial Directives, all new petty cash disbursements across all departments are locked until settled.

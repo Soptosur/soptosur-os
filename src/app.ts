@@ -14,7 +14,7 @@ export function createApp(): Express {
   app.get('/health', (req: Request, res: Response) => {
     res.json({
       status: 'UP',
-      system: 'Shaptasur Governance OS',
+      system: 'Soptosur Governance OS',
       phase: 'Phase 2: Authentication, Hierarchical RBAC & Anti-Bypass Guards',
       timestamp: new Date().toISOString(),
     });

@@ -4,7 +4,7 @@ import { GovernanceProvider } from "@/context/GovernanceContext";
 import { RejectionModal } from "@/components/RejectionModal";
 
 export const metadata: Metadata = {
-  title: "Shaptasur Governance OS | Soptosur Chain of Command",
+  title: "Soptosur Governance OS | Soptosur Chain of Command",
   description:
     "Enterprise University Club Management ERP operating under North South University (NSU) Office of Student Affairs (OSA) regulations.",
 };

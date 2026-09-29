@@ -75,7 +75,7 @@ export function GlobalNavbar() {
               <div>
                 <div className="flex items-center space-x-2">
                   <span className="font-bold text-slate-100 tracking-tight text-base sm:text-lg">
-                    Shaptasur
+                    Soptosur
                   </span>
                   <span className="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded bg-blue-950 border border-blue-800/80 text-blue-300">
                     Governance OS

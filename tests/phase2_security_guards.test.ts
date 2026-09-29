@@ -9,14 +9,14 @@ import { ClubRole, DepartmentType, MembershipStanding, ComplaintRecipient, Finan
 import { AuthenticatedUser } from '../src/types/auth.types.js';
 
 async function runPhase2SecurityTests() {
-  console.log('🛡️  [Soptosur Governance OS] Commencing Phase 2 Security & Anti-Bypass Test Suite...\n');
+  console.log('[SECURITY] [Soptosur Governance OS] Commencing Phase 2 Security & Anti-Bypass Test Suite...\n');
 
   const app = createApp();
 
   // ==========================================================================
   // TEST 1: NSU Domain Lockdown (@northsouth.edu)
   // ==========================================================================
-  console.log('🔒 [Test 1] Testing Institutional NSU Domain Lockdown...');
+  console.log('[TEST 1] Testing Institutional NSU Domain Lockdown...');
   
   // Valid NSU email
   const validNsuEmail = 'student.212@northsouth.edu';
@@ -52,12 +52,12 @@ async function runPhase2SecurityTests() {
   if (regRes.status !== 401 || !regRes.body.error.includes('Institutional Lockdown')) {
     throw new Error(`Register endpoint failed to enforce NSU domain lockdown! Status: ${regRes.status}`);
   }
-  console.log('   ✅ PASSED: All non-NSU domains rejected with 401 Institutional Lockdown.');
+  console.log('   [PASS] All non-NSU domains rejected with 401 Institutional Lockdown.');
 
   // ==========================================================================
   // TEST 2: Membership Standing Gate (Real-Time Inspection)
   // ==========================================================================
-  console.log('\n🔒 [Test 2] Testing Real-Time Membership Standing Gate...');
+  console.log('\n[TEST 2] Testing Real-Time Membership Standing Gate...');
   
   // Active member -> Allowed
   AuthService.enforceStandingGate(MembershipStanding.ACTIVE);
@@ -68,7 +68,7 @@ async function runPhase2SecurityTests() {
     throw new Error('Suspended member bypassed the standing gate!');
   } catch (err: any) {
     if (err.statusCode === 403 && err.message.includes('SUSPENDED')) {
-      console.log('   ✅ PASSED: Suspended profile received immediate 403 Forbidden.');
+      console.log('   [PASS] Suspended profile received immediate 403 Forbidden.');
     } else {
       throw err;
     }
@@ -80,7 +80,7 @@ async function runPhase2SecurityTests() {
     throw new Error('Terminated member bypassed the standing gate!');
   } catch (err: any) {
     if (err.statusCode === 403 && err.message.includes('TERMINATED')) {
-      console.log('   ✅ PASSED: Terminated profile received immediate 403 Forbidden.');
+      console.log('   [PASS] Terminated profile received immediate 403 Forbidden.');
     } else {
       throw err;
     }
@@ -89,7 +89,7 @@ async function runPhase2SecurityTests() {
   // ==========================================================================
   // TEST 3: Token Versioning & Instant Multi-Device Revocation
   // ==========================================================================
-  console.log('\n🔒 [Test 3] Testing Token Versioning & Instant Invalidation...');
+  console.log('\n[TEST 3] Testing Token Versioning & Instant Invalidation...');
 
   const mockUser: AuthenticatedUser = {
     id: 'user-sample-01',
@@ -118,7 +118,7 @@ async function runPhase2SecurityTests() {
   // Simulate tokenVersion increment in DB (e.g. status transition)
   const simulatedDbVersion = 2;
   if (decodedV1.tokenVersion < simulatedDbVersion) {
-    console.log('   ✅ PASSED: Token at version 1 detected as stale/revoked against current version 2.');
+    console.log('   [PASS] Token at version 1 detected as stale/revoked against current version 2.');
   } else {
     throw new Error('Token version check failed to detect revoked token!');
   }
@@ -126,7 +126,7 @@ async function runPhase2SecurityTests() {
   // ==========================================================================
   // TEST 4: Hierarchical RBAC & Unauthorized Tier Escalation Rejection
   // ==========================================================================
-  console.log('\n🔒 [Test 4] Testing Hierarchical RBAC Tier Escalation Protection...');
+  console.log('\n[TEST 4] Testing Hierarchical RBAC Tier Escalation Protection...');
 
   const tier5Member: AuthenticatedUser = {
     ...mockUser,
@@ -146,7 +146,7 @@ async function runPhase2SecurityTests() {
     throw new Error('Tier 5 coordinator illegally passed Tier 3 requirement!');
   } catch (err: any) {
     if (err.statusCode === 403 && err.message.includes('Hierarchical RBAC Violation')) {
-      console.log('   ✅ PASSED: Tier 5 member blocked from Tier 3 action with 403 Forbidden.');
+      console.log('   [PASS] Tier 5 member blocked from Tier 3 action with 403 Forbidden.');
     } else {
       throw err;
     }
@@ -155,7 +155,7 @@ async function runPhase2SecurityTests() {
   // ==========================================================================
   // TEST 5: Creative Autonomy Firewall (Section 12)
   // ==========================================================================
-  console.log('\n🔒 [Test 5] Testing Section 12 Creative Autonomy Firewall...');
+  console.log('\n[TEST 5] Testing Section 12 Creative Autonomy Firewall...');
 
   const presidentUser: AuthenticatedUser = {
     ...mockUser,
@@ -176,7 +176,7 @@ async function runPhase2SecurityTests() {
     throw new Error('President was permitted to bypass Creative Autonomy Firewall!');
   } catch (err: any) {
     if (err.statusCode === 403 && err.message.includes('Creative Autonomy Firewall Violation')) {
-      console.log('   ✅ PASSED: President blocked from mutating song arrangements (Section 12 protected).');
+      console.log('   [PASS] President blocked from mutating song arrangements (Section 12 protected).');
     } else {
       throw err;
     }
@@ -196,12 +196,12 @@ async function runPhase2SecurityTests() {
     },
   };
   RbacService.enforceCreativeFirewall(musicHeadUser);
-  console.log('   ✅ PASSED: Music & Performance Dept Head granted arrangement write access.');
+  console.log('   [PASS] Music & Performance Dept Head granted arrangement write access.');
 
   // ==========================================================================
   // TEST 6: Mandatory Rejection Justification Obligation
   // ==========================================================================
-  console.log('\n🔒 [Test 6] Testing Mandatory Written Rejection Justification...');
+  console.log('\n[TEST 6] Testing Mandatory Written Rejection Justification...');
 
   // Empty or whitespace-only reason must throw
   const invalidReasons = ['', '   ', null, undefined];
@@ -222,12 +222,12 @@ async function runPhase2SecurityTests() {
   if (validReason !== 'Budget overrun on sound equipment rental.') {
     throw new Error('Valid reason was altered!');
   }
-  console.log('   ✅ PASSED: Empty rejection reasons rejected; non-empty written justification enforced.');
+  console.log('   [PASS] Empty rejection reasons rejected; non-empty written justification enforced.');
 
   // ==========================================================================
   // TEST 7: Whistleblower Routing Matrix & Query-Level EB Blinding
   // ==========================================================================
-  console.log('\n🔒 [Test 7] Testing Whistleblower Routing Matrix & Query-Level EB Blinding...');
+  console.log('\n[TEST 7] Testing Whistleblower Routing Matrix & Query-Level EB Blinding...');
 
   // 1. Destination Matrix
   const deptHeadDest = WhistleblowerService.resolveRoutingDestination(ClubRole.DEPT_HEAD_MEDIA_DESIGN);
@@ -254,7 +254,7 @@ async function runPhase2SecurityTests() {
   if (advDest !== ComplaintRecipient.NSU_OSA_PROCTORIAL) {
     throw new Error(`Expected NSU_OSA_PROCTORIAL for Advisor, got ${advDest}`);
   }
-  console.log('   ✅ PASSED: Whistleblower destination matrix routes to exact constitutional targets.');
+  console.log('   [PASS] Whistleblower destination matrix routes to exact constitutional targets.');
 
   // 2. Query Blinding Filter (EB Blinding)
   const gsFilter = WhistleblowerService.applyQueryBlindingFilter({
@@ -273,7 +273,7 @@ async function runPhase2SecurityTests() {
   if (!gsFilter.NOT || !gsFilter.NOT.accusedRole.in.includes(ClubRole.PRESIDENT)) {
     throw new Error('Query blinding failed to filter out President dossiers from General Secretary!');
   }
-  console.log('   ✅ PASSED: General Secretary query filter automatically blinds President dossiers.');
+  console.log('   [PASS] General Secretary query filter automatically blinds President dossiers.');
 
   // Advisor has unblinded access
   const advisorFilter = WhistleblowerService.applyQueryBlindingFilter({
@@ -290,12 +290,12 @@ async function runPhase2SecurityTests() {
   if (Object.keys(advisorFilter).length !== 0) {
     throw new Error('Advisor was incorrectly restricted from viewing dossiers!');
   }
-  console.log('   ✅ PASSED: Faculty Advisor possesses unblinded tribunal oversight.');
+  console.log('   [PASS] Faculty Advisor possesses unblinded tribunal oversight.');
 
   // ==========================================================================
   // TEST 8: Dual-Recipient Resignation Binding (Section 6)
   // ==========================================================================
-  console.log('\n🔒 [Test 8] Testing Dual-Recipient Simultaneous Resignation Routing...');
+  console.log('\n[TEST 8] Testing Dual-Recipient Simultaneous Resignation Routing...');
 
   // Dept Head resignation must simultaneously bind President and GS
   const deptHeadResignation = AntiBypassService.computeResignationRecipients(
@@ -327,9 +327,9 @@ async function runPhase2SecurityTests() {
   ) {
     throw new Error('Resignation routing failed for General Secretary!');
   }
-  console.log('   ✅ PASSED: Dual-recipient simultaneous binding successfully verified.');
+  console.log('   [PASS] Dual-recipient simultaneous binding successfully verified.');
 
-  console.log('\n🎉 ALL 8 PHASE 2 SECURITY & ANTI-BYPASS INTEGRATION TESTS PASSED WITH 100% SUCCESS!');
+  console.log('\n[SUCCESS] ALL 8 PHASE 2 SECURITY & ANTI-BYPASS INTEGRATION TESTS PASSED WITH 100% SUCCESS!');
 }
 
 runPhase2SecurityTests().catch((err) => {

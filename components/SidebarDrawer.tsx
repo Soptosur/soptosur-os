@@ -170,7 +170,10 @@ export function SidebarDrawer() {
         </p>
         <div className="pt-1 flex items-center justify-between text-[10px] text-slate-500 font-mono">
           <span>v1.0.0-PROD</span>
-          <span className="text-emerald-400 font-bold">● Vercel Edge</span>
+          <span className="text-emerald-400 font-bold flex items-center space-x-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+            <span>Vercel Edge</span>
+          </span>
         </div>
       </div>
     </aside>

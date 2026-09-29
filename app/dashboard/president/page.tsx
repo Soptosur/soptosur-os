@@ -466,7 +466,14 @@ export default function PresidentSuitePage() {
 
                 <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px]">
                   <span className="text-slate-500">
-                    {v.daysRemaining <= 5 ? "⚠️ Imminent Advisor Default" : "Standard Appointment Window"}
+                    {v.daysRemaining <= 5 ? (
+                      <span className="text-red-400 font-semibold flex items-center space-x-1">
+                        <AlertTriangle className="w-3 h-3 text-red-400 inline" />
+                        <span>Imminent Advisor Default</span>
+                      </span>
+                    ) : (
+                      "Standard Appointment Window"
+                    )}
                   </span>
                   <button className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-colors">
                     Formalize Appointment

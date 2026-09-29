@@ -88,7 +88,7 @@ CREATE TYPE "ComplaintStatus" AS ENUM ('SUBMITTED', 'ROUTED', 'TRIBUNAL_FORMED',
 -- CreateTable
 CREATE TABLE "OrganizationConfig" (
     "id" TEXT NOT NULL DEFAULT 'singleton',
-    "clubTitle" TEXT NOT NULL DEFAULT 'Shaptasur - The Musical Club of NSU',
+    "clubTitle" TEXT NOT NULL DEFAULT 'Soptosur - The Musical Club of NSU',
     "osaApprovalDate" TIMESTAMP(3),
     "charterVersion" TEXT NOT NULL DEFAULT '1.0.0',
     "isPettyCashFrozen" BOOLEAN NOT NULL DEFAULT false,
