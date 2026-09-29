@@ -65,18 +65,23 @@ Operating under **North South University (NSU) Office of Student Affairs (OSA)**
 
 ### Execution Instructions
 ```bash
-# Validate Schema
+# Validate & Generate Prisma ORM
 npm run prisma:validate
-
-# Format Schema
 npm run prisma:format
-
-# Generate Prisma Client
 npm run prisma:generate
 
 # Build TypeScript Codebase
 npm run build
 
-# Run Seeding against PostgreSQL
+# Run Phase 1 Database Invariant Tests (9 tests in PGlite)
+npm run test:invariants
+
+# Run Phase 2 Security & Anti-Bypass Guards Tests (8 tests)
+npm run test:security
+
+# Run All 17 Constitutional Tests
+npm run test:all
+
+# Seed Database
 npm run seed
 ```
