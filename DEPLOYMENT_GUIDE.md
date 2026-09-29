@@ -48,17 +48,17 @@ npm run seed
    git add .
    git commit -m "feat: ready for cloud deployment"
    git branch -M master
-   git remote add origin https://github.com/your-username/soptosur-chain-of-command.git
+   git remote add origin https://github.com/Soptosur/soptosur-os.git
    git push -u origin master
    ```
 2. Log into [vercel.com](https://vercel.com) and click **"Add New Project"**.
-3. Import your `soptosur-chain-of-command` repository.
+3. Import your `soptosur-os` repository.
 4. Under **Environment Variables**, add:
    - `DATABASE_URL`: `your-neon-database-url-here`
-   - `NODE_ENV`: `production`
+   - `DIRECT_URL`: `your-neon-direct-url-here`
 5. Click **Deploy**.
    - Vercel automatically runs `postinstall: prisma generate` and builds the Next.js production bundle.
-   - Your live website URL (e.g. `https://soptosur-chain-of-command.vercel.app`) is now online and connected to your cloud database!
+   - Your live website URL (e.g. `https://soptosur-os.vercel.app`) is now online and connected to your cloud database!
 
 ---
 
