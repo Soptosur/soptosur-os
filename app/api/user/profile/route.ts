@@ -5,13 +5,18 @@ import { authOptions } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    let session: any = null;
+    try {
+      session = await getServerSession(authOptions);
+    } catch (sessionErr) {
+      // Session extraction error or unauthenticated request
+    }
     const body = await req.json();
 
-    const { id, studentId, nsuEmail, legalName, contactPhone, avatarUrl } = body;
+    const { id, studentId, nsuEmail, email, legalName, contactPhone, avatarUrl } = body;
 
     // Resolve user identifier
-    const targetEmail = (nsuEmail || session?.user?.email || "").trim().toLowerCase();
+    const targetEmail = (nsuEmail || email || session?.user?.email || "").trim().toLowerCase();
     const userId = id || (session?.user as any)?.id;
 
     if (!targetEmail && !userId) {
@@ -50,7 +55,7 @@ export async function POST(req: NextRequest) {
         where: { id: user.id },
         data: {
           studentId: studentId ? studentId.trim() : user.studentId,
-          nsuEmail: nsuEmail ? nsuEmail.trim().toLowerCase() : user.nsuEmail,
+          nsuEmail: (nsuEmail || email) ? (nsuEmail || email).trim().toLowerCase() : user.nsuEmail,
           legalName: legalName ? legalName.trim() : user.legalName,
           contactPhone: contactPhone ? contactPhone.trim() : user.contactPhone,
           avatarUrl: avatarUrl !== undefined ? avatarUrl : (user as any).avatarUrl,
