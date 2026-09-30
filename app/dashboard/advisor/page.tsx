@@ -106,10 +106,10 @@ export default function AdvisorConsolePage() {
           <div className="p-4 rounded-2xl bg-purple-50 border border-purple-200 space-y-2">
             <div className="flex items-center space-x-2 text-purple-800 font-bold text-xs uppercase tracking-wider">
               <Eye className="w-4 h-4 text-purple-600" />
-              <span>Unblinded Whistleblower Oversight Protocol (ধারা ১০)</span>
+              <span>Unblinded Whistleblower Oversight Protocol (Article 10)</span>
             </div>
             <p className="text-xs text-purple-950/80 leading-relaxed">
-              গঠনতন্ত্রের ধারা ১০ (অভিযোগ নিষ্পত্তি ম্যাট্রিক্স) অনুযায়ী, ফ্যাকাল্টি অ্যাডভাইজর সকল গোপন ডসিয়ার ও অভিযোগের নিরপেক্ষ তদারকি করেন। সভাপতির বিরুদ্ধে অভিযোগ তদন্তের জন্য অ্যাডভাইজর ৩ সদস্যের নিরপেক্ষ প্যানেল গঠন করবেন এবং নির্বাহী কর্মকর্তাদের বিরুদ্ধে অভিযোগ তাদের কুয়েরি ফিল্টার থেকে স্বয়ংক্রিয়ভাবে ব্লাইন্ড থাকবে।
+              Pursuant to Article 10 (Grievance Resolution Matrix) of the Charter, the Faculty Advisor exercises independent oversight of all encrypted dossiers. If an allegation targets the Club President, the Advisor convenes a 3-member impartial panel, while any complaint against Executive Board members is automatically blinded from their query filters.
             </p>
           </div>
 
@@ -352,10 +352,10 @@ export default function AdvisorConsolePage() {
             </h4>
             <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 leading-relaxed font-mono space-y-2">
               <p>
-                "ধারা ৯:৩ (স্বাধীন নিরীক্ষা দল) অনুযায়ী, সাধারণ সভায় সরাসরি নির্বাচিত আমরা ২ জন নিরপেক্ষ অডিট সদস্য প্রত্যয়ন করছি যে, আমরা নির্বাহী পরিষদ, সচিবালয় বা ট্রেজারির কোনো পদে নেই। ফল ২০২৬ সেমিস্টারের সকল হিসাব, ব্যাংক স্টেটমেন্ট ও ভাউচার সম্পূর্ণ নির্ভুলভাবে নিরীক্ষিত হয়েছে।"
+                &quot;Pursuant to Article 9:3 (Independent Audit Team), we, the 2 independent auditors elected directly by the General Assembly, certify that we hold no office on the Executive Board, Secretariat, or Treasury. All accounts, bank statements, and vouchers for the Fall 2026 semester have been audited with zero variance.&quot;
               </p>
               <div className="text-[10px] text-slate-500">
-                নিরীক্ষকদের স্বাক্ষর: তানভীরুল হাসান (প্রধান নিরীক্ষক) • সাবরিনা চৌধুরী (সহকারী নিরীক্ষক)
+                Auditors Signatures: Tanvirul Hasan (Lead Auditor) • Sabrina Chowdhury (Associate Auditor)
               </div>
             </div>
           </div>

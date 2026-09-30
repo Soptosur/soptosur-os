@@ -4,7 +4,6 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useGovernance } from "@/context/GovernanceContext";
-import { signOut } from "next-auth/react";
 import {
   ShieldAlert,
   Crown,
@@ -15,10 +14,8 @@ import {
   Lock,
   ChevronRight,
   Sparkles,
-  FileText,
   ScrollText,
   UserCircle,
-  LogOut,
 } from "lucide-react";
 
 interface NavItem {
@@ -38,14 +35,14 @@ export function SidebarDrawer() {
     {
       title: "Chain of Command",
       href: "/dashboard",
-      tierRequired: 5, // All tiers can view constitutional hierarchy
+      tierRequired: 5,
       icon: Compass,
       description: "Institutional 5-Tier Org Blueprint",
     },
     {
-      title: "Official Charter (গঠনতন্ত্র)",
+      title: "Official Charter (Constitution)",
       href: "/charter",
-      tierRequired: 5, // All tiers can read the constitution
+      tierRequired: 5,
       icon: ScrollText,
       description: "Articles 1–14 Full Constitution",
     },
@@ -98,15 +95,6 @@ export function SidebarDrawer() {
       badge: "Edit",
     },
   ];
-
-  const handleLogout = async () => {
-    try {
-      localStorage.removeItem("soptosur_active_persona");
-      document.cookie = "soptosur_tier=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-      document.cookie = "soptosur_user=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    } catch (e) {}
-    await signOut({ callbackUrl: "/login" });
-  };
 
   return (
     <aside className="w-64 flex-shrink-0 bg-white/80 border-r border-slate-200/90 p-4 flex flex-col justify-between h-[calc(100vh-4rem)] sticky top-16 hidden md:flex backdrop-blur-md">
@@ -193,33 +181,21 @@ export function SidebarDrawer() {
         </nav>
       </div>
 
-      {/* Sidebar Footer with Sign Out */}
-      <div className="space-y-3 pt-3 border-t border-slate-200/80">
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center justify-center space-x-2 px-3 py-2.5 rounded-xl border border-rose-200 bg-rose-50/70 hover:bg-rose-100 text-rose-700 hover:text-rose-800 text-xs font-bold transition-all duration-200 shadow-2xs group cursor-pointer"
-          title="End Session & Logout"
-        >
-          <LogOut className="w-4 h-4 text-rose-600 group-hover:scale-110 transition-transform" />
-          <span>লগআউট (Sign Out)</span>
-        </button>
-
-        {/* Institutional Footer Pill */}
-        <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 space-y-2">
-          <div className="flex items-center space-x-2 text-slate-800 font-semibold">
-            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-            <span>OSA Constitution 2026</span>
-          </div>
-          <p className="text-[10px] text-slate-500 leading-relaxed">
-            Operating under NSU Office of Student Affairs strict chain-of-command invariants.
-          </p>
-          <div className="pt-1 flex items-center justify-between text-[10px] text-slate-400 font-mono">
-            <span>v1.0.0-PROD</span>
-            <span className="text-emerald-600 font-bold flex items-center space-x-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
-              <span>Vercel Edge</span>
-            </span>
-          </div>
+      {/* Institutional Footer Pill */}
+      <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 space-y-2">
+        <div className="flex items-center space-x-2 text-slate-800 font-semibold">
+          <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+          <span>OSA Constitution 2026</span>
+        </div>
+        <p className="text-[10px] text-slate-500 leading-relaxed">
+          Operating under NSU Office of Student Affairs strict chain-of-command invariants.
+        </p>
+        <div className="pt-1 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+          <span>v1.0.0-PROD</span>
+          <span className="text-emerald-600 font-bold flex items-center space-x-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+            <span>Vercel Edge</span>
+          </span>
         </div>
       </div>
     </aside>

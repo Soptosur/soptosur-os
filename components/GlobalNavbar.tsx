@@ -111,10 +111,10 @@ export function GlobalNavbar() {
               <Link
                 href="/charter"
                 className="flex items-center space-x-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 hover:text-blue-900 px-2.5 py-1 rounded-md border border-blue-200 transition-colors font-medium"
-                title="View Official Charter (গঠনতন্ত্র)"
+                title="View Official Charter (Constitution)"
               >
                 <ScrollText className="w-3.5 h-3.5 text-blue-600" />
-                <span>গঠনতন্ত্র (Charter)</span>
+                <span>Official Charter</span>
               </Link>
             </div>
           </div>
@@ -143,7 +143,7 @@ export function GlobalNavbar() {
             <Link
               href="/dashboard/profile"
               className="flex items-center space-x-2.5 p-1 sm:px-2.5 sm:py-1 rounded-xl border border-slate-200 bg-slate-50/90 hover:bg-blue-50/80 hover:border-blue-300 transition-all duration-200 group shadow-2xs"
-              title="আমার প্রোফাইল ও পরিচিতি দেখুন/সম্পাদনা করুন (My Profile)"
+              title="View and Edit Profile"
             >
               <div className="w-8 h-8 rounded-lg overflow-hidden border border-slate-200 bg-white flex items-center justify-center flex-shrink-0 group-hover:border-blue-400 shadow-2xs">
                 {currentUser.avatarUrl ? (
@@ -173,14 +173,14 @@ export function GlobalNavbar() {
               </div>
             </Link>
 
-            {/* Prominent Logout Button */}
+            {/* Prominent Logout Button (The ONLY sign-out button across the app) */}
             <button
               onClick={handleLogout}
               className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-rose-200 bg-rose-50/80 hover:bg-rose-100 text-rose-700 hover:text-rose-800 text-xs font-bold transition-all duration-200 shadow-2xs group cursor-pointer"
-              title="লগআউট করুন (Log Out of Governance OS)"
+              title="Sign Out of Governance OS"
             >
               <LogOut className="w-3.5 h-3.5 text-rose-600 group-hover:scale-110 transition-transform" />
-              <span className="hidden sm:inline">লগআউট</span>
+              <span className="hidden sm:inline">Sign Out</span>
             </button>
 
             {/* Persona Switcher Dropdown (Dev mode only) */}

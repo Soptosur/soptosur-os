@@ -70,7 +70,7 @@ export default function PresidentSuitePage() {
     (r) => r.tier === 2 || (r.amountBDT > 2000 && r.amountBDT <= 20000)
   );
 
-  // EB Quorum (ধারা ৩:২): ৪ জন কর্মকর্তার মধ্যে ন্যূনতম ৩ জনের উপস্থিতি (যার মধ্যে সভাপতি অথবা সহ-সভাপতি অন্তত একজনকে থাকতে হবে)
+  // EB Quorum (Article 3:2): Minimum 3 out of 4 officers present (must include President or VP)
   const totalEBMembers = 4;
   const hasPresidentOrVP = confirmedAttendees.some(
     (a) => a.includes("President") || a.includes("VP")
@@ -377,12 +377,12 @@ export default function PresidentSuitePage() {
                         }`}
                       >
                         {isEBQuorumMet
-                          ? `ধারা ৩:২ কোরাম উত্তীর্ণ (${confirmedAttendees.length}/4 কর্মকর্তা উপস্থিত, সভাপতি/সহ-সভাপতি অন্তর্ভুক্ত)`
-                          : `ধারা ৩:২ কোরাম ঘাটতি (${confirmedAttendees.length}/4 কর্মকর্তা, সভাপতি অথবা সহ-সভাপতি আবশ্যক)`}
+                          ? `Article 3:2 Quorum Met (${confirmedAttendees.length}/4 officers present, President/VP included)`
+                          : `Article 3:2 Quorum Lacking (${confirmedAttendees.length}/4 officers, President or VP required)`}
                       </span>
                     </div>
                     <span className="text-[10px] text-slate-500">
-                      ধারা ৩:৩ অনুযায়ী সমতায় (২–২ বা ১–১) সভাপতির নির্ণায়ক ভোট (Casting Vote) থাকবে।
+                      Pursuant to Article 3:3, the President exercises the Casting Vote in event of a tie (2–2 or 1–1).
                     </span>
                   </div>
 

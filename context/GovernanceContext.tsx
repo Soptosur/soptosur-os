@@ -454,10 +454,10 @@ export function GovernanceProvider({ children }: { children: React.ReactNode }) 
         console.warn("API profile update:", apiErr);
       }
 
-      showNotification("প্রোফাইল সফলভাবে আপডেট করা হয়েছে! (Profile updated successfully)", "success");
+      showNotification("Profile updated and synchronized successfully!", "success");
       return { success: true };
     } catch (err: any) {
-      showNotification("প্রোফাইল আপডেট ব্যর্থ হয়েছে: " + (err?.message || "Error"), "error");
+      showNotification("Failed to update profile: " + (err?.message || "Error"), "error");
       return { success: false, error: err?.message };
     }
   };

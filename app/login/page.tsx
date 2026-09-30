@@ -293,7 +293,7 @@ function LoginForm() {
             className="inline-flex items-center space-x-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700 bg-blue-50/80 hover:bg-blue-100/80 border border-blue-200 px-3.5 py-1.5 rounded-xl transition-all shadow-xs"
           >
             <Key className="w-3.5 h-3.5 text-blue-600" />
-            <span>প্রতিটি টায়ারের টেস্ট ক্রেডেনশিয়ালস ও ওয়ান-ক্লিক কপি বুথ (Credentials List)</span>
+            <span>Authorized Testing Credentials & One-Click Copy Booth</span>
           </Link>
         </div>
 

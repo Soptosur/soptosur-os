@@ -323,10 +323,10 @@ export default function MemberStationPage() {
           <div className="p-4 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-1">
             <h3 className="text-xs font-bold text-blue-900 uppercase tracking-wider flex items-center space-x-1.5">
               <Vote className="w-4 h-4 text-blue-600" />
-              <span>ধারা ৭: সাধারণ সভা ও ফ্লোর কোরাম (ARTICLE 7: FLOOR QUORUM)</span>
+              <span>ARTICLE 7: GENERAL ASSEMBLY & FLOOR QUORUM</span>
             </h3>
             <p className="text-xs text-slate-700 leading-relaxed">
-              গঠনতন্ত্রের ধারা ৭:৩ অনুযায়ী, গঠনতন্ত্র সংশোধন (ধারা ১১), কর্মকর্তা অপসারণ (ধারা ৪), বা সংগঠন বিলুপ্তির (ধারা ১৩) মতো গুরুত্বপূর্ণ বিষয়ে ন্যূনতম ৩৩% সক্রিয় সদস্যের উপস্থিতি (Floor Quorum) নিশ্চিত থাকা বাধ্যতামূলক। এছাড়া ধারা ৩:৪ অনুযায়ী কোনো প্রস্তাবে স্বার্থের সংঘাত থাকলে সংশ্লিষ্ট সদস্য ভোটদানে বিরত (Recusal) থাকবেন।
+              Pursuant to Article 7:3 of the Charter, critical motions such as constitutional amendments (Article 11), officer removals (Article 4), or organizational dissolution (Article 13) strictly require a minimum 33% active Floor Quorum. Furthermore, under Article 3:4, any member with a direct conflict of interest is automatically recused from voting.
             </p>
           </div>
 

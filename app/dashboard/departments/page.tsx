@@ -142,7 +142,7 @@ export default function DepartmentWorkspacesPage() {
             )}
             <div className="text-xs leading-relaxed">
               <div className="font-bold flex items-center space-x-2">
-                <span>ধারা ১২: শৈল্পিক স্বায়ত্তশাসন (ARTICLE 12: ARTISTIC AUTONOMY)</span>
+                <span>ARTICLE 12: CREATIVE & ARTISTIC AUTONOMY</span>
                 <span
                   className={`text-[9px] uppercase px-1.5 py-0.5 rounded font-mono ${
                     isMusicAuthority ? "bg-purple-100 text-purple-800 border border-purple-200" : "bg-amber-100 text-amber-800 border border-amber-200"
@@ -153,8 +153,8 @@ export default function DepartmentWorkspacesPage() {
               </div>
               <p className="mt-1 text-slate-700">
                 {isMusicAuthority
-                  ? `Authenticated as ${currentUser.legalName} (${currentUser.roleTitle}). গঠনতন্ত্রের ধারা ১২ অনুযায়ী: গান নির্বাচন, কম্পোজিশন, সুরের বিন্যাস ও বাদ্যযন্ত্র ব্যবহারে আপনার ও পারফর্মারদের সিদ্ধান্তই চূড়ান্ত।`
-                  : `Authenticated as ${currentUser.legalName} (${currentUser.roleTitle}). ধারা ১২ অনুযায়ী: নির্বাহী পরিষদ কেবল বাজেট, শিডিউল ও আচরণবিধি দেখবে; শিল্পীর সৃজনশীলতায় অযাচিত প্রশাসনিক হস্তক্ষেপ করতে পারবে না।`}
+                  ? `Authenticated as ${currentUser.legalName} (${currentUser.roleTitle}). Pursuant to Article 12: Song selection, arrangement, vocal casting, and instrumentation are strictly autonomous and sovereign under the Creative Firewall.`
+                  : `Authenticated as ${currentUser.legalName} (${currentUser.roleTitle}). Pursuant to Article 12: The Executive Board governs only logistical budgets and schedules; administrative interference in artistic composition is strictly prohibited.`}
               </p>
             </div>
           </div>

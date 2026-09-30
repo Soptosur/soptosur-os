@@ -33,7 +33,7 @@ const CREDENTIALS: CredentialRow[] = [
     tier: 1,
     tierName: "Tier 1: Faculty Advisor",
     role: "Faculty Advisor",
-    roleDescription: "ফ্যাকাল্টি উপদেষ্টা ও আনব্লাইন্ডেড ট্রাইব্যুনাল প্রধান",
+    roleDescription: "Faculty Advisor & Unblinded Tribunal Lead",
     name: "Dr. Tanvir Ahmed",
     studentId: "FAC-00109",
     aliasEmail: "advisor@northsouth.edu",
@@ -45,7 +45,7 @@ const CREDENTIALS: CredentialRow[] = [
     tier: 2,
     tierName: "Tier 2: Club President",
     role: "Club President",
-    roleDescription: "ক্লাব সভাপতি ও প্রধান নির্বাহী (ডুয়াল-সিগনেচার ব্যাংকিং)",
+    roleDescription: "Club President & Chief Executive (Dual-Signature Banking)",
     name: "Abrar Chowdhury",
     studentId: "2011234042",
     aliasEmail: "president@northsouth.edu",
@@ -57,7 +57,7 @@ const CREDENTIALS: CredentialRow[] = [
     tier: 3,
     tierName: "Tier 3: Executive Board",
     role: "General Secretary",
-    roleDescription: "সাধারণ সম্পাদক ও পার্লামেন্টারি কাস্টোডিয়ান",
+    roleDescription: "General Secretary & Parliamentary Custodian",
     name: "Samira Hossain",
     studentId: "2031456042",
     aliasEmail: "gs@northsouth.edu",
@@ -69,7 +69,7 @@ const CREDENTIALS: CredentialRow[] = [
     tier: 3,
     tierName: "Tier 3: Executive Board",
     role: "Treasurer",
-    roleDescription: "কোষাধ্যক্ষ ও অর্থ কাস্টোডিয়ান (পেটি ক্যাশ ৭২ঘণ্টা ভাউচার গেট)",
+    roleDescription: "Treasurer & Financial Custodian (Petty Cash 72h Gate)",
     name: "Farhan Kabir",
     studentId: "2011567042",
     aliasEmail: "treasurer@northsouth.edu",
@@ -81,7 +81,7 @@ const CREDENTIALS: CredentialRow[] = [
     tier: 3,
     tierName: "Tier 3: Executive Board",
     role: "Vice President",
-    roleDescription: "সহ-সভাপতি ও অপারেশনস ওভারসাইট",
+    roleDescription: "Vice President & Operations Oversight",
     name: "Nabil Rahman",
     studentId: "2021345042",
     aliasEmail: "vp@northsouth.edu",
@@ -93,7 +93,7 @@ const CREDENTIALS: CredentialRow[] = [
     tier: 4,
     tierName: "Tier 4: Department Head",
     role: "Music & Performance Head",
-    roleDescription: "ধারা ১২ ক্রিয়েটিভ ফায়ারওয়াল লিড (সুর ও ভোকাল কাস্টিং)",
+    roleDescription: "Section 12 Creative Firewall Lead (Vocal & Composition)",
     name: "Zafir Ahsan",
     studentId: "2111678042",
     aliasEmail: "music.head@northsouth.edu",
@@ -105,7 +105,7 @@ const CREDENTIALS: CredentialRow[] = [
     tier: 4,
     tierName: "Tier 4: Department Head",
     role: "Member Management Head",
-    roleDescription: "সদস্য ব্যবস্থাপনা ও ৫০% উপস্থিতি শৃঙ্খলা প্রধান",
+    roleDescription: "Member Management & 50% Attendance Discipline Lead",
     name: "Tasnim Haque",
     studentId: "2111901042",
     aliasEmail: "mm.head@northsouth.edu",
@@ -117,7 +117,7 @@ const CREDENTIALS: CredentialRow[] = [
     tier: 4,
     tierName: "Tier 4: Department Head",
     role: "Event & Logistics Head",
-    roleDescription: "ইভেন্ট ও লজিস্টিকস প্রধান",
+    roleDescription: "Event & Logistics Operations Lead",
     name: "Mehnaz Islam",
     studentId: "2121789042",
     aliasEmail: "event.head@northsouth.edu",
@@ -129,7 +129,7 @@ const CREDENTIALS: CredentialRow[] = [
     tier: 4,
     tierName: "Tier 4: Department Head",
     role: "Media & Design Head",
-    roleDescription: "মিডিয়া, ব্র্যান্ডিং ও ডিজাইন প্রধান",
+    roleDescription: "Media, Branding & Design Production Lead",
     name: "Rayan Siddiqui",
     studentId: "2131890042",
     aliasEmail: "media.head@northsouth.edu",
@@ -141,7 +141,7 @@ const CREDENTIALS: CredentialRow[] = [
     tier: 4,
     tierName: "Tier 4: Department Head",
     role: "Sponsorship Head",
-    roleDescription: "স্পন্সরশিপ ও পার্টনারশিপ প্রধান",
+    roleDescription: "Sponsorship & Corporate Partnership Lead",
     name: "Kazi Shahriar",
     studentId: "2122012042",
     aliasEmail: "sponsorship.head@northsouth.edu",
@@ -153,7 +153,7 @@ const CREDENTIALS: CredentialRow[] = [
     tier: 5,
     tierName: "Tier 5: Coordinator",
     role: "Music Coordinator",
-    roleDescription: "বিভাগীয় সমন্বয়কারী (সর্বোচ্চ কোটা ২ জন)",
+    roleDescription: "Department Coordinator (Max 2 Quota)",
     name: "Arham Karim",
     studentId: "2212345042",
     aliasEmail: "coordinator@northsouth.edu",
@@ -165,7 +165,7 @@ const CREDENTIALS: CredentialRow[] = [
     tier: 5,
     tierName: "Tier 5: General Member",
     role: "General Assembly Member",
-    roleDescription: "সাধারণ পরিষদ সদস্য (৩৩% ফ্লোর কোরাম ভোটার ও ২৫% ইজিএম পিটিশন)",
+    roleDescription: "General Assembly Member (33% Floor Quorum & 25% EGM Petition)",
     name: "Sarafat Karim",
     studentId: "2132123042",
     aliasEmail: "member@northsouth.edu",
@@ -177,7 +177,7 @@ const CREDENTIALS: CredentialRow[] = [
     tier: 5,
     tierName: "Tier 5: Whitelisted Gmail",
     role: "Google OAuth Test User",
-    roleDescription: "সরাসরি গুগল সাইন-ইন টেস্টিং অ্যাকাউন্ট (১-ক্লিক লগইন)",
+    roleDescription: "Direct Google OAuth Test Account (1-Click Sign In)",
     name: "Rizwan Ahmed",
     studentId: "2620000001",
     aliasEmail: "rezwanahmed399@gmail.com",
@@ -212,7 +212,7 @@ export default function CredentialsPage() {
             className="inline-flex items-center space-x-2 text-xs font-semibold text-slate-600 hover:text-blue-600 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>লগইন পোর্টালে ফিরে যান (Back to Sign In)</span>
+            <span>Back to Sign In</span>
           </Link>
 
           <div className="flex items-center space-x-3">
@@ -221,14 +221,14 @@ export default function CredentialsPage() {
               className="px-4 py-2 rounded-xl bg-white border border-slate-300 hover:border-slate-400 text-slate-700 text-xs font-bold transition-all shadow-xs flex items-center space-x-2"
             >
               <Printer className="w-4 h-4 text-slate-600" />
-              <span>পিডিএফ প্রিন্ট / সংরক্ষণ (Print or Save as PDF)</span>
+              <span>Print or Save as PDF</span>
             </button>
             <Link
               href="/login"
               className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-xs flex items-center space-x-2"
             >
               <ExternalLink className="w-4 h-4" />
-              <span>সরাসরি লগইন পোর্টাল</span>
+              <span>Go to Sign In Portal</span>
             </Link>
           </div>
         </div>
@@ -240,11 +240,11 @@ export default function CredentialsPage() {
             <span>North South University • Office of Student Affairs (OSA)</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-            সপ্তসুর ওএস — অনুমোদিত টেস্টিং ক্রেডেনশিয়ালস ও ওয়ান-ক্লিক কপি বুথ
+            Soptosur Governance OS — Authorized Testing Credentials & Copy Booth
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 max-w-3xl">
-            প্রতিটি টায়ারের সাংবিধানিক পদাধিকারীদের অ্যাক্সেস যাচাইয়ের জন্য নিচে প্রদত্ত ইমেইল বা পাসওয়ার্ডের পাশে{" "}
-            <span className="font-semibold text-blue-600">কপি বাটনে (Copy)</span> ক্লিক করলেই তা সাথে সাথে কপি হয়ে যাবে।
+            To verify RBAC access across constitutional tiers, click the{" "}
+            <span className="font-semibold text-blue-600">Copy</span> button next to any email or password to instantly copy it to your clipboard.
           </p>
         </div>
 
@@ -256,7 +256,7 @@ export default function CredentialsPage() {
             </div>
             <div>
               <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                সার্বজনীন টেস্টিং পাসওয়ার্ড (Universal Test Password)
+                Universal Testing Password
               </div>
               <div className="text-base font-black font-mono text-slate-900 mt-0.5">
                 soptosur2026
@@ -271,12 +271,12 @@ export default function CredentialsPage() {
             {copiedKey === "universal-pass" ? (
               <>
                 <Check className="w-4 h-4 text-white" />
-                <span>কপি হয়েছে! (Copied)</span>
+                <span>Copied!</span>
               </>
             ) : (
               <>
                 <Copy className="w-4 h-4" />
-                <span>পাসওয়ার্ড কপি করুন (Copy Password)</span>
+                <span>Copy Password</span>
               </>
             )}
           </button>
@@ -311,7 +311,7 @@ export default function CredentialsPage() {
                 {/* Email 1: Easy Alias */}
                 <div className="space-y-1">
                   <div className="text-[10px] uppercase font-bold text-slate-500">
-                    অনুমোদিত সংক্ষিপ্ত ইমেইল (Easy Alias):
+                    Authorized Easy Alias:
                   </div>
                   <div className="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono">
                     <span className="text-slate-800 font-semibold truncate mr-2">{item.aliasEmail}</span>
@@ -323,12 +323,12 @@ export default function CredentialsPage() {
                       {copiedKey === aliasKey ? (
                         <>
                           <Check className="w-3.5 h-3.5 text-emerald-600" />
-                          <span className="text-emerald-700">কপি হয়েছে</span>
+                          <span className="text-emerald-700">Copied</span>
                         </>
                       ) : (
                         <>
                           <Copy className="w-3.5 h-3.5 text-slate-500" />
-                          <span>কপি</span>
+                          <span>Copy</span>
                         </>
                       )}
                     </button>
@@ -338,7 +338,7 @@ export default function CredentialsPage() {
                 {/* Email 2: Official NSU Email */}
                 <div className="space-y-1">
                   <div className="text-[10px] uppercase font-bold text-slate-500">
-                    অফিসিয়াল NSU ইমেইল (Official):
+                    Official NSU Email:
                   </div>
                   <div className="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono">
                     <span className="text-slate-800 truncate mr-2">{item.officialEmail}</span>
@@ -350,12 +350,12 @@ export default function CredentialsPage() {
                       {copiedKey === officialKey ? (
                         <>
                           <Check className="w-3.5 h-3.5 text-emerald-600" />
-                          <span className="text-emerald-700">কপি হয়েছে</span>
+                          <span className="text-emerald-700">Copied</span>
                         </>
                       ) : (
                         <>
                           <Copy className="w-3.5 h-3.5 text-slate-500" />
-                          <span>কপি</span>
+                          <span>Copy</span>
                         </>
                       )}
                     </button>
@@ -365,7 +365,7 @@ export default function CredentialsPage() {
                 {/* Password & Direct Action */}
                 <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
                   <div className="flex items-center space-x-2">
-                    <span className="text-slate-500">পাসওয়ার্ড:</span>
+                    <span className="text-slate-500">Password:</span>
                     <code className="font-mono font-bold text-slate-900 bg-slate-100 px-1.5 py-0.5 rounded">
                       {item.password}
                     </code>
@@ -386,7 +386,7 @@ export default function CredentialsPage() {
                     href={`/login?email=${encodeURIComponent(item.aliasEmail)}`}
                     className="inline-flex items-center space-x-1 text-blue-600 hover:text-blue-700 font-bold text-[11px]"
                   >
-                    <span>লগইন করুন</span>
+                    <span>Sign In Now</span>
                     <ArrowLeft className="w-3 h-3 rotate-180" />
                   </Link>
                 </div>
@@ -397,15 +397,15 @@ export default function CredentialsPage() {
 
         {/* Footer Notes */}
         <div className="p-4 rounded-2xl bg-slate-100 border border-slate-200 text-xs text-slate-600 space-y-1">
-          <div className="font-bold text-slate-800">📌 টেস্টিং নির্দেশিকা ও টিপস:</div>
+          <div className="font-bold text-slate-800">Testing Guidelines & Instructions:</div>
           <p>
-            ১. লগইন ফর্মে যেকোনো ইমেইল প্রদান করার পর পাসওয়ার্ড ঘরে <strong>soptosur2026</strong> টাইপ করুন।
+            1. Enter any of the authorized email aliases on the sign-in form with universal test password: <strong>soptosur2026</strong>.
           </p>
           <p>
-            ২. গুগল সাইন-ইন দিয়ে সরাসরি পরীক্ষা করতে <strong>rezwanahmed399@gmail.com</strong> দিয়ে এক ক্লিকে প্রবেশ করতে পারেন।
+            2. To test with Google OAuth in production, you can sign in with <strong>rezwanahmed399@gmail.com</strong> in 1 click.
           </p>
           <p>
-            ৩. প্রিন্ট বা সেভ করতে উপরের <strong>"পিডিএফ প্রিন্ট / সংরক্ষণ"</strong> বাটনে ক্লিক করে সরাসরি পিডিএফ (PDF) আকারে ফাইলটি ডাউনলোড করতে পারেন।
+            3. To print or save this credential sheet, click the <strong>&quot;Print or Save as PDF&quot;</strong> button at the top right.
           </p>
         </div>
       </div>
