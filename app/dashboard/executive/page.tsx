@@ -26,33 +26,29 @@ export default function ExecutiveSuitePage() {
   const [activeTab, setActiveTab] = useState<"treasurer" | "gs" | "vp">("treasurer");
   const [pettyCashFrozen, setPettyCashFrozen] = useState(false);
 
-  // General Secretary Attendance Disputes state
-  const [disputes, setDisputes] = useState([
-    {
-      id: "DISP-2026-04",
-      memberName: "Farzana Yasmin",
-      studentId: "2314567042",
-      sessionDate: "2026-09-21 (Week 4 Choir Rehearsal)",
-      claim: "Present during soprano voice test, but recorded absent by volunteer coordinator.",
-      evidence: "Time-stamped auditorium check-in pass #402",
-      status: "PENDING_GS_REVIEW",
-    },
-  ]);
+  // General Secretary Attendance Disputes state (Empty in Genesis State)
+  const [disputes, setDisputes] = useState<Array<{
+    id: string;
+    memberName: string;
+    studentId: string;
+    sessionDate: string;
+    claim: string;
+    evidence: string;
+    status: string;
+  }>>([]);
 
-  // Dual-Routed Resignations Queue (Simultaneous GS + President)
-  const [resignations, setResignations] = useState([
-    {
-      id: "RES-2026-02",
-      officerName: "Rayan Chowdhury",
-      role: "Event Logistics Coordinator",
-      submittedDate: "2026-09-25",
-      effectiveDate: "2026-10-10",
-      daysRemaining: 10, // 10 days of 15-day mandatory notice period
-      reason: "Academic course overload during Fall midterms.",
-      status: "IN_15_DAY_TRANSITION",
-      dualRouting: "Simultaneously Bound: GS + President",
-    },
-  ]);
+  // Dual-Routed Resignations Queue (Simultaneous GS + President - Empty in Genesis State)
+  const [resignations, setResignations] = useState<Array<{
+    id: string;
+    officerName: string;
+    role: string;
+    submittedDate: string;
+    effectiveDate: string;
+    daysRemaining: number;
+    reason: string;
+    status: string;
+    dualRouting: string;
+  }>>([]);
 
   // Published Minutes
   const [minutesList, setMinutesList] = useState([
@@ -328,51 +324,55 @@ export default function ExecutiveSuitePage() {
                   Members have 72 hours from roster publication to lodge verified attendance corrections with proof.
                 </p>
               </div>
-            </div>
-
-            <div className="space-y-3">
-              {disputes.map((d) => (
-                <div
-                  key={d.id}
-                  className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3 text-xs"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <div>
-                      <span className="font-mono font-bold text-cyan-700">{d.id}</span>
-                      <span className="text-slate-900 font-semibold ml-2">
-                        {d.memberName} ({d.studentId})
+            </div>            <div className="space-y-3">
+              {disputes.length === 0 ? (
+                <div className="p-6 text-center text-slate-500 text-xs bg-slate-50 rounded-xl border border-dashed border-slate-200 font-mono">
+                  No pending attendance disputes. Official rehearsal roster is fully reconciled.
+                </div>
+              ) : (
+                disputes.map((d) => (
+                  <div
+                    key={d.id}
+                    className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3 text-xs"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <div>
+                        <span className="font-mono font-bold text-cyan-700">{d.id}</span>
+                        <span className="text-slate-900 font-semibold ml-2">
+                          {d.memberName} ({d.studentId})
+                        </span>
+                      </div>
+                      <span
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                          d.status === "PENDING_GS_REVIEW"
+                            ? "bg-amber-50 text-amber-800 border border-amber-200"
+                            : "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                        }`}
+                      >
+                        {d.status.replace(/_/g, " ")}
                       </span>
                     </div>
-                    <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-                        d.status === "PENDING_GS_REVIEW"
-                          ? "bg-amber-50 text-amber-800 border border-amber-200"
-                          : "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                      }`}
-                    >
-                      {d.status.replace(/_/g, " ")}
-                    </span>
-                  </div>
 
-                  <div className="space-y-1 text-slate-700">
-                    <div><strong>Session:</strong> {d.sessionDate}</div>
-                    <div><strong>Dispute Claim:</strong> {d.claim}</div>
-                    <div className="text-slate-600"><strong>Evidence:</strong> {d.evidence}</div>
-                  </div>
-
-                  {d.status === "PENDING_GS_REVIEW" && (
-                    <div className="flex items-center justify-end space-x-2 pt-2 border-t border-slate-200">
-                      <button
-                        onClick={() => handleResolveDispute(d.id)}
-                        className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-colors flex items-center space-x-1 shadow-xs"
-                      >
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>Validate & Correct Roster</span>
-                      </button>
+                    <div className="space-y-1 text-slate-700">
+                      <div><strong>Session:</strong> {d.sessionDate}</div>
+                      <div><strong>Dispute Claim:</strong> {d.claim}</div>
+                      <div className="text-slate-600"><strong>Evidence:</strong> {d.evidence}</div>
                     </div>
-                  )}
-                </div>
-              ))}
+
+                    {d.status === "PENDING_GS_REVIEW" && (
+                      <div className="flex items-center justify-end space-x-2 pt-2 border-t border-slate-200">
+                        <button
+                          onClick={() => handleResolveDispute(d.id)}
+                          className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-colors flex items-center space-x-1 shadow-xs"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <span>Validate & Correct Roster</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
             </div>
           </div>
 
@@ -389,30 +389,36 @@ export default function ExecutiveSuitePage() {
             </div>
 
             <div className="space-y-3">
-              {resignations.map((r) => (
-                <div
-                  key={r.id}
-                  className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs"
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="font-mono text-cyan-700 font-bold">{r.id}</span>
-                      <strong className="text-slate-900 ml-2">{r.officerName}</strong>
-                      <span className="text-slate-500 ml-1">({r.role})</span>
-                    </div>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
-                      {r.dualRouting}
-                    </span>
-                  </div>
-
-                  <p className="text-slate-700 font-mono text-[11px]">"{r.reason}"</p>
-
-                  <div className="flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-slate-200">
-                    <span>Notice Buffer: <strong className="text-slate-900">{r.daysRemaining} Days Remaining</strong></span>
-                    <span>Effective: {r.effectiveDate}</span>
-                  </div>
+              {resignations.length === 0 ? (
+                <div className="p-6 text-center text-slate-500 text-xs bg-slate-50 rounded-xl border border-dashed border-slate-200 font-mono">
+                  No pending officer resignations in transition queue. All constitutional roles intact.
                 </div>
-              ))}
+              ) : (
+                resignations.map((r) => (
+                  <div
+                    key={r.id}
+                    className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <span className="font-mono text-cyan-700 font-bold">{r.id}</span>
+                        <strong className="text-slate-900 ml-2">{r.officerName}</strong>
+                        <span className="text-slate-500 ml-1">({r.role})</span>
+                      </div>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
+                        {r.dualRouting}
+                      </span>
+                    </div>
+
+                    <p className="text-slate-700 font-mono text-[11px]">"{r.reason}"</p>
+
+                    <div className="flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-slate-200">
+                      <span>Notice Buffer: <strong className="text-slate-900">{r.daysRemaining} Days Remaining</strong></span>
+                      <span>Effective: {r.effectiveDate}</span>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
 

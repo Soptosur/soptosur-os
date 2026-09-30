@@ -355,7 +355,7 @@ export default function AdvisorConsolePage() {
                 &quot;Pursuant to Article 9:3 (Independent Audit Team), we, the 2 independent auditors elected directly by the General Assembly, certify that we hold no office on the Executive Board, Secretariat, or Treasury. All accounts, bank statements, and vouchers for the Fall 2026 semester have been audited with zero variance.&quot;
               </p>
               <div className="text-[10px] text-slate-500">
-                Auditors Signatures: Tanvirul Hasan (Lead Auditor) • Sabrina Chowdhury (Associate Auditor)
+                Auditors Signatures: General Assembly Elected Lead Auditor • General Assembly Elected Associate Auditor [Article 10.1 Audit Desk]
               </div>
             </div>
           </div>
@@ -365,7 +365,7 @@ export default function AdvisorConsolePage() {
               {auditCertified ? (
                 <span className="text-emerald-700 font-bold flex items-center space-x-1.5">
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Digitally Certified by Dr. Tanvir Ahmed (Faculty Advisor) on {new Date().toLocaleDateString()}</span>
+                  <span>Digitally Certified by Faculty Advisor (Tier 1 Advisory Council) on {new Date().toLocaleDateString()}</span>
                 </span>
               ) : (
                 <span>Awaiting formal digital signature authorization from Faculty Advisor.</span>

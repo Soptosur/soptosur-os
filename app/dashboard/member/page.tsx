@@ -39,9 +39,21 @@ export default function MemberStationPage() {
 
   // Find member's personal attendance record
   const personalRecord =
-    attendance.find((a) => a.memberId === currentUser.id) || attendance[0];
+    attendance.find((a) => a.memberId === currentUser.id) ||
+    attendance[0] || {
+      memberId: currentUser.id,
+      memberName: currentUser.legalName,
+      studentId: currentUser.studentId,
+      totalSessions: 0,
+      attendedSessions: 0,
+      excusedLeaves: 0,
+      effectivePercentage: 100,
+      consecutiveAbsences: 0,
+      showCauseIssued: false,
+      status: "IN_GOOD_STANDING",
+    };
 
-  const isBelowCutoff = personalRecord.effectivePercentage < 50;
+  const isBelowCutoff = (personalRecord?.effectivePercentage ?? 100) < 50;
 
   const handleLeaveSubmit = (e: React.FormEvent) => {
     e.preventDefault();
