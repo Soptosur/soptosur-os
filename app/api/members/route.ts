@@ -205,6 +205,32 @@ export async function GET(req: NextRequest) {
             constitutionalClause: "Articles 1.1, 2.1 & 5.4",
           });
         }
+      } else {
+        // Enrolled NSU Member awaiting specific departmental placement
+        generalMembersList.push({
+          id: u.id,
+          isVacant: false,
+          studentId: u.studentId,
+          nsuEmail: u.nsuEmail,
+          legalName: u.legalName,
+          contactPhone: u.contactPhone || null,
+          avatarUrl: (u as any).avatarUrl || null,
+          standing: u.standing,
+          hasProctorialClearance: u.hasProctorialClearance,
+          cgpa: u.cgpa ? u.cgpa.toString() : null,
+          completedSemesters: u.completedSemesters,
+          joinedSemester: u.joinedSemester?.termName || "Fall 2026",
+          tier: 5,
+          tierLabel: "Tier 5: General Member",
+          role: "GENERAL_MEMBER",
+          roleTitle: "General Assembly Member",
+          department: "GENERAL",
+          departmentLabel: "General Assembly",
+          isActing: false,
+          supervisor: "Department Head (Pending Assignment)",
+          appointmentRequirement: "Article 2 NSU Enrollment & General Assembly Registration",
+          constitutionalClause: "Articles 1.1, 2.1 & 3.1",
+        });
       }
     });
 

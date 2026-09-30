@@ -28,27 +28,9 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Institutional Access Restricted: Only official @northsouth.edu accounts (or whitelisted @gmail.com) are permitted.");
         }
 
-        // Test alias email mapping to canonical institutional identities
-        const emailAliases: Record<string, string> = {
-          "advisor@northsouth.edu": "tanvir.ahmed@northsouth.edu",
-          "president@northsouth.edu": "abrar.chowdhury@northsouth.edu",
-          "vp@northsouth.edu": "nabil.rahman@northsouth.edu",
-          "gs@northsouth.edu": "samira.hossain@northsouth.edu",
-          "treasurer@northsouth.edu": "farhan.kabir@northsouth.edu",
-          "music.head@northsouth.edu": "zafir.ahsan@northsouth.edu",
-          "event.head@northsouth.edu": "mehnaz.islam@northsouth.edu",
-          "media.head@northsouth.edu": "rayan.siddiqui@northsouth.edu",
-          "mm.head@northsouth.edu": "tasnim.haque@northsouth.edu",
-          "sponsorship.head@northsouth.edu": "kazi.shahriar@northsouth.edu",
-          "coordinator@northsouth.edu": "arham.karim@northsouth.edu",
-          "member@northsouth.edu": "sarafat.karim@northsouth.edu",
-        };
-
-        const resolvedEmail = emailAliases[email] || email;
-
-        // Lookup or resolve user in database
+        // Lookup user in database
         let dbUser = await prisma.user.findFirst({
-          where: { nsuEmail: { equals: resolvedEmail, mode: "insensitive" } },
+          where: { nsuEmail: { equals: email, mode: "insensitive" } },
           include: {
             roleAssignments: {
               where: { isActive: true },
@@ -64,6 +46,20 @@ export const authOptions: NextAuthOptions = {
           });
           if (!activeSemester) {
             activeSemester = await prisma.semester.findFirst();
+          }
+          if (!activeSemester) {
+            activeSemester = await prisma.semester.create({
+              data: {
+                semesterCode: "FALL2026",
+                academicYear: 2026,
+                termName: "Fall 2026",
+                startDate: new Date("2026-09-01"),
+                endDate: new Date("2026-12-31"),
+                week4LockDate: new Date("2026-09-29"),
+                disputeWindowEndDate: new Date("2026-10-02"),
+                isActive: true,
+              },
+            });
           }
 
           // Locate active Tier 4 Department Head for constitutional single-supervisor invariant
@@ -84,27 +80,44 @@ export const authOptions: NextAuthOptions = {
 
           const studentId = "262" + Math.floor(1000000 + Math.random() * 9000000).toString();
 
-          dbUser = await prisma.user.create({
-            data: {
-              studentId,
-              nsuEmail: email,
-              legalName: email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-              contactPhone: "+8801700000000",
-              cgpa: 3.50,
-              completedSemesters: 2,
-              hasProctorialClearance: true,
-              standing: "ACTIVE",
-              joinedSemesterId: activeSemester?.id || "fallback-semester-id",
-              roleAssignments: {
-                create: {
-                  role: "GENERAL_MEMBER",
-                  tierLevel: 5,
-                  department: deptHead?.department || "MEMBER_MANAGEMENT_AND_DISCIPLINE",
-                  supervisorId: deptHead?.id || null,
-                  isActive: true,
-                },
+          const createData: any = {
+            studentId,
+            nsuEmail: email,
+            legalName: email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+            contactPhone: "+8801700000000",
+            cgpa: 3.50,
+            completedSemesters: 2,
+            hasProctorialClearance: true,
+            standing: "ACTIVE",
+            joinedSemesterId: activeSemester.id,
+          };
+
+          // Constitutional rule: Tier 1 (Faculty Advisor) has no supervisor in club (allowed to have supervisorId: null)
+          if (email === "advisor@northsouth.edu") {
+            createData.roleAssignments = {
+              create: {
+                role: "FACULTY_ADVISOR",
+                tierLevel: 1,
+                department: "EXECUTIVE",
+                supervisorId: null,
+                isActive: true,
               },
-            },
+            };
+          } else if (deptHead && deptHead.id) {
+            // Tier 5 General Member only assigned a departmental role if an active Tier 4 supervisor exists
+            createData.roleAssignments = {
+              create: {
+                role: "GENERAL_MEMBER",
+                tierLevel: 5,
+                department: deptHead.department,
+                supervisorId: deptHead.id,
+                isActive: true,
+              },
+            };
+          }
+
+          dbUser = await prisma.user.create({
+            data: createData,
             include: {
               roleAssignments: {
                 where: { isActive: true },
@@ -142,25 +155,8 @@ export const authOptions: NextAuthOptions = {
 
       // If logging in via Google OAuth, map or provision user in DB
       if (account?.provider === "google") {
-        const emailAliases: Record<string, string> = {
-          "advisor@northsouth.edu": "tanvir.ahmed@northsouth.edu",
-          "president@northsouth.edu": "abrar.chowdhury@northsouth.edu",
-          "vp@northsouth.edu": "nabil.rahman@northsouth.edu",
-          "gs@northsouth.edu": "samira.hossain@northsouth.edu",
-          "treasurer@northsouth.edu": "farhan.kabir@northsouth.edu",
-          "music.head@northsouth.edu": "zafir.ahsan@northsouth.edu",
-          "event.head@northsouth.edu": "mehnaz.islam@northsouth.edu",
-          "media.head@northsouth.edu": "rayan.siddiqui@northsouth.edu",
-          "mm.head@northsouth.edu": "tasnim.haque@northsouth.edu",
-          "sponsorship.head@northsouth.edu": "kazi.shahriar@northsouth.edu",
-          "coordinator@northsouth.edu": "arham.karim@northsouth.edu",
-          "member@northsouth.edu": "sarafat.karim@northsouth.edu",
-        };
-
-        const resolvedEmail = emailAliases[email] || email;
-
         let dbUser = await prisma.user.findFirst({
-          where: { nsuEmail: { equals: resolvedEmail, mode: "insensitive" } },
+          where: { nsuEmail: { equals: email, mode: "insensitive" } },
           include: {
             roleAssignments: {
               where: { isActive: true },
@@ -175,6 +171,20 @@ export const authOptions: NextAuthOptions = {
           });
           if (!activeSemester) {
             activeSemester = await prisma.semester.findFirst();
+          }
+          if (!activeSemester) {
+            activeSemester = await prisma.semester.create({
+              data: {
+                semesterCode: "FALL2026",
+                academicYear: 2026,
+                termName: "Fall 2026",
+                startDate: new Date("2026-09-01"),
+                endDate: new Date("2026-12-31"),
+                week4LockDate: new Date("2026-09-29"),
+                disputeWindowEndDate: new Date("2026-10-02"),
+                isActive: true,
+              },
+            });
           }
 
           // Locate active Tier 4 Department Head for constitutional single-supervisor invariant
@@ -195,27 +205,44 @@ export const authOptions: NextAuthOptions = {
 
           const studentId = "262" + Math.floor(1000000 + Math.random() * 9000000).toString();
 
-          dbUser = await prisma.user.create({
-            data: {
-              studentId,
-              nsuEmail: email,
-              legalName: user.name || email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-              contactPhone: "+8801700000000",
-              cgpa: 3.50,
-              completedSemesters: 2,
-              hasProctorialClearance: true,
-              standing: "ACTIVE",
-              joinedSemesterId: activeSemester?.id || "fallback-semester-id",
-              roleAssignments: {
-                create: {
-                  role: "GENERAL_MEMBER",
-                  tierLevel: 5,
-                  department: deptHead?.department || "MEMBER_MANAGEMENT_AND_DISCIPLINE",
-                  supervisorId: deptHead?.id || null,
-                  isActive: true,
-                },
+          const createData: any = {
+            studentId,
+            nsuEmail: email,
+            legalName: user.name || email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+            contactPhone: "+8801700000000",
+            cgpa: 3.50,
+            completedSemesters: 2,
+            hasProctorialClearance: true,
+            standing: "ACTIVE",
+            joinedSemesterId: activeSemester.id,
+          };
+
+          // Constitutional rule: Tier 1 (Faculty Advisor) has no supervisor in club
+          if (email === "advisor@northsouth.edu") {
+            createData.roleAssignments = {
+              create: {
+                role: "FACULTY_ADVISOR",
+                tierLevel: 1,
+                department: "EXECUTIVE",
+                supervisorId: null,
+                isActive: true,
               },
-            },
+            };
+          } else if (deptHead && deptHead.id) {
+            // Tier 5 General Member only assigned a departmental role if an active Tier 4 supervisor exists
+            createData.roleAssignments = {
+              create: {
+                role: "GENERAL_MEMBER",
+                tierLevel: 5,
+                department: deptHead.department,
+                supervisorId: deptHead.id,
+                isActive: true,
+              },
+            };
+          }
+
+          dbUser = await prisma.user.create({
+            data: createData,
             include: {
               roleAssignments: {
                 where: { isActive: true },
