@@ -372,8 +372,8 @@ export default function MembersPage() {
                 <div>
                   {/* Top Row: Avatar & Badges */}
                   <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-13 h-13 rounded-2xl overflow-hidden border-2 border-slate-200 bg-slate-100 flex items-center justify-center flex-shrink-0 shadow-2xs group-hover:border-blue-400 transition-colors">
+                    <div className="flex items-center space-x-3 min-w-0 flex-1">
+                      <div className="w-12 h-12 min-w-[48px] min-h-[48px] max-w-[48px] max-h-[48px] rounded-xl overflow-hidden border border-slate-200 bg-slate-100 flex items-center justify-center flex-shrink-0 shadow-2xs group-hover:border-blue-400 transition-colors">
                         <img
                           src={avatarSrc}
                           alt={member.legalName}
@@ -385,19 +385,19 @@ export default function MembersPage() {
                           }}
                         />
                       </div>
-                      <div>
-                        <h3 className="text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors leading-tight">
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors leading-tight truncate">
                           {member.legalName}
                         </h3>
                         <div className="flex items-center space-x-1.5 text-[11px] font-mono font-semibold text-slate-500 mt-0.5">
-                          <GraduationCap className="w-3.5 h-3.5 text-blue-600" />
-                          <span>ID: {member.studentId}</span>
+                          <GraduationCap className="w-3.5 h-3.5 text-blue-600 flex-shrink-0" />
+                          <span className="truncate">ID: {member.studentId}</span>
                         </div>
                       </div>
                     </div>
 
                     <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded-lg border shadow-2xs ${getTierBadgeStyle(
+                      className={`text-[10px] font-bold px-2 py-0.5 rounded-lg border shadow-2xs flex-shrink-0 ${getTierBadgeStyle(
                         member.tier
                       )}`}
                     >
