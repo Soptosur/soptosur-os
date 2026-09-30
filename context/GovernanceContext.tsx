@@ -58,6 +58,8 @@ interface GovernanceContextType {
   rejectionModalTarget: RejectionTarget | null;
   submitRejection: (justification: string) => void;
   closeRejectionModal: () => void;
+  // Profile Management
+  updateProfile: (updatedData: Partial<GovernanceUser>) => Promise<{ success: boolean; error?: string }>;
   // Notifications
   notification: { message: string; type: "success" | "warning" | "error" } | null;
   clearNotification: () => void;
@@ -139,6 +141,22 @@ export function GovernanceProvider({ children }: { children: React.ReactNode }) 
             : ["CAST_BALLOT", "SIGN_PETITION", "SUBMIT_LEAVE", "ATTEND_GBM"],
       };
 
+      let customProfile: any = null;
+      try {
+        const raw =
+          localStorage.getItem(`soptosur_profile_${liveUser.id}`) ||
+          localStorage.getItem("soptosur_custom_profile");
+        if (raw) customProfile = JSON.parse(raw);
+      } catch (e) {}
+
+      if (customProfile) {
+        liveUser.legalName = customProfile.legalName || liveUser.legalName;
+        liveUser.email = customProfile.email || liveUser.email;
+        liveUser.studentId = customProfile.studentId || liveUser.studentId;
+        liveUser.avatarUrl = customProfile.avatarUrl || liveUser.avatarUrl;
+        liveUser.contactPhone = customProfile.contactPhone || liveUser.contactPhone;
+      }
+
       setCurrentUser(liveUser);
       document.cookie = `soptosur_tier=${liveUser.tier}; path=/; SameSite=Lax`;
       document.cookie = `soptosur_user=${liveUser.id}; path=/; SameSite=Lax`;
@@ -151,9 +169,17 @@ export function GovernanceProvider({ children }: { children: React.ReactNode }) 
       if (savedUserId) {
         const found = INITIAL_PERSONAS.find((p) => p.id === savedUserId);
         if (found) {
-          setCurrentUser(found);
-          document.cookie = `soptosur_tier=${found.tier}; path=/; SameSite=Lax`;
-          document.cookie = `soptosur_user=${found.id}; path=/; SameSite=Lax`;
+          const userWithCustom = { ...found };
+          try {
+            const raw = localStorage.getItem(`soptosur_profile_${found.id}`);
+            if (raw) {
+              const custom = JSON.parse(raw);
+              Object.assign(userWithCustom, custom);
+            }
+          } catch (e) {}
+          setCurrentUser(userWithCustom);
+          document.cookie = `soptosur_tier=${userWithCustom.tier}; path=/; SameSite=Lax`;
+          document.cookie = `soptosur_user=${userWithCustom.id}; path=/; SameSite=Lax`;
           return;
         }
       }
@@ -388,6 +414,54 @@ export function GovernanceProvider({ children }: { children: React.ReactNode }) 
     );
   };
 
+  const updateProfile = async (
+    updatedData: Partial<GovernanceUser>
+  ): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const mergedUser: GovernanceUser = {
+        ...currentUser,
+        ...updatedData,
+        legalName: updatedData.legalName ? updatedData.legalName.trim() : currentUser.legalName,
+        email: updatedData.email ? updatedData.email.trim().toLowerCase() : currentUser.email,
+        studentId: updatedData.studentId ? updatedData.studentId.trim() : currentUser.studentId,
+        avatarUrl: updatedData.avatarUrl !== undefined ? updatedData.avatarUrl : currentUser.avatarUrl,
+        contactPhone: updatedData.contactPhone !== undefined ? updatedData.contactPhone : currentUser.contactPhone,
+      };
+
+      setCurrentUser(mergedUser);
+
+      // Persist in localStorage
+      if (typeof window !== "undefined") {
+        localStorage.setItem(`soptosur_profile_${currentUser.id}`, JSON.stringify(mergedUser));
+        localStorage.setItem("soptosur_custom_profile", JSON.stringify(mergedUser));
+      }
+
+      // Call API endpoint
+      try {
+        await fetch("/api/user/profile", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: currentUser.id,
+            studentId: mergedUser.studentId,
+            nsuEmail: mergedUser.email,
+            legalName: mergedUser.legalName,
+            contactPhone: mergedUser.contactPhone,
+            avatarUrl: mergedUser.avatarUrl,
+          }),
+        });
+      } catch (apiErr) {
+        console.warn("API profile update:", apiErr);
+      }
+
+      showNotification("প্রোফাইল সফলভাবে আপডেট করা হয়েছে! (Profile updated successfully)", "success");
+      return { success: true };
+    } catch (err: any) {
+      showNotification("প্রোফাইল আপডেট ব্যর্থ হয়েছে: " + (err?.message || "Error"), "error");
+      return { success: false, error: err?.message };
+    }
+  };
+
   return (
     <GovernanceContext.Provider
       value={{
@@ -414,6 +488,7 @@ export function GovernanceProvider({ children }: { children: React.ReactNode }) 
         rejectionModalTarget,
         submitRejection,
         closeRejectionModal,
+        updateProfile,
         notification,
         clearNotification: () => setNotification(null),
       }}

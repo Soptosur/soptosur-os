@@ -19,6 +19,8 @@ enum MembershipStanding {
   ALUMNI
   RESIGNED
   TERMINATED
+  PENDING_ONBOARDING
+  PENDING_VERIFICATION
 }
 
 enum ClubRole {
@@ -305,6 +307,7 @@ model User {
   nsuEmail               String             @unique // NSU official email
   legalName              String
   contactPhone           String
+  avatarUrl              String?            // Custom avatar photo URL or base64 data
   cgpa                   Decimal            @db.Decimal(3, 2)
   completedSemesters     Int                @default(0) // Min 2 semesters for executive nomination
   hasProctorialClearance Boolean            @default(true)

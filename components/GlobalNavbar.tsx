@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useGovernance } from "@/context/GovernanceContext";
 import { PersonaSwitcher } from "@/components/PersonaSwitcher";
+import { signOut } from "next-auth/react";
 import {
   Shield,
   Music,
@@ -15,6 +16,8 @@ import {
   X,
   ExternalLink,
   ScrollText,
+  User,
+  LogOut,
 } from "lucide-react";
 
 export function GlobalNavbar() {
@@ -35,6 +38,15 @@ export function GlobalNavbar() {
       default:
         return "bg-slate-100 text-slate-700 border-slate-200 shadow-xs";
     }
+  };
+
+  const handleLogout = async () => {
+    try {
+      localStorage.removeItem("soptosur_active_persona");
+      document.cookie = "soptosur_tier=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      document.cookie = "soptosur_user=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    } catch (e) {}
+    await signOut({ callbackUrl: "/login" });
   };
 
   return (
@@ -127,17 +139,51 @@ export function GlobalNavbar() {
               <span>Tier {currentUser.tier}</span>
             </div>
 
-            {/* User Meta */}
-            <div className="hidden lg:block text-right">
-              <div className="text-xs font-bold text-slate-900 leading-tight">
-                {currentUser.legalName}
+            {/* User Profile Quick Link / Avatar */}
+            <Link
+              href="/dashboard/profile"
+              className="flex items-center space-x-2.5 p-1 sm:px-2.5 sm:py-1 rounded-xl border border-slate-200 bg-slate-50/90 hover:bg-blue-50/80 hover:border-blue-300 transition-all duration-200 group shadow-2xs"
+              title="আমার প্রোফাইল ও পরিচিতি দেখুন/সম্পাদনা করুন (My Profile)"
+            >
+              <div className="w-8 h-8 rounded-lg overflow-hidden border border-slate-200 bg-white flex items-center justify-center flex-shrink-0 group-hover:border-blue-400 shadow-2xs">
+                {currentUser.avatarUrl ? (
+                  <img
+                    src={currentUser.avatarUrl}
+                    alt={currentUser.legalName}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as any).src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(
+                        currentUser.legalName
+                      )}&backgroundColor=2563eb`;
+                    }}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white font-bold text-xs flex items-center justify-center">
+                    {currentUser.legalName ? currentUser.legalName.charAt(0).toUpperCase() : "U"}
+                  </div>
+                )}
               </div>
-              <div className="text-[10px] text-slate-500 font-mono">
-                ID: {currentUser.studentId}
+              <div className="hidden lg:block text-left pr-1">
+                <div className="text-xs font-bold text-slate-900 group-hover:text-blue-700 leading-tight truncate max-w-[130px]">
+                  {currentUser.legalName}
+                </div>
+                <div className="text-[10px] text-slate-500 font-mono truncate">
+                  ID: {currentUser.studentId}
+                </div>
               </div>
-            </div>
+            </Link>
 
-            {/* Persona Switcher Dropdown */}
+            {/* Prominent Logout Button */}
+            <button
+              onClick={handleLogout}
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-rose-200 bg-rose-50/80 hover:bg-rose-100 text-rose-700 hover:text-rose-800 text-xs font-bold transition-all duration-200 shadow-2xs group cursor-pointer"
+              title="লগআউট করুন (Log Out of Governance OS)"
+            >
+              <LogOut className="w-3.5 h-3.5 text-rose-600 group-hover:scale-110 transition-transform" />
+              <span className="hidden sm:inline">লগআউট</span>
+            </button>
+
+            {/* Persona Switcher Dropdown (Dev mode only) */}
             <PersonaSwitcher />
           </div>
         </div>

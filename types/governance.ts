@@ -5,6 +5,10 @@ export interface GovernanceUser {
   legalName: string;
   email: string;
   studentId: string;
+  avatarUrl?: string;
+  contactPhone?: string;
+  cgpa?: number;
+  completedSemesters?: number;
   tier: GovernanceTier;
   tierLabel: string;
   roleTitle: string;
