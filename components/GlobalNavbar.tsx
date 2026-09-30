@@ -17,6 +17,7 @@ import {
   ExternalLink,
   ScrollText,
   User,
+  Users,
   LogOut,
 } from "lucide-react";
 
@@ -115,6 +116,15 @@ export function GlobalNavbar() {
               >
                 <ScrollText className="w-3.5 h-3.5 text-blue-600" />
                 <span>Official Charter</span>
+              </Link>
+
+              <Link
+                href="/dashboard/members"
+                className="flex items-center space-x-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 hover:text-indigo-900 px-2.5 py-1 rounded-md border border-indigo-200 transition-colors font-medium"
+                title="Realtime Constitutional Member Directory"
+              >
+                <Users className="w-3.5 h-3.5 text-indigo-600" />
+                <span>Member Directory</span>
               </Link>
             </div>
           </div>

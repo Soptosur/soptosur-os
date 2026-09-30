@@ -16,6 +16,7 @@ import {
   Sparkles,
   ScrollText,
   UserCircle,
+  Contact,
 } from "lucide-react";
 
 interface NavItem {
@@ -38,6 +39,14 @@ export function SidebarDrawer() {
       tierRequired: 5,
       icon: Compass,
       description: "Institutional 5-Tier Org Blueprint",
+    },
+    {
+      title: "Member Directory & Roster",
+      href: "/dashboard/members",
+      tierRequired: 5,
+      icon: Contact,
+      description: "Tier 1–5 Realtime Database List",
+      badge: "Realtime",
     },
     {
       title: "Official Charter (Constitution)",
