@@ -32,36 +32,36 @@ export default function PresidentSuitePage() {
   const [meetingDate, setMeetingDate] = useState("2026-10-02T15:00");
   const [meetingAgenda, setMeetingAgenda] = useState("");
   const [confirmedAttendees, setConfirmedAttendees] = useState<string[]>([
-    "Farhan Rahman (President)",
-    "Anika Tabassum (VP)",
-    "Tasnim Khan (GS)",
+    "President (EB Officer)",
+    "Vice President (EB Officer)",
+    "General Secretary (EB Officer)",
   ]); // 3 of 4 = 75% -> Quorum Met!
   const [dispatchedMeetings, setDispatchedMeetings] = useState([
     {
-      id: "MTG-2026-08",
-      title: "EB Emergency Session on Fall Plaza Staging Acoustics",
-      date: "2026-09-28 16:30",
+      id: "MTG-2026-01",
+      title: "EB Session on Semester Planning & Budget Allocation",
+      date: "2026-10-02 15:00",
       quorumPct: 100,
-      status: "CONCLUDED",
+      status: "SCHEDULED",
       attendees: 4,
     },
   ]);
 
-  // Vacancy Monitor State (15-day countdown)
+  // Vacancy Monitor State (15-day countdown under Article 6)
   const [vacancies, setVacancies] = useState([
     {
-      role: "Publications & Graphics Head",
-      status: "ACTING_APPOINTED",
-      actingOfficer: "Tahmid Ahsan",
-      daysRemaining: 9, // 9 days remaining of 15-day constitutional window
-      startDate: "2026-09-24",
+      role: "Media & Design Head",
+      status: "VACANT",
+      actingOfficer: "Unassigned (VACANT)",
+      daysRemaining: 15,
+      startDate: "2026-09-30",
     },
     {
-      role: "Assistant General Secretary",
+      role: "Sponsorship & Partnership Head",
       status: "VACANT",
-      actingOfficer: "Unassigned",
-      daysRemaining: 4, // Critical: 4 days remaining!
-      startDate: "2026-09-19",
+      actingOfficer: "Unassigned (VACANT)",
+      daysRemaining: 15,
+      startDate: "2026-09-30",
     },
   ]);
 
@@ -341,10 +341,10 @@ export default function PresidentSuitePage() {
                   </label>
                   <div className="grid grid-cols-2 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-200">
                     {[
-                      "Farhan Rahman (President)",
-                      "Anika Tabassum (VP)",
-                      "Tasnim Khan (GS)",
-                      "Mehedi Hasan (Treasurer)",
+                      "President (EB Officer)",
+                      "Vice President (EB Officer)",
+                      "General Secretary (EB Officer)",
+                      "Treasurer (EB Officer)",
                     ].map((officer) => {
                       const isChecked = confirmedAttendees.includes(officer);
                       return (

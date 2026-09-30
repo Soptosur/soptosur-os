@@ -71,23 +71,20 @@ export function GovernanceProvider({ children }: { children: React.ReactNode }) 
   const { data: session, status: sessionStatus } = useSession();
 
   // 1. Current User State
-  // In production, do not default to mock Afrin Sultana; initialize with authenticating guest until session loads
+  // Pure Genesis Vacant State: all offices vacant until officially authenticated/appointed
   const [currentUser, setCurrentUser] = useState<GovernanceUser>(() => {
-    if (process.env.NODE_ENV === "production") {
-      return {
-        id: "authenticating",
-        studentId: "--------",
-        legalName: "Authenticating Member...",
-        email: "",
-        roleTitle: "General Member",
-        tier: 5,
-        tierLabel: "Tier 5: General Member",
-        department: "General",
-        isActing: false,
-        permissions: ["CAST_BALLOT", "SIGN_PETITION", "SUBMIT_LEAVE", "ATTEND_GBM"],
-      };
-    }
-    return INITIAL_PERSONAS[0];
+    return {
+      id: "unassigned-observer",
+      studentId: "UNASSIGNED",
+      legalName: "VACANT (পদ শূন্য)",
+      email: "observer@northsouth.edu",
+      roleTitle: "Institutional Observer",
+      tier: 5,
+      tierLabel: "Tier 5: Institutional Observer",
+      department: "General Assembly",
+      isActing: false,
+      permissions: ["CAST_BALLOT", "SIGN_PETITION", "SUBMIT_LEAVE", "ATTEND_GBM"],
+    };
   });
   const [allPersonas, setAllPersonas] = useState<GovernanceUser[]>(INITIAL_PERSONAS);
 
