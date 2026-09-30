@@ -48,6 +48,22 @@ export const authOptions: NextAuthOptions = {
             activeSemester = await prisma.semester.findFirst();
           }
 
+          // Locate active Tier 4 Department Head for constitutional single-supervisor invariant
+          const deptHead =
+            (await prisma.roleAssignment.findFirst({
+              where: {
+                isActive: true,
+                tierLevel: 4,
+                department: "MEMBER_MANAGEMENT_AND_DISCIPLINE",
+              },
+            })) ||
+            (await prisma.roleAssignment.findFirst({
+              where: {
+                isActive: true,
+                tierLevel: 4,
+              },
+            }));
+
           const studentId = "262" + Math.floor(1000000 + Math.random() * 9000000).toString();
 
           dbUser = await prisma.user.create({
@@ -65,7 +81,8 @@ export const authOptions: NextAuthOptions = {
                 create: {
                   role: "GENERAL_MEMBER",
                   tierLevel: 5,
-                  department: "GENERAL",
+                  department: deptHead?.department || "MEMBER_MANAGEMENT_AND_DISCIPLINE",
+                  supervisorId: deptHead?.id || null,
                   isActive: true,
                 },
               },
@@ -125,6 +142,22 @@ export const authOptions: NextAuthOptions = {
             activeSemester = await prisma.semester.findFirst();
           }
 
+          // Locate active Tier 4 Department Head for constitutional single-supervisor invariant
+          const deptHead =
+            (await prisma.roleAssignment.findFirst({
+              where: {
+                isActive: true,
+                tierLevel: 4,
+                department: "MEMBER_MANAGEMENT_AND_DISCIPLINE",
+              },
+            })) ||
+            (await prisma.roleAssignment.findFirst({
+              where: {
+                isActive: true,
+                tierLevel: 4,
+              },
+            }));
+
           const studentId = "262" + Math.floor(1000000 + Math.random() * 9000000).toString();
 
           dbUser = await prisma.user.create({
@@ -142,7 +175,8 @@ export const authOptions: NextAuthOptions = {
                 create: {
                   role: "GENERAL_MEMBER",
                   tierLevel: 5,
-                  department: "GENERAL",
+                  department: deptHead?.department || "MEMBER_MANAGEMENT_AND_DISCIPLINE",
+                  supervisorId: deptHead?.id || null,
                   isActive: true,
                 },
               },
