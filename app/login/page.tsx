@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect, Suspense } from "react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useGovernance } from "@/context/GovernanceContext";
 import {
@@ -14,15 +15,24 @@ import {
   Sparkles,
   CheckCircle2,
   Building,
+  Key,
 } from "lucide-react";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { allPersonas, switchPersona } = useGovernance();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("soptosur2026");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const qEmail = searchParams.get("email");
+    if (qEmail) {
+      setEmail(qEmail);
+    }
+  }, [searchParams]);
 
   const handleGoogleLogin = async () => {
     setIsSubmitting(true);
@@ -276,11 +286,30 @@ export default function LoginPage() {
           )}
         </div>
 
+        {/* Credentials Booth Banner */}
+        <div className="text-center">
+          <Link
+            href="/credentials"
+            className="inline-flex items-center space-x-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700 bg-blue-50/80 hover:bg-blue-100/80 border border-blue-200 px-3.5 py-1.5 rounded-xl transition-all shadow-xs"
+          >
+            <Key className="w-3.5 h-3.5 text-blue-600" />
+            <span>প্রতিটি টায়ারের টেস্ট ক্রেডেনশিয়ালস ও ওয়ান-ক্লিক কপি বুথ (Credentials List)</span>
+          </Link>
+        </div>
+
         {/* Footer */}
         <p className="text-center text-[11px] text-slate-400">
           Protected by North South University (NSU) OSA Enterprise Security Protocol
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-50 flex items-center justify-center text-xs text-slate-500 font-mono">Loading login portal...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }
