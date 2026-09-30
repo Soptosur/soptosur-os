@@ -28,9 +28,27 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Institutional Access Restricted: Only official @northsouth.edu accounts (or whitelisted @gmail.com) are permitted.");
         }
 
+        // Test alias email mapping to canonical institutional identities
+        const emailAliases: Record<string, string> = {
+          "advisor@northsouth.edu": "tanvir.ahmed@northsouth.edu",
+          "president@northsouth.edu": "abrar.chowdhury@northsouth.edu",
+          "vp@northsouth.edu": "nabil.rahman@northsouth.edu",
+          "gs@northsouth.edu": "samira.hossain@northsouth.edu",
+          "treasurer@northsouth.edu": "farhan.kabir@northsouth.edu",
+          "music.head@northsouth.edu": "zafir.ahsan@northsouth.edu",
+          "event.head@northsouth.edu": "mehnaz.islam@northsouth.edu",
+          "media.head@northsouth.edu": "rayan.siddiqui@northsouth.edu",
+          "mm.head@northsouth.edu": "tasnim.haque@northsouth.edu",
+          "sponsorship.head@northsouth.edu": "kazi.shahriar@northsouth.edu",
+          "coordinator@northsouth.edu": "arham.karim@northsouth.edu",
+          "member@northsouth.edu": "sarafat.karim@northsouth.edu",
+        };
+
+        const resolvedEmail = emailAliases[email] || email;
+
         // Lookup or resolve user in database
         let dbUser = await prisma.user.findFirst({
-          where: { nsuEmail: { equals: email, mode: "insensitive" } },
+          where: { nsuEmail: { equals: resolvedEmail, mode: "insensitive" } },
           include: {
             roleAssignments: {
               where: { isActive: true },
@@ -124,8 +142,25 @@ export const authOptions: NextAuthOptions = {
 
       // If logging in via Google OAuth, map or provision user in DB
       if (account?.provider === "google") {
+        const emailAliases: Record<string, string> = {
+          "advisor@northsouth.edu": "tanvir.ahmed@northsouth.edu",
+          "president@northsouth.edu": "abrar.chowdhury@northsouth.edu",
+          "vp@northsouth.edu": "nabil.rahman@northsouth.edu",
+          "gs@northsouth.edu": "samira.hossain@northsouth.edu",
+          "treasurer@northsouth.edu": "farhan.kabir@northsouth.edu",
+          "music.head@northsouth.edu": "zafir.ahsan@northsouth.edu",
+          "event.head@northsouth.edu": "mehnaz.islam@northsouth.edu",
+          "media.head@northsouth.edu": "rayan.siddiqui@northsouth.edu",
+          "mm.head@northsouth.edu": "tasnim.haque@northsouth.edu",
+          "sponsorship.head@northsouth.edu": "kazi.shahriar@northsouth.edu",
+          "coordinator@northsouth.edu": "arham.karim@northsouth.edu",
+          "member@northsouth.edu": "sarafat.karim@northsouth.edu",
+        };
+
+        const resolvedEmail = emailAliases[email] || email;
+
         let dbUser = await prisma.user.findFirst({
-          where: { nsuEmail: { equals: email, mode: "insensitive" } },
+          where: { nsuEmail: { equals: resolvedEmail, mode: "insensitive" } },
           include: {
             roleAssignments: {
               where: { isActive: true },
