@@ -89,13 +89,13 @@ export function SidebarDrawer() {
   ];
 
   return (
-    <aside className="w-64 flex-shrink-0 bg-slate-950/70 border-r border-slate-800/80 p-4 flex flex-col justify-between h-[calc(100vh-4rem)] sticky top-16 hidden md:flex">
+    <aside className="w-64 flex-shrink-0 bg-white/80 border-r border-slate-200/90 p-4 flex flex-col justify-between h-[calc(100vh-4rem)] sticky top-16 hidden md:flex backdrop-blur-md">
       <div className="space-y-6">
         <div>
-          <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-2">
+          <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider px-2">
             Governance Navigation
           </h3>
-          <p className="text-[10px] text-slate-500 px-2 mt-0.5">
+          <p className="text-[10px] text-slate-400 px-2 mt-0.5">
             Single-Supervisor Hierarchical RBAC
           </p>
         </div>
@@ -110,19 +110,19 @@ export function SidebarDrawer() {
               return (
                 <div
                   key={item.href}
-                  className="px-3 py-2.5 rounded-xl border border-slate-900/50 bg-slate-900/30 text-slate-600 flex items-center justify-between cursor-not-allowed opacity-60"
+                  className="px-3 py-2.5 rounded-xl border border-slate-200/60 bg-slate-100/50 text-slate-400 flex items-center justify-between cursor-not-allowed opacity-60"
                   title={`Requires Tier ${item.tierRequired} clearance. Active: Tier ${currentUser.tier}`}
                 >
                   <div className="flex items-center space-x-3">
-                    <Icon className="w-4 h-4 text-slate-700" />
+                    <Icon className="w-4 h-4 text-slate-400" />
                     <div>
-                      <div className="text-xs font-semibold text-slate-600 flex items-center space-x-1.5">
+                      <div className="text-xs font-semibold text-slate-500 flex items-center space-x-1.5">
                         <span>{item.title}</span>
                       </div>
-                      <div className="text-[10px] text-slate-700 truncate">{item.description}</div>
+                      <div className="text-[10px] text-slate-400 truncate">{item.description}</div>
                     </div>
                   </div>
-                  <Lock className="w-3.5 h-3.5 text-slate-700" />
+                  <Lock className="w-3.5 h-3.5 text-slate-400" />
                 </div>
               );
             }
@@ -133,29 +133,35 @@ export function SidebarDrawer() {
                 href={item.href}
                 className={`group px-3 py-2.5 rounded-xl border text-xs font-medium transition-all duration-200 flex items-center justify-between ${
                   isActive
-                    ? "bg-blue-600/15 border-blue-500/40 text-blue-200 shadow-sm shadow-blue-950/40"
-                    : "border-transparent text-slate-300 hover:bg-slate-900/80 hover:text-slate-100 hover:border-slate-800"
+                    ? "bg-blue-50 border-blue-200 text-blue-700 shadow-xs font-semibold"
+                    : "border-transparent text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 hover:border-slate-200"
                 }`}
               >
                 <div className="flex items-center space-x-3 min-w-0">
                   <Icon
                     className={`w-4 h-4 transition-colors ${
-                      isActive ? "text-blue-400" : "text-slate-400 group-hover:text-blue-300"
+                      isActive ? "text-blue-600" : "text-slate-400 group-hover:text-blue-600"
                     }`}
                   />
                   <div className="truncate">
-                    <div className="font-semibold text-slate-200 truncate group-hover:text-white">
+                    <div
+                      className={`truncate ${
+                        isActive ? "font-bold text-blue-900" : "font-semibold text-slate-700 group-hover:text-slate-900"
+                      }`}
+                    >
                       {item.title}
                     </div>
-                    <div className="text-[10px] text-slate-400 truncate">{item.description}</div>
+                    <div className={`text-[10px] truncate ${isActive ? "text-blue-600/80" : "text-slate-400"}`}>
+                      {item.description}
+                    </div>
                   </div>
                 </div>
                 {item.badge && (
                   <span
                     className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ml-1 ${
                       isActive
-                        ? "bg-blue-500/20 text-blue-300 border-blue-400/30"
-                        : "bg-slate-800 text-slate-400 border-slate-700"
+                        ? "bg-blue-100 text-blue-700 border-blue-200"
+                        : "bg-slate-100 text-slate-500 border-slate-200"
                     }`}
                   >
                     {item.badge}
@@ -168,18 +174,18 @@ export function SidebarDrawer() {
       </div>
 
       {/* Institutional Footer Pill */}
-      <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] text-slate-400 space-y-2">
-        <div className="flex items-center space-x-2 text-slate-300 font-semibold">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+      <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 space-y-2">
+        <div className="flex items-center space-x-2 text-slate-800 font-semibold">
+          <Sparkles className="w-3.5 h-3.5 text-amber-500" />
           <span>OSA Constitution 2026</span>
         </div>
-        <p className="text-[10px] text-slate-400 leading-relaxed">
+        <p className="text-[10px] text-slate-500 leading-relaxed">
           Operating under NSU Office of Student Affairs strict chain-of-command invariants.
         </p>
-        <div className="pt-1 flex items-center justify-between text-[10px] text-slate-500 font-mono">
+        <div className="pt-1 flex items-center justify-between text-[10px] text-slate-400 font-mono">
           <span>v1.0.0-PROD</span>
-          <span className="text-emerald-400 font-bold flex items-center space-x-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+          <span className="text-emerald-600 font-bold flex items-center space-x-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
             <span>Vercel Edge</span>
           </span>
         </div>

@@ -109,31 +109,31 @@ export default function PresidentSuitePage() {
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
           <div className="flex items-center space-x-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
               Tier 2 Executive Suite
             </span>
             <span className="text-[10px] font-mono text-slate-500">PRES-EXEC-2026</span>
           </div>
-          <h1 className="text-2xl font-black text-white tracking-tight mt-1 flex items-center space-x-2.5">
-            <Crown className="w-6 h-6 text-blue-400" />
+          <h1 className="text-2xl font-black text-slate-900 tracking-tight mt-1 flex items-center space-x-2.5">
+            <Crown className="w-6 h-6 text-blue-600" />
             <span>President Executive Suite</span>
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 mt-1">
             Dual-signature financial governance, executive convocations, and constitutional vacancy oversight.
           </p>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center space-x-1.5 p-1 bg-slate-900 border border-slate-800 rounded-xl">
+        <div className="flex items-center space-x-1.5 p-1 bg-slate-100 border border-slate-200 rounded-xl">
           <button
             onClick={() => setActiveTab("banking")}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               activeTab === "banking"
-                ? "bg-blue-600 text-white shadow-md shadow-blue-900/40"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-blue-600 text-white shadow-xs"
+                : "text-slate-600 hover:text-slate-900"
             }`}
           >
             Banking Desk ({tier2Requisitions.length})
@@ -142,8 +142,8 @@ export default function PresidentSuitePage() {
             onClick={() => setActiveTab("meetings")}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               activeTab === "meetings"
-                ? "bg-blue-600 text-white shadow-md shadow-blue-900/40"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-blue-600 text-white shadow-xs"
+                : "text-slate-600 hover:text-slate-900"
             }`}
           >
             Meeting Dispatcher
@@ -152,8 +152,8 @@ export default function PresidentSuitePage() {
             onClick={() => setActiveTab("vacancies")}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               activeTab === "vacancies"
-                ? "bg-blue-600 text-white shadow-md shadow-blue-900/40"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-blue-600 text-white shadow-xs"
+                : "text-slate-600 hover:text-slate-900"
             }`}
           >
             15-Day Vacancy Monitor
@@ -163,8 +163,8 @@ export default function PresidentSuitePage() {
 
       {/* Access Gate Invariant Check */}
       {process.env.NODE_ENV !== "production" && currentUser.tier !== 2 && (
-        <div className="p-4 rounded-xl bg-amber-950/60 border border-amber-800/80 text-amber-200 text-xs flex items-center space-x-3">
-          <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0" />
+        <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-center space-x-3">
+          <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0" />
           <div>
             <strong>Preview Notification:</strong> You are currently viewing as {currentUser.legalName} ({currentUser.tierLabel}). Dual-signature co-signing and executive dispatch authority belong to Tier 2 (President or Acting President).
           </div>
@@ -174,12 +174,12 @@ export default function PresidentSuitePage() {
       {/* TAB 1: Dual-Signature Banking Desk */}
       {activeTab === "banking" && (
         <div className="space-y-6">
-          <div className="p-4 rounded-2xl bg-blue-950/20 border border-blue-800/40 space-y-1">
-            <h3 className="text-xs font-bold text-blue-300 uppercase tracking-wider flex items-center space-x-1.5">
-              <ShieldCheck className="w-4 h-4 text-blue-400" />
+          <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200 space-y-1">
+            <h3 className="text-xs font-bold text-blue-800 uppercase tracking-wider flex items-center space-x-1.5">
+              <ShieldCheck className="w-4 h-4 text-blue-600" />
               <span>Tier 2 Dual-Signature Protocol (2,001 to 20,000 BDT)</span>
             </h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-blue-950/80 leading-relaxed">
               Under NSU OSA financial controls, any expenditure between 2,001 and 20,000 BDT requires mandatory co-signatures from both the Treasurer and the President before disbursement. Neither officer may disburse unilaterally.
             </p>
           </div>
@@ -188,23 +188,23 @@ export default function PresidentSuitePage() {
             {tier2Requisitions.map((req) => (
               <div
                 key={req.id}
-                className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4 shadow-lg"
+                className="p-5 rounded-2xl bg-white border border-slate-200 space-y-4 shadow-xs"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
                   <div>
                     <div className="flex items-center space-x-2">
-                      <span className="font-mono text-xs font-bold text-white bg-slate-800 px-2 py-0.5 rounded">
+                      <span className="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded">
                         {req.requisitionNumber}
                       </span>
-                      <span className="text-sm font-bold text-blue-400 font-mono">
+                      <span className="text-sm font-bold text-blue-600 font-mono">
                         {req.amountBDT.toLocaleString()} BDT
                       </span>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
                         Tier 2 Requisition
                       </span>
                     </div>
-                    <div className="text-xs text-slate-400 mt-1">
-                      Initiator: <span className="text-slate-200 font-semibold">{req.requestedBy}</span> ({req.initiatorRole})
+                    <div className="text-xs text-slate-500 mt-1">
+                      Initiator: <span className="text-slate-900 font-semibold">{req.requestedBy}</span> ({req.initiatorRole})
                     </div>
                   </div>
 
@@ -212,8 +212,8 @@ export default function PresidentSuitePage() {
                     <span
                       className={`text-xs font-bold px-2.5 py-1 rounded-full ${
                         req.signatures.presidentSigned
-                          ? "bg-emerald-950 text-emerald-300 border border-emerald-800"
-                          : "bg-amber-950 text-amber-300 border border-amber-800"
+                          ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                          : "bg-amber-50 text-amber-800 border border-amber-200"
                       }`}
                     >
                       {req.signatures.presidentSigned ? "President Co-Signed" : "Awaiting President Co-Signature"}
@@ -222,16 +222,16 @@ export default function PresidentSuitePage() {
                 </div>
 
                 <div className="space-y-1.5 text-xs">
-                  <div className="text-slate-300">
+                  <div className="text-slate-700">
                     <strong>Purpose:</strong> {req.purpose}
                   </div>
-                  <div className="text-slate-400">
+                  <div className="text-slate-600">
                     <strong>Vendor:</strong> {req.vendorName}
                   </div>
                 </div>
 
                 {/* Multi-signature workflow badges */}
-                <div className="pt-2 border-t border-slate-800">
+                <div className="pt-2 border-t border-slate-200">
                   <div className="text-[10px] text-slate-500 uppercase font-semibold mb-1">
                     Multi-Signature Authorization Pipeline
                   </div>
@@ -251,7 +251,7 @@ export default function PresidentSuitePage() {
                               title: req.requisitionNumber,
                             })
                           }
-                          className="px-3.5 py-2 rounded-xl text-xs font-semibold text-red-300 bg-red-950/60 hover:bg-red-900/60 border border-red-800/80 transition-all"
+                          className="px-3.5 py-2 rounded-xl text-xs font-semibold text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 transition-all"
                         >
                           Reject with Justification
                         </button>
@@ -260,7 +260,7 @@ export default function PresidentSuitePage() {
                       {currentUser.tier <= 2 || (currentUser.isActing && currentUser.actingRole?.toLowerCase().includes("president")) ? (
                         <button
                           onClick={() => approveRequisition(req.id)}
-                          className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 shadow-md shadow-blue-950/50 flex items-center space-x-1.5 transition-all"
+                          className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-xs flex items-center space-x-1.5 transition-all"
                         >
                           <CheckCircle2 className="w-3.5 h-3.5" />
                           <span>Digital Co-Sign (President Signature)</span>
@@ -268,10 +268,10 @@ export default function PresidentSuitePage() {
                       ) : (
                         <button
                           disabled
-                          className="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 bg-slate-800/80 border border-slate-700 opacity-60 cursor-not-allowed flex items-center space-x-1.5"
+                          className="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 bg-slate-100 border border-slate-200 opacity-60 cursor-not-allowed flex items-center space-x-1.5"
                           title="Action Locked: Requires Tier 2 (President or Acting President)"
                         >
-                          <Lock className="w-3.5 h-3.5 text-amber-400" />
+                          <Lock className="w-3.5 h-3.5 text-amber-500" />
                           <span>Co-Sign Locked (Tier 2 Only)</span>
                         </button>
                       )}
@@ -288,16 +288,16 @@ export default function PresidentSuitePage() {
       {activeTab === "meetings" && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
-            <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4 shadow-xl">
-              <h3 className="text-sm font-bold text-white flex items-center space-x-2">
-                <Calendar className="w-4 h-4 text-blue-400" />
+            <div className="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 shadow-xs">
+              <h3 className="text-sm font-bold text-slate-900 flex items-center space-x-2">
+                <Calendar className="w-4 h-4 text-blue-600" />
                 <span>Executive Board Convocation Dispatcher</span>
               </h3>
 
               <form onSubmit={handleDispatchMeeting} className="space-y-4 text-xs">
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-1">
-                    Convocation Title / Purpose <span className="text-blue-400">*</span>
+                  <label className="block text-slate-700 font-semibold mb-1">
+                    Convocation Title / Purpose <span className="text-blue-600">*</span>
                   </label>
                   <input
                     type="text"
@@ -305,13 +305,13 @@ export default function PresidentSuitePage() {
                     value={meetingTitle}
                     onChange={(e) => setMeetingTitle(e.target.value)}
                     placeholder="e.g., Executive Board Strategic Review for Fall Musical Show"
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 font-semibold mb-1">
                       Session Schedule (Date & Time)
                     </label>
                     <input
@@ -319,27 +319,27 @@ export default function PresidentSuitePage() {
                       required
                       value={meetingDate}
                       onChange={(e) => setMeetingDate(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-xs"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white font-mono text-xs"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-slate-300 font-semibold mb-1">
+                    <label className="block text-slate-700 font-semibold mb-1">
                       Location / Hall
                     </label>
                     <input
                       type="text"
                       defaultValue="NSU Student Lounge Room 402"
-                      className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-1">
+                  <label className="block text-slate-700 font-semibold mb-1">
                     Confirmed Executive Attendees (EB Quorum Calculator)
                   </label>
-                  <div className="grid grid-cols-2 gap-2 p-3 bg-slate-950 rounded-xl border border-slate-800">
+                  <div className="grid grid-cols-2 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-200">
                     {[
                       "Farhan Rahman (President)",
                       "Anika Tabassum (VP)",
@@ -354,12 +354,12 @@ export default function PresidentSuitePage() {
                           onClick={() => toggleAttendee(officer)}
                           className={`p-2 rounded-lg text-left text-[11px] font-semibold flex items-center justify-between border transition-all ${
                             isChecked
-                              ? "bg-blue-600/20 text-blue-200 border-blue-500/50"
-                              : "bg-slate-900 text-slate-400 border-slate-800"
+                              ? "bg-blue-50 text-blue-800 border-blue-200"
+                              : "bg-white text-slate-600 border-slate-200 hover:bg-slate-100"
                           }`}
                         >
                           <span>{officer}</span>
-                          {isChecked && <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />}
+                          {isChecked && <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />}
                         </button>
                       );
                     })}
@@ -372,8 +372,8 @@ export default function PresidentSuitePage() {
                       <span
                         className={`text-xs font-bold px-2.5 py-1 rounded-full ${
                           isEBQuorumMet
-                            ? "bg-emerald-950 text-emerald-300 border border-emerald-800"
-                            : "bg-red-950 text-red-300 border border-red-800"
+                            ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                            : "bg-red-50 text-red-700 border border-red-200"
                         }`}
                       >
                         {isEBQuorumMet
@@ -381,7 +381,7 @@ export default function PresidentSuitePage() {
                           : `ধারা ৩:২ কোরাম ঘাটতি (${confirmedAttendees.length}/4 কর্মকর্তা, সভাপতি অথবা সহ-সভাপতি আবশ্যক)`}
                       </span>
                     </div>
-                    <span className="text-[10px] text-slate-400">
+                    <span className="text-[10px] text-slate-500">
                       ধারা ৩:৩ অনুযায়ী সমতায় (২–২ বা ১–১) সভাপতির নির্ণায়ক ভোট (Casting Vote) থাকবে।
                     </span>
                   </div>
@@ -389,7 +389,7 @@ export default function PresidentSuitePage() {
                   <button
                     type="submit"
                     disabled={!isEBQuorumMet}
-                    className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-40 transition-all flex items-center space-x-2 shadow-lg shadow-blue-950/60"
+                    className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-40 transition-all flex items-center space-x-2 shadow-xs"
                   >
                     <Send className="w-3.5 h-3.5" />
                     <span>Publish & Dispatch Convocation</span>
@@ -400,23 +400,23 @@ export default function PresidentSuitePage() {
           </div>
 
           <div className="space-y-4">
-            <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+            <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
               Dispatched Executive Convocations
             </h4>
             {dispatchedMeetings.map((mtg) => (
               <div
                 key={mtg.id}
-                className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2 text-xs"
+                className="p-4 rounded-xl bg-white border border-slate-200 space-y-2 text-xs shadow-xs"
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-blue-300 font-bold">{mtg.id}</span>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
+                  <span className="font-mono text-blue-700 font-bold">{mtg.id}</span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
                     {mtg.status}
                   </span>
                 </div>
-                <div className="font-semibold text-slate-200">{mtg.title}</div>
-                <div className="text-[11px] text-slate-400 font-mono">{mtg.date}</div>
-                <div className="pt-2 border-t border-slate-800/80 text-[10px] text-slate-400 flex items-center justify-between">
+                <div className="font-semibold text-slate-900">{mtg.title}</div>
+                <div className="text-[11px] text-slate-500 font-mono">{mtg.date}</div>
+                <div className="pt-2 border-t border-slate-200 text-[10px] text-slate-500 flex items-center justify-between">
                   <span>Quorum: {mtg.quorumPct}%</span>
                   <span>{mtg.attendees} / 4 EB Officers</span>
                 </div>
@@ -429,12 +429,12 @@ export default function PresidentSuitePage() {
       {/* TAB 3: Acting Officer & Vacancy Monitor (15-Day Countdown) */}
       {activeTab === "vacancies" && (
         <div className="space-y-6">
-          <div className="p-4 rounded-2xl bg-amber-950/20 border border-amber-800/40 space-y-1">
-            <h3 className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center space-x-1.5">
-              <Clock className="w-4 h-4 text-amber-400" />
+          <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 space-y-1">
+            <h3 className="text-xs font-bold text-amber-800 uppercase tracking-wider flex items-center space-x-1.5">
+              <Clock className="w-4 h-4 text-amber-600" />
               <span>Article 11: 15-Day Constitutional Officer Vacancy Protocol</span>
             </h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-amber-950/80 leading-relaxed">
               Whenever an executive office or department leadership seat becomes vacant, an acting officer must be appointed within 15 calendar days. Failure to appoint within 15 days automatically transfers appointment authority to the Faculty Advisor.
             </p>
           </div>
@@ -443,18 +443,18 @@ export default function PresidentSuitePage() {
             {vacancies.map((v, idx) => (
               <div
                 key={idx}
-                className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4 shadow-lg"
+                className="p-5 rounded-2xl bg-white border border-slate-200 space-y-4 shadow-xs"
               >
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                   <div>
-                    <h4 className="text-sm font-bold text-white">{v.role}</h4>
-                    <span className="text-[10px] text-slate-400">Vacancy Created: {v.startDate}</span>
+                    <h4 className="text-sm font-bold text-slate-900">{v.role}</h4>
+                    <span className="text-[10px] text-slate-500">Vacancy Created: {v.startDate}</span>
                   </div>
                   <span
                     className={`text-[10px] font-bold px-2 py-0.5 rounded ${
                       v.status === "ACTING_APPOINTED"
-                        ? "bg-amber-950 text-amber-300 border border-amber-800"
-                        : "bg-red-950 text-red-300 border border-red-800"
+                        ? "bg-amber-50 text-amber-800 border border-amber-200"
+                        : "bg-red-50 text-red-700 border border-red-200"
                     }`}
                   >
                     {v.status.replace("_", " ")}
@@ -463,19 +463,19 @@ export default function PresidentSuitePage() {
 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-400">Active Designee:</span>
-                    <strong className="text-slate-200">{v.actingOfficer}</strong>
+                    <span className="text-slate-500">Active Designee:</span>
+                    <strong className="text-slate-900">{v.actingOfficer}</strong>
                   </div>
 
                   <div>
                     <div className="flex items-center justify-between text-xs mb-1">
-                      <span className="text-slate-400">15-Day Constitutional Window:</span>
-                      <span className="font-bold text-amber-400 font-mono">
+                      <span className="text-slate-500">15-Day Constitutional Window:</span>
+                      <span className="font-bold text-amber-700 font-mono">
                         {v.daysRemaining} Days Remaining
                       </span>
                     </div>
                     {/* Visual countdown progress bar */}
-                    <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
                       <div
                         className={`h-full transition-all duration-500 ${
                           v.daysRemaining <= 5 ? "bg-red-500" : "bg-amber-500"
@@ -486,18 +486,18 @@ export default function PresidentSuitePage() {
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px]">
+                <div className="pt-2 border-t border-slate-200 flex items-center justify-between text-[11px]">
                   <span className="text-slate-500">
                     {v.daysRemaining <= 5 ? (
-                      <span className="text-red-400 font-semibold flex items-center space-x-1">
-                        <AlertTriangle className="w-3 h-3 text-red-400 inline" />
+                      <span className="text-red-600 font-semibold flex items-center space-x-1">
+                        <AlertTriangle className="w-3 h-3 text-red-600 inline" />
                         <span>Imminent Advisor Default</span>
                       </span>
                     ) : (
                       "Standard Appointment Window"
                     )}
                   </span>
-                  <button className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-colors">
+                  <button className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition-colors shadow-xs">
                     Formalize Appointment
                   </button>
                 </div>

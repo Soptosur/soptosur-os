@@ -33,7 +33,7 @@ export interface ActiveRoleContext {
 
 export interface AuthenticatedUser {
   id: string;
-  studentId: string;
+  studentId: string | null;
   nsuEmail: string;
   legalName: string;
   standing: MembershipStanding;
@@ -43,7 +43,7 @@ export interface AuthenticatedUser {
 
 export interface JwtTokenPayload {
   userId: string;
-  studentId: string;
+  studentId: string | null;
   nsuEmail: string;
   standing: MembershipStanding;
   tokenVersion: number;

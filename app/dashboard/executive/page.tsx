@@ -94,31 +94,31 @@ export default function ExecutiveSuitePage() {
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
           <div className="flex items-center space-x-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-cyan-50 text-cyan-700 border border-cyan-200">
               Tier 3 Executive Wings
             </span>
             <span className="text-[10px] font-mono text-slate-500">EXEC-SEC-TREAS-2026</span>
           </div>
-          <h1 className="text-2xl font-black text-white tracking-tight mt-1 flex items-center space-x-2.5">
-            <Briefcase className="w-6 h-6 text-cyan-400" />
+          <h1 className="text-2xl font-black text-slate-900 tracking-tight mt-1 flex items-center space-x-2.5">
+            <Briefcase className="w-6 h-6 text-cyan-600" />
             <span>Secretariat, Treasury & Vice President Desks</span>
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 mt-1">
             Financial ledger accounting, 72-hour petty cash enforcement, roster dispute arbitration, and operational oversight.
           </p>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center space-x-1.5 p-1 bg-slate-900 border border-slate-800 rounded-xl">
+        <div className="flex items-center space-x-1.5 p-1 bg-slate-100 border border-slate-200 rounded-xl">
           <button
             onClick={() => setActiveTab("treasurer")}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               activeTab === "treasurer"
-                ? "bg-cyan-600 text-white shadow-md shadow-cyan-900/40"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-cyan-600 text-white shadow-xs"
+                : "text-slate-600 hover:text-slate-900"
             }`}
           >
             Treasurer Station
@@ -127,8 +127,8 @@ export default function ExecutiveSuitePage() {
             onClick={() => setActiveTab("gs")}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               activeTab === "gs"
-                ? "bg-cyan-600 text-white shadow-md shadow-cyan-900/40"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-cyan-600 text-white shadow-xs"
+                : "text-slate-600 hover:text-slate-900"
             }`}
           >
             General Secretary Station
@@ -137,8 +137,8 @@ export default function ExecutiveSuitePage() {
             onClick={() => setActiveTab("vp")}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               activeTab === "vp"
-                ? "bg-cyan-600 text-white shadow-md shadow-cyan-900/40"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-cyan-600 text-white shadow-xs"
+                : "text-slate-600 hover:text-slate-900"
             }`}
           >
             Vice President Wing
@@ -148,8 +148,8 @@ export default function ExecutiveSuitePage() {
 
       {/* Access Gate Invariant Check */}
       {process.env.NODE_ENV !== "production" && currentUser.tier > 3 && (
-        <div className="p-4 rounded-xl bg-amber-950/60 border border-amber-800/80 text-amber-200 text-xs flex items-center space-x-3">
-          <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0" />
+        <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-center space-x-3">
+          <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0" />
           <div>
             <strong>Preview Notification:</strong> You are currently viewing as {currentUser.legalName} ({currentUser.tierLabel}). Direct disbursement, dispute arbitration, and ledger management are reserved for Tier 3 officers.
           </div>
@@ -158,19 +158,19 @@ export default function ExecutiveSuitePage() {
 
       {/* SYSTEM-WIDE PETTY CASH FREEZE ALERT BANNER */}
       {pettyCashFrozen && (
-        <div className="p-4 rounded-2xl bg-red-950/90 border border-red-700 text-red-100 flex items-start space-x-3.5 shadow-xl animate-shake">
-          <AlertOctagon className="w-6 h-6 text-red-400 flex-shrink-0 mt-0.5" />
+        <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-900 flex items-start space-x-3.5 shadow-sm animate-shake">
+          <AlertOctagon className="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" />
           <div className="flex-1 text-xs">
-            <h4 className="font-bold text-sm text-red-200">
+            <h4 className="font-bold text-sm text-red-900">
               SYSTEM-WIDE PETTY CASH FREEZE IN EFFECT (ARTICLE 16.4)
             </h4>
-            <p className="mt-1 leading-relaxed text-red-300">
+            <p className="mt-1 leading-relaxed text-red-800">
               An outstanding Tier 1 cash advance has surpassed the 72-hour deadline without an uploaded physical voucher and receipt reconciliation. In accordance with OSA Financial Directives, all new petty cash disbursements across all departments are locked until settled.
             </p>
             <div className="mt-2 flex items-center space-x-3">
               <button
                 onClick={() => setPettyCashFrozen(false)}
-                className="px-3 py-1 rounded-lg bg-red-800 hover:bg-red-700 text-white font-bold text-[11px] transition-colors"
+                className="px-3 py-1 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-[11px] transition-colors shadow-xs"
               >
                 Clear Voucher & Lift Freeze
               </button>
@@ -184,43 +184,43 @@ export default function ExecutiveSuitePage() {
         <div className="space-y-6">
           {/* Double-Entry Ledger Summary Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
-              <div className="flex items-center justify-between text-xs text-slate-400 font-semibold">
+            <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2">
+              <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
                 <span>Verified Inflow (Debit)</span>
-                <ArrowDownRight className="w-4 h-4 text-emerald-400" />
+                <ArrowDownRight className="w-4 h-4 text-emerald-600" />
               </div>
-              <div className="text-2xl font-black text-emerald-400 font-mono">385,000 BDT</div>
+              <div className="text-2xl font-black text-emerald-600 font-mono">385,000 BDT</div>
               <p className="text-[11px] text-slate-500">OSA Semester Allocation + Tickets</p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
-              <div className="flex items-center justify-between text-xs text-slate-400 font-semibold">
+            <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2">
+              <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
                 <span>Authorized Outflow (Credit)</span>
-                <ArrowUpRight className="w-4 h-4 text-blue-400" />
+                <ArrowUpRight className="w-4 h-4 text-blue-600" />
               </div>
-              <div className="text-2xl font-black text-blue-400 font-mono">218,500 BDT</div>
+              <div className="text-2xl font-black text-blue-600 font-mono">218,500 BDT</div>
               <p className="text-[11px] text-slate-500">Equipment, Sound & Gala Production</p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
-              <div className="flex items-center justify-between text-xs text-slate-400 font-semibold">
+            <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2">
+              <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
                 <span>Net Treasury Reserve</span>
-                <Shield className="w-4 h-4 text-cyan-400" />
+                <Shield className="w-4 h-4 text-cyan-600" />
               </div>
-              <div className="text-2xl font-black text-white font-mono">166,500 BDT</div>
+              <div className="text-2xl font-black text-slate-900 font-mono">166,500 BDT</div>
               <p className="text-[11px] text-slate-500">Unencumbered Bank Balance</p>
             </div>
           </div>
 
           {/* 72-Hour Cash Advance Countdown Monitor */}
-          <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4 shadow-xl">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 shadow-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
               <div>
-                <h3 className="text-sm font-bold text-white flex items-center space-x-2">
-                  <Clock className="w-4 h-4 text-amber-400" />
+                <h3 className="text-sm font-bold text-slate-900 flex items-center space-x-2">
+                  <Clock className="w-4 h-4 text-amber-600" />
                   <span>72-Hour Petty Cash Receipt Voucher Countdown</span>
                 </h3>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-slate-500 mt-0.5">
                   Tier 1 cash advances require validated merchant invoices submitted within 72 hours of disbursement.
                 </p>
               </div>
@@ -228,27 +228,27 @@ export default function ExecutiveSuitePage() {
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setPettyCashFrozen(!pettyCashFrozen)}
-                  className="px-3 py-1.5 rounded-xl text-xs font-semibold text-amber-300 bg-amber-950/60 border border-amber-800/80 hover:bg-amber-900/60 transition-all"
+                  className="px-3 py-1.5 rounded-xl text-xs font-semibold text-amber-800 bg-amber-50 border border-amber-200 hover:bg-amber-100 transition-all shadow-xs"
                 >
                   {pettyCashFrozen ? "Lifting Freeze Simulation" : "Simulate 72h Freeze Expiry"}
                 </button>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-2">
                 <div>
-                  <span className="font-mono text-cyan-300 font-bold">REQ-2026-081</span>
-                  <span className="text-slate-400 ml-2">2,500 BDT — Emergency XLR Cables (Music Dept)</span>
+                  <span className="font-mono text-cyan-700 font-bold">REQ-2026-081</span>
+                  <span className="text-slate-600 ml-2">2,500 BDT — Emergency XLR Cables (Music Dept)</span>
                 </div>
-                <div className="font-mono font-bold text-amber-400 flex items-center space-x-1.5">
+                <div className="font-mono font-bold text-amber-700 flex items-center space-x-1.5">
                   <Clock className="w-3.5 h-3.5" />
                   <span>28 Hours Remaining of 72h</span>
                 </div>
               </div>
 
               {/* Visual Progress Bar (28h of 72h = 38.8% remaining) */}
-              <div className="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+              <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-amber-500 to-emerald-500 rounded-full transition-all duration-500"
                   style={{ width: "38.8%" }}
@@ -264,22 +264,22 @@ export default function ExecutiveSuitePage() {
 
           {/* Requisitions Queue for Disbursement */}
           <div className="space-y-4">
-            <h3 className="text-sm font-bold text-white">Requisitions Pending Treasury Disbursement</h3>
+            <h3 className="text-sm font-bold text-slate-900">Requisitions Pending Treasury Disbursement</h3>
             <div className="space-y-3">
               {requisitions.map((req) => (
                 <div
                   key={req.id}
-                  className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs"
+                  className="p-4 rounded-xl bg-white border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs shadow-xs"
                 >
                   <div className="space-y-1">
                     <div className="flex items-center space-x-2">
-                      <span className="font-mono font-bold text-white">{req.requisitionNumber}</span>
-                      <span className="font-mono font-bold text-cyan-400">{req.amountBDT.toLocaleString()} BDT</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">
+                      <span className="font-mono font-bold text-slate-900">{req.requisitionNumber}</span>
+                      <span className="font-mono font-bold text-cyan-700">{req.amountBDT.toLocaleString()} BDT</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-700">
                         Tier {req.tier}
                       </span>
                     </div>
-                    <div className="text-slate-400">{req.purpose}</div>
+                    <div className="text-slate-600">{req.purpose}</div>
                     <MultiSignatureBadge requisition={req} />
                   </div>
 
@@ -289,7 +289,7 @@ export default function ExecutiveSuitePage() {
                         <button
                           onClick={() => disburseRequisition(req.id)}
                           disabled={pettyCashFrozen}
-                          className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 text-white font-bold transition-all shadow-md shadow-emerald-950/60 flex items-center space-x-1.5"
+                          className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white font-bold transition-all shadow-xs flex items-center space-x-1.5"
                         >
                           <CheckCircle2 className="w-3.5 h-3.5" />
                           <span>Disburse Funds</span>
@@ -297,10 +297,10 @@ export default function ExecutiveSuitePage() {
                       ) : (
                         <button
                           disabled
-                          className="px-4 py-2 rounded-xl bg-slate-800 border border-slate-700 opacity-50 cursor-not-allowed text-slate-400 font-bold flex items-center space-x-1.5"
+                          className="px-4 py-2 rounded-xl bg-slate-100 border border-slate-200 opacity-60 cursor-not-allowed text-slate-400 font-bold flex items-center space-x-1.5"
                           title="Action Locked: Disburse Gate requires Tier 3 (Treasurer or Executive Officer)"
                         >
-                          <Lock className="w-3.5 h-3.5 text-amber-400" />
+                          <Lock className="w-3.5 h-3.5 text-amber-500" />
                           <span>Disburse Gate (Tier 3 Only)</span>
                         </button>
                       )
@@ -317,14 +317,14 @@ export default function ExecutiveSuitePage() {
       {activeTab === "gs" && (
         <div className="space-y-6">
           {/* Week 4 Attendance Dispute Resolution */}
-          <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4 shadow-xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 shadow-xs">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
               <div>
-                <h3 className="text-sm font-bold text-white flex items-center space-x-2">
-                  <FileText className="w-4 h-4 text-cyan-400" />
+                <h3 className="text-sm font-bold text-slate-900 flex items-center space-x-2">
+                  <FileText className="w-4 h-4 text-cyan-600" />
                   <span>Week 4 Attendance Roster Dispute Management Console</span>
                 </h3>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-slate-500 mt-0.5">
                   Members have 72 hours from roster publication to lodge verified attendance corrections with proof.
                 </p>
               </div>
@@ -334,37 +334,37 @@ export default function ExecutiveSuitePage() {
               {disputes.map((d) => (
                 <div
                   key={d.id}
-                  className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3 text-xs"
+                  className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3 text-xs"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div>
-                      <span className="font-mono font-bold text-cyan-300">{d.id}</span>
-                      <span className="text-slate-200 font-semibold ml-2">
+                      <span className="font-mono font-bold text-cyan-700">{d.id}</span>
+                      <span className="text-slate-900 font-semibold ml-2">
                         {d.memberName} ({d.studentId})
                       </span>
                     </div>
                     <span
                       className={`text-[10px] font-bold px-2 py-0.5 rounded ${
                         d.status === "PENDING_GS_REVIEW"
-                          ? "bg-amber-950 text-amber-300 border border-amber-800"
-                          : "bg-emerald-950 text-emerald-300 border border-emerald-800"
+                          ? "bg-amber-50 text-amber-800 border border-amber-200"
+                          : "bg-emerald-50 text-emerald-700 border border-emerald-200"
                       }`}
                     >
                       {d.status.replace(/_/g, " ")}
                     </span>
                   </div>
 
-                  <div className="space-y-1 text-slate-300">
+                  <div className="space-y-1 text-slate-700">
                     <div><strong>Session:</strong> {d.sessionDate}</div>
                     <div><strong>Dispute Claim:</strong> {d.claim}</div>
-                    <div className="text-slate-400"><strong>Evidence:</strong> {d.evidence}</div>
+                    <div className="text-slate-600"><strong>Evidence:</strong> {d.evidence}</div>
                   </div>
 
                   {d.status === "PENDING_GS_REVIEW" && (
-                    <div className="flex items-center justify-end space-x-2 pt-2 border-t border-slate-800">
+                    <div className="flex items-center justify-end space-x-2 pt-2 border-t border-slate-200">
                       <button
                         onClick={() => handleResolveDispute(d.id)}
-                        className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-colors flex items-center space-x-1"
+                        className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-colors flex items-center space-x-1 shadow-xs"
                       >
                         <CheckCircle2 className="w-3.5 h-3.5" />
                         <span>Validate & Correct Roster</span>
@@ -377,13 +377,13 @@ export default function ExecutiveSuitePage() {
           </div>
 
           {/* 15-Day Dual-Routed Resignation Queue */}
-          <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4 shadow-xl">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 shadow-xs">
             <div>
-              <h3 className="text-sm font-bold text-white flex items-center space-x-2">
-                <Users className="w-4 h-4 text-cyan-400" />
+              <h3 className="text-sm font-bold text-slate-900 flex items-center space-x-2">
+                <Users className="w-4 h-4 text-cyan-600" />
                 <span>15-Day Dual-Routed Resignation Queue</span>
               </h3>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-500 mt-0.5">
                 All officer resignations are routed simultaneously to both General Secretary and President with a mandatory 15-day handover buffer.
               </p>
             </div>
@@ -392,23 +392,23 @@ export default function ExecutiveSuitePage() {
               {resignations.map((r) => (
                 <div
                   key={r.id}
-                  className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2 text-xs"
+                  className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="font-mono text-cyan-300 font-bold">{r.id}</span>
-                      <strong className="text-slate-200 ml-2">{r.officerName}</strong>
-                      <span className="text-slate-400 ml-1">({r.role})</span>
+                      <span className="font-mono text-cyan-700 font-bold">{r.id}</span>
+                      <strong className="text-slate-900 ml-2">{r.officerName}</strong>
+                      <span className="text-slate-500 ml-1">({r.role})</span>
                     </div>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
                       {r.dualRouting}
                     </span>
                   </div>
 
-                  <p className="text-slate-300 font-mono text-[11px]">"{r.reason}"</p>
+                  <p className="text-slate-700 font-mono text-[11px]">"{r.reason}"</p>
 
-                  <div className="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-800">
-                    <span>Notice Buffer: <strong>{r.daysRemaining} Days Remaining</strong></span>
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-slate-200">
+                    <span>Notice Buffer: <strong className="text-slate-900">{r.daysRemaining} Days Remaining</strong></span>
                     <span>Effective: {r.effectiveDate}</span>
                   </div>
                 </div>
@@ -417,33 +417,33 @@ export default function ExecutiveSuitePage() {
           </div>
 
           {/* Meeting Minutes Archival Publisher */}
-          <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4 shadow-xl">
-            <h3 className="text-sm font-bold text-white flex items-center space-x-2">
-              <FileText className="w-4 h-4 text-cyan-400" />
+          <div className="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 shadow-xs">
+            <h3 className="text-sm font-bold text-slate-900 flex items-center space-x-2">
+              <FileText className="w-4 h-4 text-cyan-600" />
               <span>Meeting Minutes Archival Publisher</span>
             </h3>
 
             <form onSubmit={handlePublishMinutes} className="space-y-3 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-1">Minutes Session Title</label>
+                  <label className="block text-slate-700 font-semibold mb-1">Minutes Session Title</label>
                   <input
                     type="text"
                     required
                     value={newMinutesTitle}
                     onChange={(e) => setNewMinutesTitle(e.target.value)}
                     placeholder="e.g. Minutes of Executive Board Rehearsal Review"
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-white"
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-300 font-semibold mb-1">Session Date</label>
+                  <label className="block text-slate-700 font-semibold mb-1">Session Date</label>
                   <input
                     type="date"
                     required
                     value={newMinutesDate}
                     onChange={(e) => setNewMinutesDate(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-900 font-mono focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-white"
                   />
                 </div>
               </div>
@@ -451,7 +451,7 @@ export default function ExecutiveSuitePage() {
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-cyan-600 hover:bg-cyan-500 transition-all flex items-center space-x-2"
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-cyan-600 hover:bg-cyan-700 transition-all flex items-center space-x-2 shadow-xs"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>Archive & Publish Minutes</span>
@@ -463,15 +463,15 @@ export default function ExecutiveSuitePage() {
               {minutesList.map((m) => (
                 <div
                   key={m.code}
-                  className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs"
+                  className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between text-xs"
                 >
                   <div>
-                    <div className="font-semibold text-slate-200">{m.title}</div>
+                    <div className="font-semibold text-slate-900">{m.title}</div>
                     <div className="text-[10px] text-slate-500 font-mono">
                       {m.code} • Date: {m.sessionDate} • Sealed by: {m.verifiedBy}
                     </div>
                   </div>
-                  <span className="text-[10px] font-mono text-cyan-300 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800">
+                  <span className="text-[10px] font-mono text-cyan-700 bg-cyan-50 px-2 py-0.5 rounded border border-cyan-200">
                     {m.hash}
                   </span>
                 </div>
@@ -484,59 +484,59 @@ export default function ExecutiveSuitePage() {
       {/* TAB 3: Vice President Wing */}
       {activeTab === "vp" && (
         <div className="space-y-6">
-          <div className="p-4 rounded-2xl bg-cyan-950/20 border border-cyan-800/40 space-y-1">
-            <h3 className="text-xs font-bold text-cyan-300 uppercase tracking-wider flex items-center space-x-1.5">
-              <Building className="w-4 h-4 text-cyan-400" />
+          <div className="p-4 rounded-2xl bg-cyan-50 border border-cyan-200 space-y-1">
+            <h3 className="text-xs font-bold text-cyan-800 uppercase tracking-wider flex items-center space-x-1.5">
+              <Building className="w-4 h-4 text-cyan-600" />
               <span>Vice President Operational Oversight Desk</span>
             </h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-cyan-950/80 leading-relaxed">
               Pursuant to Article 8, the Vice President supervises the Event Logistics and Performance Operations wings, ensuring strict departmental alignment and rehearsal schedule compliance.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-3">
-              <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center justify-between">
+            <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-3 shadow-xs">
+              <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center justify-between">
                 <span>Event Logistics Wing Status</span>
-                <span className="text-[10px] text-emerald-400 font-bold bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">
+                <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                   Operational
                 </span>
               </h4>
-              <div className="space-y-2 text-xs text-slate-300">
-                <div className="flex justify-between border-b border-slate-800 pb-1.5">
-                  <span className="text-slate-400">Auditorium Booking:</span>
-                  <span className="font-semibold">NSU Main Plaza Stage (Confirmed)</span>
+              <div className="space-y-2 text-xs text-slate-700">
+                <div className="flex justify-between border-b border-slate-200 pb-1.5">
+                  <span className="text-slate-500">Auditorium Booking:</span>
+                  <span className="font-semibold text-slate-900">NSU Main Plaza Stage (Confirmed)</span>
                 </div>
-                <div className="flex justify-between border-b border-slate-800 pb-1.5">
-                  <span className="text-slate-400">Sound Rigging Vendor:</span>
-                  <span className="font-semibold">Apex Production (Pending Clearance)</span>
+                <div className="flex justify-between border-b border-slate-200 pb-1.5">
+                  <span className="text-slate-500">Sound Rigging Vendor:</span>
+                  <span className="font-semibold text-slate-900">Apex Production (Pending Clearance)</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Coordinators Assigned:</span>
-                  <span className="font-semibold">2 of 2 (Cap Enforced)</span>
+                  <span className="text-slate-500">Coordinators Assigned:</span>
+                  <span className="font-semibold text-slate-900">2 of 2 (Cap Enforced)</span>
                 </div>
               </div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-3">
-              <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center justify-between">
+            <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-3 shadow-xs">
+              <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center justify-between">
                 <span>Performance Operations Status</span>
-                <span className="text-[10px] text-emerald-400 font-bold bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">
+                <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                   Rehearsal Cycle Active
                 </span>
               </h4>
-              <div className="space-y-2 text-xs text-slate-300">
-                <div className="flex justify-between border-b border-slate-800 pb-1.5">
-                  <span className="text-slate-400">Section 12 Creative Firewall:</span>
-                  <span className="font-semibold text-purple-300">Fully Autonomous</span>
+              <div className="space-y-2 text-xs text-slate-700">
+                <div className="flex justify-between border-b border-slate-200 pb-1.5">
+                  <span className="text-slate-500">Section 12 Creative Firewall:</span>
+                  <span className="font-semibold text-purple-700">Fully Autonomous</span>
                 </div>
-                <div className="flex justify-between border-b border-slate-800 pb-1.5">
-                  <span className="text-slate-400">Active Song Arrangements:</span>
-                  <span className="font-semibold">3 Compositions Locked</span>
+                <div className="flex justify-between border-b border-slate-200 pb-1.5">
+                  <span className="text-slate-500">Active Song Arrangements:</span>
+                  <span className="font-semibold text-slate-900">3 Compositions Locked</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Choir Rehearsal Attendance:</span>
-                  <span className="font-semibold text-emerald-400">85.7% Average</span>
+                  <span className="text-slate-500">Choir Rehearsal Attendance:</span>
+                  <span className="font-semibold text-emerald-700">85.7% Average</span>
                 </div>
               </div>
             </div>

@@ -70,17 +70,17 @@ export function MultiSignatureBadge({ requisition }: { requisition: FinancialReq
   return (
     <div className="flex flex-wrap items-center gap-1.5 py-1">
       {steps.map((step, idx) => {
-        let badgeColor = "bg-slate-800 text-slate-400 border-slate-700";
+        let badgeColor = "bg-slate-100 text-slate-600 border-slate-200";
         let Icon = Clock;
 
         if (step.completed) {
-          badgeColor = "bg-emerald-950/80 text-emerald-300 border-emerald-700/60";
+          badgeColor = "bg-emerald-50 text-emerald-700 border-emerald-200";
           Icon = CheckCircle2;
         } else if (step.rejected) {
-          badgeColor = "bg-red-950/80 text-red-300 border-red-700/60";
+          badgeColor = "bg-red-50 text-red-700 border-red-200";
           Icon = AlertCircle;
         } else if (step.active) {
-          badgeColor = "bg-blue-950/80 text-blue-300 border-blue-600/60 animate-pulse";
+          badgeColor = "bg-blue-50 text-blue-700 border-blue-300 animate-pulse";
           Icon = Clock;
         }
 
@@ -93,7 +93,7 @@ export function MultiSignatureBadge({ requisition }: { requisition: FinancialReq
               <span>{step.label}</span>
             </div>
             {idx < steps.length - 1 && (
-              <ChevronRight className="w-3 h-3 text-slate-600 flex-shrink-0" />
+              <ChevronRight className="w-3 h-3 text-slate-400 flex-shrink-0" />
             )}
           </div>
         );
